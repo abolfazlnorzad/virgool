@@ -4,7 +4,7 @@
             <auth-banner></auth-banner>
             <v-col cols="12" md="4" class="d-flex align-end">
                 <v-form class="w-100 mx-5"
-                        ref="form"
+                        ref="registerForm"
                 >
                     <span class="blue--text font-weight-bold">ایجاد حساب کاربری</span>
                     <v-text-field label="ایمیل"
@@ -58,50 +58,29 @@
 
 <script>
     import AuthBanner from "@/components/auth/AuthBanner";
+    import {ref} from '@vue/composition-api';
+    import {moreThan, required, validEmail} from "@/rules";
+    import {RegisterModule} from "../../module/RegisterModule";
 
     export default {
         name: "Register",
         components: {
             AuthBanner
         },
-        methods: {
-            register() {
-                if (this.$refs.form.validate()) {
-                    this.loading = true;
-                    axios.post('/register', this.form)
-                        .catch((error) => {
-                            this.errors.email = error.response.data.errors.email[0],
-                            this.errors.password = error.response.data.errors.password[0],
-                        })
-                        .finally(() => {
-                            this.loading = false;
-                        })
-                }
-            }
-        },
-        data() {
-            return {
-                errors: {
-                    email: null,
-                    password: null,
-                },
-                form: {
-                    email: null,
-                    password: null,
-                },
-                loading: false,
-                emailRules: [
-                    value => !!value || 'ایمیل الزامی است',
-                    value => /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.test(value) || 'یک ایمیل معتبر وارد کنید'
-                ],
-                passwordRules: [
-                    value => !!value || 'رمز عبور الزامی است',
-                    value => (value ? value.length >= 8 : false) || 'طول رمز عبور باید بیشتر از 8 کاراکتر باشد'
 
-                ]
+        setup() {
+
+
+            return {
+
+                ...RegisterModule()
             }
-        }
+
+        },
+
     }
+
+
 </script>
 
 <style scoped>
