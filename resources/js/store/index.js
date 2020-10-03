@@ -8,5 +8,20 @@ export const store = new Vuex.Store({
         user: window.user,
         isLoggedIn: !!window.user,
     },
+    mutations: {
+        logout(state) {
+            state.user = null;
+            state.isLoggedIn = false;
+        }
+    },
+    actions: {
+        logout({commit}){
+            axios.post('/logout')
+                .then(()=>{
+                    commit('logout');
+                })
+        }
+    }
+
 
 });

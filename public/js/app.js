@@ -3637,6 +3637,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3722,6 +3729,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FrontNavbar",
   data: function data() {
@@ -3759,7 +3787,12 @@ __webpack_require__.r(__webpack_exports__);
         "class": 'text--lighten-4'
       }]
     };
-  }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    auth: 'isLoggedIn',
+    user: 'user'
+  })),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['logout']))
 });
 
 /***/ }),
@@ -41521,7 +41554,11 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v("x")]
+                                    [
+                                      _vm._v(
+                                        "x\n                                "
+                                      )
+                                    ]
                                   )
                                 ],
                                 1
@@ -41530,35 +41567,100 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                to: { name: "login" },
-                                text: "",
-                                small: "",
-                                color: "primary"
-                              }
-                            },
-                            [_vm._v("ورود")]
-                          ),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("/")]),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                to: { name: "register" },
-                                text: "",
-                                small: "",
-                                color: "primary"
-                              }
-                            },
-                            [_vm._v("ثبت نام")]
-                          )
+                          !_vm.auth
+                            ? [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      to: { name: "login" },
+                                      text: "",
+                                      small: "",
+                                      color: "primary"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                ورود\n\n                            "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("span", [_vm._v("/")]),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      to: { name: "register" },
+                                      text: "",
+                                      small: "",
+                                      color: "primary"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "ثبت نام\n                            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            : [
+                                _c(
+                                  "v-menu",
+                                  {
+                                    attrs: { "offset-y": "" },
+                                    scopedSlots: _vm._u([
+                                      {
+                                        key: "activator",
+                                        fn: function(ref) {
+                                          var on = ref.on
+                                          return [
+                                            _c(
+                                              "v-btn",
+                                              _vm._g({}, on),
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-account")
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ])
+                                  },
+                                  [
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list",
+                                      [
+                                        _c("v-list-item", [
+                                          _vm._v(_vm._s(_vm.user.name))
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-list-item",
+                                          {
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.logout($event)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("خروج از حساب کاربری")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]
                         ],
-                        1
+                        2
                       )
                     ],
                     1
@@ -105032,6 +105134,20 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     user: window.user,
     isLoggedIn: !!window.user
+  },
+  mutations: {
+    logout: function logout(state) {
+      state.user = null;
+      state.isLoggedIn = false;
+    }
+  },
+  actions: {
+    logout: function logout(_ref) {
+      var commit = _ref.commit;
+      axios.post('/logout').then(function () {
+        commit('logout');
+      });
+    }
   }
 });
 

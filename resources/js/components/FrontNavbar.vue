@@ -39,20 +39,40 @@
                                            text
                                            large
                                            @click="search = false"
-                                    >x</v-btn>
+                                    >x
+                                    </v-btn>
                                 </v-list>
                             </v-menu>
-                            <v-btn :to="{ name: 'login' }"
-                                   text
-                                   small
-                                   color="primary"
-                            >ورود</v-btn>
-                            <span>/</span>
-                            <v-btn :to="{ name: 'register' }"
-                                   text
-                                   small
-                                   color="primary"
-                            >ثبت نام</v-btn>
+                            <template v-if="! auth">
+                                <v-btn :to="{ name: 'login' }"
+                                       text
+                                       small
+                                       color="primary"
+                                >
+                                    ورود
+
+                                </v-btn>
+                                <span>/</span>
+                                <v-btn :to="{ name: 'register' }"
+                                       text
+                                       small
+                                       color="primary"
+                                >ثبت نام
+                                </v-btn>
+                            </template>
+                            <template v-else>
+                                <v-menu offset-y>
+                                    <template v-slot:activator="{on}">
+                                        <v-btn v-on="on">
+                                            <v-icon>mdi-account</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-list>
+                                        <v-list-item>{{user.name}}</v-list-item>
+                                        <v-list-item @click.prevent="logout">خروج از حساب کاربری</v-list-item>
+                                    </v-list>
+                                </v-menu>
+                            </template>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -84,6 +104,8 @@
 </template>
 
 <script>
+    import {mapState, mapActions} from "vuex";
+
     export default {
         name: "FrontNavbar",
 
@@ -133,6 +155,16 @@
                     },
                 ]
             }
+        },
+        computed: {
+            ...mapState({
+                auth: 'isLoggedIn',
+                user: 'user',
+            }),
+
+        },
+        methods: {
+...mapActions(['logout'])
         }
     }
 </script>
@@ -141,9 +173,11 @@
     .v-input__control .v-input__slot::before {
         border-color: white !important;
     }
+
     .v-menu__content {
         box-shadow: unset;
     }
+
     .v-menu__content, .v-list {
         border-radius: 0;
     }
