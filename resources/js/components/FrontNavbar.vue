@@ -1,7 +1,7 @@
 <template>
-    <v-app-bar color="#fff"
-               flat
-               :height="$vuetify.breakpoint.smAndDown ? 80 : 160"
+    <v-app-bar
+        flat
+        :height="$vuetify.breakpoint.smAndDown ? 80 : 160"
     >
         <v-container fluid>
             <v-row>
@@ -48,9 +48,7 @@
                                        text
                                        small
                                        color="primary"
-                                >
-                                    ورود
-
+                                >ورود
                                 </v-btn>
                                 <span>/</span>
                                 <v-btn :to="{ name: 'register' }"
@@ -62,14 +60,22 @@
                             </template>
                             <template v-else>
                                 <v-menu offset-y>
-                                    <template v-slot:activator="{on}">
+                                    <template v-slot:activator="{ on }">
                                         <v-btn v-on="on">
                                             <v-icon>mdi-account</v-icon>
                                         </v-btn>
                                     </template>
                                     <v-list>
-                                        <v-list-item>{{user.name}}</v-list-item>
-                                        <v-list-item @click.prevent="logout">خروج از حساب کاربری</v-list-item>
+                                        <v-list-item>
+                                            {{ name }}
+                                        </v-list-item>
+                                        <v-list-item @click.prevent="logout">
+                                            خروج از حساب کاربری
+                                        </v-list-item>
+                                        <v-list-item @click.prevent="night">
+                                            <template v-if="isDark">حالت روز</template>
+                                            <template v-else> حالت شب</template>
+                                        </v-list-item>
                                     </v-list>
                                 </v-menu>
                             </template>
@@ -104,7 +110,7 @@
 </template>
 
 <script>
-    import {mapState, mapActions} from "vuex";
+    import {mapState, mapActions} from 'vuex';
 
     export default {
         name: "FrontNavbar",
@@ -156,15 +162,23 @@
                 ]
             }
         },
+
         computed: {
             ...mapState({
-                auth: 'isLoggedIn',
-                user: 'user',
+                auth: state => state.isLoggedIn,
+                name: state => state.user.name
             }),
-
+            isDark() {
+                return this.$vuetify.theme.dark;
+            }
         },
+
         methods: {
-...mapActions(['logout'])
+            ...mapActions(['logout']),
+            night() {
+                this.$vuetify.theme.dark = !this.isDark;
+                this.isDark ? localStorage.setItem('isDark', 1) : localStorage.removeItem('isDark');
+            }
         }
     }
 </script>

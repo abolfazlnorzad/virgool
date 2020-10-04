@@ -8,20 +8,25 @@
                 >
                     <span class="blue--text font-weight-bold">ایجاد حساب کاربری</span>
                     <v-text-field label="ایمیل"
-                                  :rules="emailRules"
                                   outlined
                                   rounded
-                                  v-model="form.email"
                                   class="mt-9"
+                                  :rules="[
+                                      lessThan(255, 'ایمیل'),
+                                      verifyEmail()
+                                  ]"
                                   :error-messages="errors.email"
+                                  v-model="form.email"
                     ></v-text-field>
                     <v-text-field label="رمز عبور"
                                   outlined
                                   rounded
-                                  v-model="form.password"
-                                  :rules="passwordRules"
+                                  type="password"
                                   :error-messages="errors.password"
-
+                                  :rules="[
+                                      moreThan(8, 'رمز عبور')
+                                  ]"
+                                  v-model="form.password"
                     ></v-text-field>
                     <div class="d-flex">
                         <v-spacer></v-spacer>
@@ -31,24 +36,19 @@
                                @click="register"
                         >
                             <template v-if="loading">
-                                <v-progress-circular
-                                    color="white"
-                                    :indeterminate="true"
+                                <v-progress-circular color="white"
+                                                     :indeterminate="true"
                                 ></v-progress-circular>
                             </template>
-
                             <template v-else>
-                                ایجاد حساب کاربری
-                                <v-icon class="mr-2">mdi-chevron-left</v-icon>
+                                ایجاد حساب کاربری <v-icon class="mr-2">mdi-chevron-left</v-icon>
                             </template>
-
                         </v-btn>
                     </div>
                     <div class="d-flex flex-column align-center justify-center mt-9 body-2 grey--text">
                         <span class="mt-6">ورود با اکانت گوگل</span>
                         <span class="mt-6">ثبت نام در ویرگول به منزله موافقت با قوانین است</span>
-                        <router-link :to="{ name: 'login' }" class="my-6">قبلا عضو شده اید؟ رفتن به صفحه ورود
-                        </router-link>
+                        <router-link :to="{ name: 'login' }" class="my-6">قبلا عضو شده اید؟ رفتن به صفحه ورود</router-link>
                     </div>
                 </v-form>
             </v-col>
@@ -58,9 +58,14 @@
 
 <script>
     import AuthBanner from "@/components/auth/AuthBanner";
-    import {ref} from '@vue/composition-api';
-    import {moreThan, required, validEmail} from "@/rules";
-    import {RegisterModule} from "../../module/RegisterModule";
+    import {
+        required,
+        moreThan,
+        lessThan,
+        verifyEmail
+    } from "@/rules";
+
+    import { registerModule } from "@/module/auth/registerMudole";
 
     export default {
         name: "Register",
@@ -69,22 +74,19 @@
         },
 
         setup() {
-
-
             return {
-
-                ...RegisterModule()
+                required,
+                verifyEmail,
+                lessThan,
+                moreThan,
+                ...registerModule()
             }
-
         },
-
     }
-
-
 </script>
 
 <style scoped>
     .gra-bg {
-        background-image: linear-gradient(to bottom right, #054592 0, #1897d4);
+        background-image: linear-gradient(to bottom right,#054592 0,#1897d4);
     }
 </style>
