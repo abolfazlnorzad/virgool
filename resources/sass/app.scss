@@ -16,7 +16,7 @@ a {
     .display-3,
     .display-4,
     .headline,
-    .titl
+    .title,
     .subtitle-1,
     .subtitle-2,
     .body-1,
@@ -46,6 +46,9 @@ a {
     width: 100%;
 }
 
+.gra-bg {
+    background-image: linear-gradient(to bottom right,#054592 0,#1897d4);
+}
 // Vuetify
 @import "~vuetify/dist/vuetify.min.css";
 

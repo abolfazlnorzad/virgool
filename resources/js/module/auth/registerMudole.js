@@ -20,7 +20,7 @@ export function registerModule() {
     function register() {
         if(registerForm.value.validate()) {
             loading.value = true;
-            store.dispatch('register', form.value)
+            store.dispatch('user/register', form.value)
                 .then(() => {
                     router.push('/')
                 })

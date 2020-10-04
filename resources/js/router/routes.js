@@ -35,16 +35,24 @@ export default [
         path: '/login',
         component: require('@/view/Auth/Login').default,
         name: 'login',
-        meta:{
-            guest:true,
+        meta: {
+            guest: true
         }
     },
     {
         path: '/register',
         component: require('@/view/Auth/Register').default,
         name: 'register',
-        meta:{
-            guest:true,
+        meta: {
+            guest: true
+        }
+    },
+    {
+        path: '/email/verify',
+        component: require('@/view/Auth/Verify').default,
+        name: 'email-verify',
+        meta: {
+            auth: true
         }
     },
     {

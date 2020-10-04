@@ -1,8 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import routes from "./routes";
-import store from "@/store";
-
+import store from '@/store'
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -10,12 +9,13 @@ const router = new VueRouter({
     routes
 });
 
-router.beforeEach((routerTO, routerFrom, next) => {
+router.beforeEach((routeTo, routeFrom, next) => {
 
-    if (routerTO.meta.guest && store.state.isLoggedIn)
+    if (routeTo.meta.guest && store.state.user.isLoggedIn) {
         next('/')
+    }
 
     next()
-})
+});
 
 export default router;

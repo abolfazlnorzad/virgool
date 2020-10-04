@@ -5,7 +5,7 @@ Vue.use(Vuetify);
 
 const options = {
     rtl: true,
-    theme:{
+    theme: {
         dark: localStorage.getItem('isDark') == 1 ? true : false
     }
 };

@@ -9,20 +9,18 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    @auth()
+    @auth
         <script>
-            window.user = {
-                name: '{{auth('sanctum')->user()->name}}'
-            }
+            window.user = { name: '{{ auth('sanctum')->user()->name }}' }
         </script>
     @endauth
 </head>
 <body>
-<div id="app">
-    <v-app>
-        <router-view></router-view>
-    </v-app>
-</div>
-<script src="{{ asset('js/app.js') }}"></script>
+    <div id="app">
+        <v-app>
+            <router-view></router-view>
+        </v-app>
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

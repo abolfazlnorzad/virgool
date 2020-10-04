@@ -1,6 +1,6 @@
 <template>
-    <v-app-bar
-               flat
+    <v-app-bar flat
+               :dark="$vuetify.theme.dark"
                app
     >
         <v-container fluid>

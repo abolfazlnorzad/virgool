@@ -86,7 +86,4 @@
 </script>
 
 <style scoped>
-    .gra-bg {
-        background-image: linear-gradient(to bottom right,#054592 0,#1897d4);
-    }
 </style>
