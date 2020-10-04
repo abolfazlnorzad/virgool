@@ -1,9 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import routes from "./routes";
+import store from "@/store";
+
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
     mode: 'history',
     routes
 });
+
+router.beforeEach((routerTO, routerFrom, next) => {
+
+    if (routerTO.meta.guest && store.state.isLoggedIn)
+        next('/')
+
+    next()
+})
+
+export default router;

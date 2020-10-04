@@ -3755,6 +3755,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FrontNavbar",
@@ -6554,13 +6559,28 @@ var render = function() {
                                     _c(
                                       "v-list",
                                       [
-                                        _c("v-list-item", [
-                                          _vm._v(
-                                            "\n                                        " +
-                                              _vm._s(_vm.name) +
-                                              "\n                                    "
-                                          )
-                                        ]),
+                                        _c(
+                                          "v-list-item",
+                                          { attrs: { "two-line": "" } },
+                                          [
+                                            _c(
+                                              "v-list-item-content",
+                                              [
+                                                _c("v-list-item-title", [
+                                                  _vm._v(
+                                                    "    " + _vm._s(_vm.name)
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("v-list-item-subtitle", [
+                                                  _vm._v("پروفایل من")
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        ),
                                         _vm._v(" "),
                                         _c(
                                           "v-list-item",
@@ -69903,14 +69923,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes */ "./resources/js/router/routes.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/store */ "./resources/js/store/index.js");
+
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   routes: _routes__WEBPACK_IMPORTED_MODULE_2__["default"]
-}));
+});
+router.beforeEach(function (routerTO, routerFrom, next) {
+  if (routerTO.meta.guest && _store__WEBPACK_IMPORTED_MODULE_3__["default"].state.isLoggedIn) next('/');
+  next();
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
@@ -69950,11 +69977,17 @@ __webpack_require__.r(__webpack_exports__);
 }, {
   path: '/login',
   component: __webpack_require__(/*! @/view/Auth/Login */ "./resources/js/view/Auth/Login.vue")["default"],
-  name: 'login'
+  name: 'login',
+  meta: {
+    guest: true
+  }
 }, {
   path: '/register',
   component: __webpack_require__(/*! @/view/Auth/Register */ "./resources/js/view/Auth/Register.vue")["default"],
-  name: 'register'
+  name: 'register',
+  meta: {
+    guest: true
+  }
 }, {
   path: '/404',
   component: __webpack_require__(/*! @/view/Error/NotFound */ "./resources/js/view/Error/NotFound.vue")["default"],

@@ -66,8 +66,13 @@
                                         </v-btn>
                                     </template>
                                     <v-list>
-                                        <v-list-item>
-                                            {{ name }}
+                                        <v-list-item
+                                        two-line>
+                                            <v-list-item-content>
+                                                <v-list-item-title>    {{ name }}</v-list-item-title>
+                                                <v-list-item-subtitle>پروفایل من</v-list-item-subtitle>
+                                            </v-list-item-content>
+
                                         </v-list-item>
                                         <v-list-item @click.prevent="logout">
                                             خروج از حساب کاربری

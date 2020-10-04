@@ -34,12 +34,18 @@ export default [
     {
         path: '/login',
         component: require('@/view/Auth/Login').default,
-        name: 'login'
+        name: 'login',
+        meta:{
+            guest:true,
+        }
     },
     {
         path: '/register',
         component: require('@/view/Auth/Register').default,
-        name: 'register'
+        name: 'register',
+        meta:{
+            guest:true,
+        }
     },
     {
         path: '/404',
