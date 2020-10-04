@@ -13,13 +13,15 @@ export const mutations = {
     LOGIN(state, payload) {
         state.isLoggedIn = true;
         state.user = {
-            name: payload.name
+            name: payload.name,
+            isVerified: payload.email_verified_at == null ? 1 : 2
         }
     },
     REGISTER(state, payload) {
         state.isLoggedIn = true;
         state.user = {
-            name: payload.name
+            name: payload.name,
+            isVerified: 1,
         }
     }
 };

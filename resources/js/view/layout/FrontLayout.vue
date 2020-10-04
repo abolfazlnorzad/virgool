@@ -1,5 +1,6 @@
 <template>
     <div>
+        <verify-banner v-if="user.isVerified==1?true:false"></verify-banner>
         <front-navbar @show-navigation="drawer = true"
         ></front-navbar>
 
@@ -13,11 +14,14 @@
 <script>
     import FrontNavbar from "@/components/FrontNavbar";
     import FrontNavigationDrawer from "@/components/FrontNavigationDrawer";
+    import VerifyBanner from "../../components/VerifyBanner";
+    import {mapState} from "vuex";
 
     export default {
         name: "FrontLayout",
 
         components: {
+            VerifyBanner,
             FrontNavbar,
             FrontNavigationDrawer
         },
@@ -26,6 +30,9 @@
             return {
                 drawer: false,
             }
+        },
+        computed: {
+            ...mapState('user', ['user'])
         }
     }
 </script>

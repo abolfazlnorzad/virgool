@@ -22,7 +22,7 @@ export function registerModule() {
             loading.value = true;
             store.dispatch('user/register', form.value)
                 .then(() => {
-                    router.push('/')
+                    router.push('/email/verify')
                 })
                 .catch((error) => {
                     errors.value.email = error.response.data.errors.email[0];

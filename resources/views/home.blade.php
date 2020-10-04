@@ -11,16 +11,20 @@
 
     @auth
         <script>
-            window.user = { name: '{{ auth('sanctum')->user()->name }}' }
+            window.user = {
+                name: '{{ auth('sanctum')->user()->name }}',
+                isVerified: '{{auth('sanctum')->user()->email_verified_at==null ?1:2}}'
+
+            }
         </script>
     @endauth
 </head>
 <body>
-    <div id="app">
-        <v-app>
-            <router-view></router-view>
-        </v-app>
-    </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+<div id="app">
+    <v-app>
+        <router-view></router-view>
+    </v-app>
+</div>
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

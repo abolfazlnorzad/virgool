@@ -1,9 +1,11 @@
 <template>
+
     <v-app-bar
                flat
                :dark="$vuetify.theme.dark"
                :height="$vuetify.breakpoint.smAndDown ? 80 : 160"
     >
+
         <v-container fluid>
             <v-row>
                 <v-container>

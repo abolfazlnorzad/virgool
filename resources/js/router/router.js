@@ -14,6 +14,9 @@ router.beforeEach((routeTo, routeFrom, next) => {
     if (routeTo.meta.guest && store.state.user.isLoggedIn) {
         next('/')
     }
+    if (routeTo.meta.auth && ! store.state.user.isLoggedIn) {
+        next('/login')
+    }
 
     next()
 });
