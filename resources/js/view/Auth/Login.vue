@@ -28,7 +28,7 @@
                                   v-model="form.password"
                     ></v-text-field>
                     <div class="d-flex">
-                        <span class="body-2">فراموشی رمز عبور</span>
+                        <router-link to="/reset/password" class="body-2">فراموشی رمز عبور</router-link>
                         <v-spacer></v-spacer>
                         <v-btn color="info"
                                class="px-6"

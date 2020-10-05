@@ -12,10 +12,11 @@ const router = new VueRouter({
 router.beforeEach((routeTo, routeFrom, next) => {
 
     if (routeTo.meta.guest && store.state.user.isLoggedIn) {
-        next('/')
+        next({ name: 'home' })
     }
+
     if (routeTo.meta.auth && ! store.state.user.isLoggedIn) {
-        next('/login')
+        next({ name: 'login' })
     }
 
     next()

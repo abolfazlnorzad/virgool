@@ -21,7 +21,13 @@ export const mutations = {
         state.isLoggedIn = true;
         state.user = {
             name: payload.name,
-            isVerified: 1,
+            isVerified: 1
+        }
+    },
+    RESET_PASSWORD(state, payload) {
+        state.isLoggedIn = true;
+        state.user = {
+            name: payload.name,
         }
     }
 };
@@ -44,5 +50,15 @@ export const actions = {
             .then(({data}) => {
                 commit('REGISTER', data.data)
             })
+    },
+    resetPassword({ commit }, form) {
+        return axios.post('/password/reset', form)
+            .then(async () => {
+                let response = await axios.get('/me');
+                commit('RESET_PASSWORD', response.data)
+            })
+    },
+    sendEmail(context, form) {
+        return axios.post('/password/email', form)
     }
 };

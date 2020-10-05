@@ -56,6 +56,22 @@ export default [
         }
     },
     {
+        path: '/reset/password',
+        component: require('@/view/Auth/ResetEmailPassword').default,
+        name: 'reset-email-password',
+        meta: {
+            guest: true
+        }
+    },
+    {
+        path: '/reset/password/:token',
+        component: require('@/view/Auth/ResetPassword').default,
+        name: 'reset-password',
+        meta: {
+            guest: true
+        }
+    },
+    {
         path: '/404',
         component: require('@/view/Error/NotFound').default,
         name: 'not-found'
