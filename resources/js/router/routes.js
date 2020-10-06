@@ -18,6 +18,15 @@ export default [
                 component: require('@/view/Post/PostShow').default,
                 name: 'post-show'
             },
+            {
+                path: 'profile',
+                component: require('@/view/User/Profile').default,
+                name: 'profile',
+                meta: {
+                    auth: true,
+                   verified: true
+                }
+            },
         ]
     },
     {

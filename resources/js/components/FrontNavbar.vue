@@ -1,9 +1,9 @@
 <template>
 
     <v-app-bar
-               flat
-               :dark="$vuetify.theme.dark"
-               :height="$vuetify.breakpoint.smAndDown ? 80 : 160"
+        flat
+        :dark="$vuetify.theme.dark"
+        :height="$vuetify.breakpoint.smAndDown ? 80 : 160"
     >
 
         <v-container fluid>
@@ -42,7 +42,8 @@
                                            text
                                            large
                                            @click="search = false"
-                                    >x</v-btn>
+                                    >x
+                                    </v-btn>
                                 </v-list>
                             </v-menu>
                             <template v-if="! auth">
@@ -50,13 +51,15 @@
                                        text
                                        small
                                        color="primary"
-                                >ورود</v-btn>
+                                >ورود
+                                </v-btn>
                                 <span>/</span>
                                 <v-btn :to="{ name: 'register' }"
                                        text
                                        small
                                        color="primary"
-                                >ثبت نام</v-btn>
+                                >ثبت نام
+                                </v-btn>
                             </template>
                             <template v-else>
                                 <v-menu offset-y>
@@ -69,10 +72,12 @@
                                         <v-list-item class="body-2"
                                                      two-line
                                         >
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{ name }}</v-list-item-title>
-                                                <v-list-item-subtitle>پروفایل من</v-list-item-subtitle>
-                                            </v-list-item-content>
+                                            <router-link :to="{name:'profile'}">
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{ name }}</v-list-item-title>
+                                                    <v-list-item-subtitle>پروفایل من</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </router-link>
                                         </v-list-item>
                                         <v-list-item @click.prevent="logout"
                                                      class="body-2"
@@ -119,7 +124,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import {mapState, mapActions} from 'vuex';
 
     export default {
         name: "FrontNavbar",
@@ -173,6 +178,7 @@
         },
 
         computed: {
+
             ...mapState({
                 auth: state => state.user.isLoggedIn,
                 name: state => state.user.user.name
@@ -183,10 +189,16 @@
         },
 
         methods: {
-            ...mapActions('user', ['logout']),
+            logout() {
+                this.$store.dispatch('user/logout')
+                    .then(() => {
+                        this.$router.push('/');
+                    })
+            },
+
             nightMode() {
-                this.$vuetify.theme.dark = ! this.isDark;
-                this.isDark ? localStorage.setItem('isDark', 1): localStorage.removeItem('isDark');
+                this.$vuetify.theme.dark = !this.isDark;
+                this.isDark ? localStorage.setItem('isDark', 1) : localStorage.removeItem('isDark');
             }
         }
     }
@@ -196,9 +208,11 @@
     .v-input__control .v-input__slot::before {
         border-color: white !important;
     }
+
     .v-menu__content {
         box-shadow: unset;
     }
+
     .v-menu__content, .v-list {
         border-radius: 0;
     }

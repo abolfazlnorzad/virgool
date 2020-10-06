@@ -19,6 +19,9 @@
 
     export default {
         name: "FrontLayout",
+        metaInfo:{
+            titleTemplate:'%s | ویرگول'
+        },
 
         components: {
             VerifyBanner,

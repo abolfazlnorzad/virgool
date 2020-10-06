@@ -64,6 +64,9 @@
 
     export default {
         name: "Login",
+        metaInfo:{
+            title:'ورود به حساب کاربری'
+        },
         components: {
             AuthBanner
         },

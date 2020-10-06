@@ -69,6 +69,9 @@
 
     export default {
         name: "Register",
+        metaInfo:{
+            title:'ثبت نام '
+        },
         components: {
             AuthBanner
         },

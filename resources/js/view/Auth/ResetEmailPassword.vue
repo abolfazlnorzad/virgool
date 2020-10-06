@@ -59,6 +59,9 @@
 
     export default {
         name: "ResetEmailPassword",
+        metaInfo:{
+            title:'بازیابی رمز عبور'
+        },
         components: {
             AuthBanner
         },

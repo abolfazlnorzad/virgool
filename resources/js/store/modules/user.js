@@ -34,7 +34,7 @@ export const mutations = {
 
 export const actions = {
     logout({commit}) {
-        axios.post('/logout')
+       return axios.post('/logout')
             .then(() => {
                 commit('LOGOUT')
             })
@@ -52,13 +52,13 @@ export const actions = {
             })
     },
     resetPassword({ commit }, form) {
-        return axios.post('/password/reset', form)
+        return axios.post('/api/password/reset', form)
             .then(async () => {
-                let response = await axios.get('/me');
+                let response = await axios.get('/api/me');
                 commit('RESET_PASSWORD', response.data)
             })
     },
     sendEmail(context, form) {
-        return axios.post('/password/email', form)
+        return axios.post('/api/password/email', form)
     }
 };

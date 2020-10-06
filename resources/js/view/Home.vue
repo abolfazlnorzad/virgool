@@ -28,7 +28,9 @@
 
     export default {
         name: "Home",
-
+metaInfo:{
+  title:'صفحه اصلی'
+},
         components: {
             PopularPosts,
             NewPost,
