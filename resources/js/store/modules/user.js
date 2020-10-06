@@ -29,12 +29,15 @@ export const mutations = {
         state.user = {
             name: payload.name,
         }
+    },
+    changeName(state, name) {
+        state.user.name = name;
     }
 };
 
 export const actions = {
     logout({commit}) {
-       return axios.post('/logout')
+        return axios.post('/logout')
             .then(() => {
                 commit('LOGOUT')
             })
@@ -51,7 +54,7 @@ export const actions = {
                 commit('REGISTER', data.data)
             })
     },
-    resetPassword({ commit }, form) {
+    resetPassword({commit}, form) {
         return axios.post('/api/password/reset', form)
             .then(async () => {
                 let response = await axios.get('/api/me');
@@ -60,5 +63,10 @@ export const actions = {
     },
     sendEmail(context, form) {
         return axios.post('/api/password/email', form)
+    },
+
+    changeName({commit}, name) {
+        commit('changeName', name);
     }
+
 };

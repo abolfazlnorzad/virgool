@@ -10,6 +10,9 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+    protected $appends=[
+        'profile_src'
+        ];
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +30,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
+
+
+    public function getProfileSrcAttribute()
+    {
+        return '/profiles/' . $this->profile;
+    }
 
     /**
      * The attributes that should be cast to native types.
