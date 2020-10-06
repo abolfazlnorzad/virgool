@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "@vue/composition-api": "^1.0.0-beta.14",
+        "tiptap": "^1.30.0",
+        "tiptap-extensions": "^1.33.1",
         "vue-meta": "^2.4.0",
         "vue-router": "^3.4.5",
         "vuetify": "^2.3.10",

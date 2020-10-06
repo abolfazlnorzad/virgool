@@ -14,6 +14,11 @@ export default [
                 name: 'my-posts'
             },
             {
+                path: 'posts/create',
+                component: require('@/view/Post/Create').default,
+                name: 'create-posts'
+            },
+            {
                 path: 'post/:slug',
                 component: require('@/view/Post/PostShow').default,
                 name: 'post-show'
