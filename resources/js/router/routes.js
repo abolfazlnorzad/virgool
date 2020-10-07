@@ -16,7 +16,10 @@ export default [
             {
                 path: 'posts/create',
                 component: require('@/view/Post/Create').default,
-                name: 'create-posts'
+                name: 'create-posts',
+                meta:{
+                    auth:true
+                }
             },
             {
                 path: 'post/:slug',

@@ -22,6 +22,20 @@
                     </template>
                     <span>{{ button.tooltip }}</span>
                 </v-tooltip>
+                <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                        <v-btn class="menubar__button"
+                               :class="{ 'is-active': isActive.image() }"
+                               @click.stop="openModal(commands.image)"
+                               small
+                               text
+                               v-on="on"
+                        >
+                            <v-icon>mdi-image</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>اپلود عکس</span>
+                </v-tooltip>
             </div>
         </editor-floating-menu>
         <editor-menu-bubble :editor="editor"
@@ -47,11 +61,35 @@
         </editor-menu-bubble>
         <editor-content :editor="editor">
         </editor-content>
+
+        <v-dialog v-model="imageModal"
+                  max-width="360px"
+        >
+            <v-card>
+                <v-card-title>عکس خود را اپلود کنین</v-card-title>
+                <vue-dropzone
+                    id="dropzone"
+                    :options="dropzoneOptions"
+                    @vdropzone-success="upload"
+                ></vue-dropzone>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="imageModal = false"
+                    >
+                        بستن
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </div>
 </template>
 <script>
+    import vueDropzone from 'vue2-dropzone';
+    import 'vue2-dropzone/dist/vue2Dropzone.min.css';
     import {Editor, EditorContent, EditorFloatingMenu, EditorMenuBubble} from "tiptap";
-    import { Blockquote,
+    import {
+        Blockquote,
         CodeBlock,
         HardBreak,
         Heading,
@@ -69,14 +107,16 @@
         Strike,
         Underline,
         History,
-        Placeholder } from "tiptap-extensions";
+        Placeholder
+    } from "tiptap-extensions";
 
     export default {
         name: "TipTap",
         components: {
             EditorFloatingMenu,
             EditorContent,
-            EditorMenuBubble
+            EditorMenuBubble,
+            vueDropzone
         },
         props: {
             value: {
@@ -86,7 +126,15 @@
         },
         data() {
             return {
-
+                dropzoneOptions: {
+                    url: '/api/upload-post-image',
+                    maxFile: 1,
+                    headers: {
+                        'X-CSRF-TOKEN': window.csrf_token
+                    }
+                },
+                imageModal: false,
+                imageCommand: false,
                 bubbleMenuButtons: [
                     {
                         active: 'italic',
@@ -145,7 +193,7 @@
                         new Strike(),
                         new Underline(),
                         new History(),
-                        new Heading({ level: [1, 2, 3] }),
+                        new Heading({level: [1, 2, 3]}),
                         new Placeholder({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
@@ -163,6 +211,20 @@
         },
         beforeDestroy() {
             this.editor.destroy();
+        },
+        methods: {
+            openModal(image) {
+                this.imageModal = true;
+                this.imageCommand = image;
+            },
+            upload(file, response) {
+                this.imageCommand({
+                    src: response.data
+                })
+                this.imageModal = false;
+
+
+            }
         }
     }
 </script>

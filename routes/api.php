@@ -13,3 +13,7 @@ Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('pass
 Route::patch('/profile', 'ProfileUpdateController@update')
     ->middleware('auth:sanctum')
     ->name('profile.update');
+
+Route::post('/upload-post-image', 'Post\UploadPostImageController')
+    ->middleware('auth:sanctum')
+    ->name('upload-post-image');

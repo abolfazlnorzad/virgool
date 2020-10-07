@@ -8,7 +8,9 @@
     <title>webamooz blog</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
+    <script>
+        window.csrf_token = '{{ csrf_token() }}'
+    </script>
     @auth
         <script>
             window.user = {
