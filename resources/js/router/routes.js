@@ -22,6 +22,17 @@ export default [
                     verified: true
                 }
             },
+
+            {
+                path: 'drafts/:link',
+                component: require('@/view/Post/Create').default,
+                name: 'update-draft',
+                meta:{
+                    auth:true,
+                    verified: true
+                }
+            },
+
             {
                 path: 'post/:slug',
                 component: require('@/view/Post/PostShow').default,

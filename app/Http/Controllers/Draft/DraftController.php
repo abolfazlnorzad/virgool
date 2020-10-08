@@ -26,6 +26,7 @@ class DraftController extends Controller
 
     public function update(DraftRequest $request, Draft $draft)
     {
+
         $data = $request->validated();
         $draft = $draft->update($data);
         return response(['data' => 'ok'], 200);
