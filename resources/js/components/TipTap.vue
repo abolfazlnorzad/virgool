@@ -62,31 +62,18 @@
         <editor-content :editor="editor">
         </editor-content>
 
-        <v-dialog v-model="imageModal"
-                  max-width="360px"
+        <drop-zone
+            ref="dropzone"
+            @image="uploadImage"
         >
-            <v-card>
-                <v-card-title>عکس خود را اپلود کنین</v-card-title>
-                <vue-dropzone
-                    id="dropzone"
-                    :options="dropzoneOptions"
-                    @vdropzone-success="upload"
-                ></vue-dropzone>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn @click="imageModal = false"
-                    >
-                        بستن
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+
+        </drop-zone>
 
     </div>
 </template>
 <script>
-    import vueDropzone from 'vue2-dropzone';
-    import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+
+    import {ref} from '@vue/composition-api';
     import {Editor, EditorContent, EditorFloatingMenu, EditorMenuBubble} from "tiptap";
     import {
         Blockquote,
@@ -109,14 +96,16 @@
         History,
         Placeholder
     } from "tiptap-extensions";
+    import DropZone from "./DropZone";
 
     export default {
         name: "TipTap",
         components: {
+            DropZone,
             EditorFloatingMenu,
             EditorContent,
             EditorMenuBubble,
-            vueDropzone
+
         },
         props: {
             value: {
@@ -124,108 +113,102 @@
                 default: ''
             }
         },
-        data() {
-            return {
-                dropzoneOptions: {
-                    url: '/api/upload-post-image',
-                    maxFile: 1,
-                    headers: {
-                        'X-CSRF-TOKEN': window.csrf_token
-                    }
+        setup(props,{emit}) {
+            const dropzone=ref(null);
+            const bubbleMenuButtons = ref([
+                {
+                    active: 'italic',
+                    command: 'italic',
+                    icon: 'format-italic',
+                    tooltip: 'ایتالیک',
+                    context: {}
                 },
-                imageModal: false,
-                imageCommand: false,
-                bubbleMenuButtons: [
-                    {
-                        active: 'italic',
-                        command: 'italic',
-                        icon: 'format-italic',
-                        tooltip: 'ایتالیک',
-                        context: {}
-                    },
-                    {
-                        active: 'bold',
-                        command: 'bold',
-                        icon: 'format-bold',
-                        tooltip: 'درشت',
-                        context: {}
-                    },
+                {
+                    active: 'bold',
+                    command: 'bold',
+                    icon: 'format-bold',
+                    tooltip: 'درشت',
+                    context: {}
+                },
+            ]);
+            const floatingMenuButtons = ref([
+                {
+                    active: 'heading',
+                    command: 'heading',
+                    icon: 'format-header-1',
+                    tooltip: 'هدر 1',
+                    context: {level: 1}
+                },
+                {
+                    active: 'heading',
+                    command: 'heading',
+                    icon: 'format-header-2',
+                    tooltip: 'هدر 2',
+                    context: {level: 2}
+                },
+                {
+                    active: 'heading',
+                    command: 'heading',
+                    icon: 'format-header-3',
+                    tooltip: 'هدر 3',
+                    context: {level: 3}
+                },
+            ]);
+            const editor = ref(new Editor({
+                extensions: [
+                    new Blockquote(),
+                    new CodeBlock(),
+                    new HardBreak(),
+                    new HorizontalRule(),
+                    new OrderedList(),
+                    new BulletList(),
+                    new ListItem(),
+                    new TodoItem(),
+                    new TodoList(),
+                    new Bold(),
+                    new Code(),
+                    new Image(),
+                    new Italic(),
+                    new Link(),
+                    new Strike(),
+                    new Underline(),
+                    new History(),
+                    new Heading({level: [1, 2, 3]}),
+                    new Placeholder({
+                        emptyEditorClass: 'is-editor-empty',
+                        emptyNodeClass: 'is-empty',
+                        emptyNodeText: 'هرچیزی که میخای بنویس ...',
+                        showOnlyWhenEditable: true,
+                        showOnlyCurrent: true,
+                    })
                 ],
-                floatingMenuButtons: [
-                    {
-                        active: 'heading',
-                        command: 'heading',
-                        icon: 'format-header-1',
-                        tooltip: 'هدر 1',
-                        context: {level: 1}
-                    },
-                    {
-                        active: 'heading',
-                        command: 'heading',
-                        icon: 'format-header-2',
-                        tooltip: 'هدر 2',
-                        context: {level: 2}
-                    },
-                    {
-                        active: 'heading',
-                        command: 'heading',
-                        icon: 'format-header-3',
-                        tooltip: 'هدر 3',
-                        context: {level: 3}
-                    },
-                ],
-                editor: new Editor({
-                    extensions: [
-                        new Blockquote(),
-                        new CodeBlock(),
-                        new HardBreak(),
-                        new HorizontalRule(),
-                        new OrderedList(),
-                        new BulletList(),
-                        new ListItem(),
-                        new TodoItem(),
-                        new TodoList(),
-                        new Bold(),
-                        new Code(),
-                        new Image(),
-                        new Italic(),
-                        new Link(),
-                        new Strike(),
-                        new Underline(),
-                        new History(),
-                        new Heading({level: [1, 2, 3]}),
-                        new Placeholder({
-                            emptyEditorClass: 'is-editor-empty',
-                            emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'هرچیزی که میخای بنویس ...',
-                            showOnlyWhenEditable: true,
-                            showOnlyCurrent: true,
-                        })
-                    ],
-                    content: this.value,
-                    onUpdate: ({getHTML}) => {
-                        this.$emit('input', getHTML());
-                    }
-                })
+                content: props.value,
+                onUpdate: ({getHTML}) => {
+                    emit('input', getHTML());
+                }
+            }));
+            function openModal(imageCommand) {
+                dropzone.value.showModal(imageCommand);
+            }
+            function  uploadImage(data) {
+                data.imageCommand(data.attrs);
+            }
+
+
+            return {
+                editor,
+                bubbleMenuButtons,
+                floatingMenuButtons,
+                openModal,
+                uploadImage,
+                dropzone,
             }
         },
         beforeDestroy() {
             this.editor.destroy();
         },
-        methods: {
-            openModal(image) {
-                this.imageModal = true;
-                this.imageCommand = image;
-            },
-            upload(file, response) {
-                this.imageCommand({
-                    src: response.data
-                })
-                this.imageModal = false;
 
 
-            }
-        }
     }
 </script>
 

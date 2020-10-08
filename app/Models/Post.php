@@ -15,10 +15,7 @@ class Post extends Model
         return public_path('/images/posts/');
     }
 
-    public static function setName($image)
-    {
-        return Str::random(7) . '.' . $image->getClientOriginalExtension();
-    }
+
 
 
 }

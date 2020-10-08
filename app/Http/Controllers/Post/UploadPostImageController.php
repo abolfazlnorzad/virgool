@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use Facades\App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -14,10 +15,13 @@ class UploadPostImageController extends Controller
         $request->validate([
             'file' => ['required', 'image']
         ]);
-        $image = $request->file('file');
-        $image_name = Post::setName($image);
-        $image_dir = Post::getDir();
-        $image->move($image_dir, $image_name);
+
+
+
+        $image_name = ImageService::uploadImageFile(
+            $request->file('file'),
+            Post::getDir()
+        );
 
         return response([
             'data' => '/images/posts/'.$image_name

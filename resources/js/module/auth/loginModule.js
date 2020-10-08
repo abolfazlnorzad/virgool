@@ -8,6 +8,7 @@ export function loginModule() {
     const form = ref({
         email: null,
         password: null,
+        remember:true,
     });
     const errors = ref({
         email: null,

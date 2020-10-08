@@ -10,9 +10,10 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
-    protected $appends=[
+
+    protected $appends = [
         'profile_src'
-        ];
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -45,4 +46,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function drafts()
+    {
+        return $this->hasMany(Draft::class);
+    }
+
+
 }

@@ -18,7 +18,8 @@ export default [
                 component: require('@/view/Post/Create').default,
                 name: 'create-posts',
                 meta:{
-                    auth:true
+                    auth:true,
+                    verified: true
                 }
             },
             {

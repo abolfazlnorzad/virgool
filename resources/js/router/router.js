@@ -13,15 +13,15 @@ const router = new VueRouter({
 router.beforeEach((routeTo, routeFrom, next) => {
 
     if (routeTo.meta.guest && store.state.user.isLoggedIn) {
-        next({name: 'home'})
+       return next({name: 'home'})
     }
 
     if (routeTo.meta.auth && !store.state.user.isLoggedIn) {
-        next({name: 'login'})
+        return next({name: 'login'})
     }
 
     if (routeTo.meta.verified && store.state.user.user.isVerified == 1) {
-        next({name: 'home'})
+        return next({name: 'home'})
     }
 
     next()

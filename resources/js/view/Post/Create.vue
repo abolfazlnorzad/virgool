@@ -1,13 +1,15 @@
-
 <template>
     <v-container>
         <v-row>
             <v-col>
                 <v-form class="editor">
                     <v-text-field placeholder="عنوان متن"
+                                  v-model="title"
+                                  @input="changeDraft"
                     ></v-text-field>
                     <tip-tap
                         v-model="content"
+                        @input="changeDraft"
                     ></tip-tap>
                 </v-form>
             </v-col>
@@ -18,19 +20,32 @@
 <script>
 
     import TipTap from "../../components/TipTap";
+    import lodash from 'lodash';
 
     export default {
         name: "Create",
         components: {TipTap},
         data() {
             return {
+                title: '',
                 content: ''
             }
         },
-        methods:{
-            setContent(event){
-                this.content=event
-            }
+        methods: {
+            setContent(event) {
+                this.content = event
+            },
+
+            changeDraft: lodash.debounce(function(){
+                axios.post('/api/posts/create', {
+                    title: this.title,
+                    content: this.content,
+                })
+                    .then(({data}) => {
+                        history.replaceState({  }, '', data.link)
+                    })
+            },2000)
+
         }
     }
 </script>

@@ -4,7 +4,7 @@
         <front-navbar @show-navigation="drawer = true"
         ></front-navbar>
 
-        <front-navigation-drawer :drawer="drawer"
+        <front-navigation-drawer v-model="drawer"
         ></front-navigation-drawer>
 
         <router-view></router-view>

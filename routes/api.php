@@ -17,3 +17,12 @@ Route::patch('/profile', 'ProfileUpdateController@update')
 Route::post('/upload-post-image', 'Post\UploadPostImageController')
     ->middleware('auth:sanctum')
     ->name('upload-post-image');
+Route::post('/posts/create', 'Draft\DraftController@store')
+    ->name('posts.store')
+    ->middleware('auth:sanctum');
+Route::patch('/drafts/{draft}', 'Draft\DraftController@update')
+    ->name('draft.update')
+    ->middleware('auth:sanctum');
+Route::get('/drafts/{draft}', 'Draft\DraftController@show')
+    ->name('draft.show')
+    ->middleware('auth:sanctum');

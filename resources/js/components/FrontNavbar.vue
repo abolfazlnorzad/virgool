@@ -14,12 +14,20 @@
                             <v-app-bar-nav-icon class="hidden-md-and-up"
                                                 @click="$emit('show-navigation')"
                             ></v-app-bar-nav-icon>
-                            <v-img src="/images/logo.png"
-                                   alt="website logo"
-                                   max-height="50px"
-                                   min-width="200px"
-                                   max-width="250px"
-                            ></v-img>
+                            <router-link
+                                to="/"
+                            >
+                                <v-img src="/images/logo.png"
+                                       alt="website logo"
+
+                                ></v-img>
+                            </router-link>
+                            <router-link
+                                class="mt-10 mr-4 hidden-sm-and-down"
+                                :to="{name:'create-posts'}"
+                            >
+                                ایجاد پست جدید
+                            </router-link>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col cols="auto">
@@ -133,6 +141,8 @@
             return {
                 search: false,
                 items: [
+
+
                     {
                         text: 'جدیدترین پست‌ها',
                         class: 'white--text'
