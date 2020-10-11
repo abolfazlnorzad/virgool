@@ -73,15 +73,6 @@
                 error: false,
             });
 
-            const saveDraftUpdate = () => {
-                return root.$store.dispatch('draft/saveDraft', {
-                    requestType: requestType.value,
-                    requestURI: requestURI.value,
-                    title: title.value,
-                    content: content.value,
-                });
-            };
-
             let link = root.$route.params.link;
             if (link) {
                 requestType.value = 'patch';
@@ -111,30 +102,42 @@
                 saveDraftUpdate()
                     .then(({data}) => {
                         if (requestType.value === 'post') {
-                            history.replaceState({}, '', data.link);
+                            history.replaceState({}, ' ', data.link);
                             requestURI.value = `/api${data.link}`;
                         }
                         requestType.value = 'patch';
                         snackbar.saved = true;
+
                     })
                     .catch(() => {
                         snackbar.error = true;
                     })
             }, 2000);
 
+            const saveDraftUpdate = () => {
+                return root.$store.dispatch('draft/saveDraft', {
+                    requestType: requestType.value,
+                    requestURI: requestURI.value,
+                    title: title.value,
+                    content: content.value,
+                });
+            };
+
+
+            const saveDraft = () => {
+                changeDraft.cancel();
+                saveDraftUpdate()
+                    .then(({data}) => {
+                        const link = data.link ? data.link : `/drafts/${root.$route.params.link}`;
+                        root.$router.push(`${link}/save`);
+                    })
+            }
+
+
             const showDraftSave = computed(() => {
                 return title.value && content.value;
             });
 
-            const saveDraft = () => {
-
-                saveDraftUpdate()
-                    .then(({data}) => {
-
-                        const link =data.link ? data.link : `/drafts/${root.$route.params.link}`;
-                            root.$router.push(`${link}/save`);
-                    })
-            }
 
             return {
                 saveDraft,
