@@ -23,20 +23,21 @@ class DraftController extends Controller
         ], 200);
     }
 
-
-    public function update(DraftRequest $request, Draft $draft)
-    {
-
-        $data = $request->validated();
-        $draft = $draft->update($data);
-        return response(['data' => 'ok'], 200);
-    }
-
     public function show(Draft $draft)
     {
         $this->authorize('show',$draft);
         return $draft;
     }
+
+    public function update(DraftRequest $request, Draft $draft)
+    {
+
+        $data = $request->validated();
+        $draft->update($data);
+        return response(['data' => 'ok'], 200);
+    }
+
+
 
 
 }

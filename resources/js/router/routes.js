@@ -33,6 +33,17 @@ export default [
                 }
             },
 
+
+            {
+                path: 'drafts/:link/save',
+                component: require('@/view/Post/SavePost').default,
+                name: 'save-post',
+                meta:{
+                    auth:true,
+                    verified: true
+                }
+            },
+
             {
                 path: 'post/:slug',
                 component: require('@/view/Post/PostShow').default,
