@@ -36,6 +36,7 @@
                     <v-btn
                     color="info"
                     class="mt-7"
+                    @click="savePost"
                     >
                         ذخیره نوشته
                     </v-btn>
@@ -82,12 +83,17 @@
                         form.categories.pop();
                     }
                 }
-            )
+            );
+
+            const savePost=()=>{
+                axios.post('/api/post',form)
+            };
 
 
             return {
                 UploadImage,
                 form,
+                savePost,
 
             }
         }

@@ -26,3 +26,5 @@ Route::patch('/drafts/{draft}', 'Draft\DraftController@update')
 Route::get('/drafts/{draft}', 'Draft\DraftController@show')
     ->name('draft.show')
     ->middleware('auth:sanctum');
+
+Route::post('/post','Post\PostController@store')->middleware('auth:sanctum');

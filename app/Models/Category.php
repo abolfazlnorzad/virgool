@@ -8,16 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use HasFactory,Sluggable;
+    use HasFactory, Sluggable;
 
     protected $guarded = [];
 
     public function sluggable(): array
     {
         return [
-            'slug'=>[
-                'source'=>'title'
+            'slug' => [
+                'source' => 'title'
             ]
         ];
     }
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class);
+    }
+
 }
