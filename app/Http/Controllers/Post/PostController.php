@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\ImageService;
@@ -11,23 +12,28 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function store(Request $request, ImageService $imageService)
+    public function store(PostRequest $request)
     {
-        $data = $request->only(['title', 'description', 'content']);
-        $data['description'] = $data['description'] ?? Str::words($data['content'], 50, '...');
-        $data['user_id'] = $request->user()->id;
-        $data['image'] = $imageService->uploadPostImage(
-            $request->img,
-            $request->img_name,
-            Post::getDir()
-        );
+
+        $data = $request->only([
+            'title', 'content', 'description',
+            'user_id', 'image'
+        ]);
+
+
         $post = Post::create($data);
-        foreach ($request->categories as $category) {
-            $categories = Category::firstOrCreate([
+        $select = Category::whereIn('title', $request->categories)->get();
+        $create = collect($request->categories)->diff($select->pluck('title'));
+
+        $categories = [];
+        foreach ($create as $category) {
+            $categories [] = Category::firstOrCreate([
                 'title' => $category
             ]);
         }
-        $post->categories()->save($categories);
+        $post->categories()->attach(
+            collect($categories)->pluck('id')->concat($select->pluck('id'))
+    );
 
 
         return response(['data' => 'ok'], 200);

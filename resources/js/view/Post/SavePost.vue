@@ -7,8 +7,8 @@
                        @change="UploadImage"
                 >
                 <v-img
-                    v-if="form.img"
-                    :src="form.img"
+                    v-if="form.image"
+                    :src="form.image"
                     class="mt-7"
                     width="300px"
                     height="300px"
@@ -56,8 +56,8 @@
         setup(props, {root}) {
 
             const form = reactive({
-                img: null,
-                img_name: null,
+                image: null,
+                image_name: null,
                 title: null,
                 content: null,
                 description: null,
@@ -72,8 +72,8 @@
 
             const UploadImage = (event) => {
 
-                form.img_name = event.target.files[0].name;
-                form.img = Upload64(event);
+                form.image_name = event.target.files[0].name;
+                form.image = Upload64(event);
 
             };
             watch(

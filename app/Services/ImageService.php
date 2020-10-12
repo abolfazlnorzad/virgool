@@ -40,8 +40,6 @@ class ImageService
             ->fit(100)
             ->save($path);
         return $image_name;
-
-
     }
 
 
