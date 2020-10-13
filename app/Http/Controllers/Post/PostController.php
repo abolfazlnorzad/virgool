@@ -17,7 +17,7 @@ class PostController extends Controller
 
         $data = $request->only([
             'title', 'content', 'description',
-            'user_id', 'image'
+            'user_id', 'image','min_read',
         ]);
 
 
@@ -36,6 +36,6 @@ class PostController extends Controller
     );
 
 
-        return response(['data' => 'ok'], 200);
+        return response(['data' => $post], 200);
     }
 }

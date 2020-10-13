@@ -34,9 +34,9 @@
                 <div class="d-flex flex-row">
                     <v-spacer></v-spacer>
                     <v-btn
-                    color="info"
-                    class="mt-7"
-                    @click="savePost"
+                        color="info"
+                        class="mt-7"
+                        @click="savePost"
                     >
                         ذخیره نوشته
                     </v-btn>
@@ -44,11 +44,22 @@
 
             </v-col>
         </v-row>
+        <v-snackbar
+        color="error"
+        :timeout="0"
+        v-model="error.show"
+        v-for="(error,index) in errors"
+        :key="index"
+        >
+            {{error.text}}
+
+            <v-btn @click="error.show=false" text >X</v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
 <script>
-    import {reactive, watch} from '@vue/composition-api';
+    import {ref, reactive, watch} from '@vue/composition-api';
     import Upload64 from "../../module/file/Upload64";
 
     export default {
@@ -84,9 +95,17 @@
                     }
                 }
             );
-
-            const savePost=()=>{
-                axios.post('/api/post',form)
+            const errors = ref([]);
+            const savePost = () => {
+                axios.post('/api/post', form)
+                    .catch(({response}) => {
+                        Object.values(response.data.errors).forEach(e => {
+                            errors.value.push({
+                                text:e[0],
+                                show:true
+                            })
+                        })
+                    })
             };
 
 
@@ -94,7 +113,7 @@
                 UploadImage,
                 form,
                 savePost,
-
+                errors
             }
         }
 

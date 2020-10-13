@@ -34,11 +34,10 @@ class PostRequest extends FormRequest
             'image_name' => ['required'],
             'categories' => ['required', 'array'],
             'categories.*' => ['required'],
-            'user_id' => ['required', 'exists:users,id']
         ];
     }
 
-    public function prepareForValidation()
+    public function passedValidation ()
     {
         $imageService = app(ImageService::class);
         $data = $this->all();
@@ -50,11 +49,13 @@ class PostRequest extends FormRequest
             Post::getDir()
         );
 
+        $min_read =ceil(str_word_count(strip_tags($data['content'])) /250);
 
         return $this->merge([
             'user_id' => $this->user()->id,
             'description' => $description,
-            'image' => $image
+            'image' => $image,
+            'min_read' => $min_read,
         ]);
 
 
