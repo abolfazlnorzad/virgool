@@ -6,28 +6,43 @@
                     <div class="mt-10 d-flex flex-row">
                         <span class="headline font-weight-bold">نوشته های شما</span>
                         <v-spacer></v-spacer>
-                        <v-btn color="info" outlined>نوشتن پست جدید</v-btn>
+                        <v-btn color="info" outlined :to="{name:'create-posts'}">نوشتن پست جدید</v-btn>
                     </div>
 
                     <v-tabs class="mt-5" color="grey darken-3" v-model="menu">
                         <v-tab href="#drafts"
                                @click="fetchAllDrafts"
-                        >پیش نویس ها
+                        >
+                            پیش نویس ها
+
+                            <template v-if="drafts_count">
+                                ({{drafts_count}})
+                            </template>
                         </v-tab>
                         <v-tab href="#posts"
-                        @click="fetchAllPosts"
-                        >مطالب منتشر شده</v-tab>
+                               @click="fetchAllPosts"
+                        >مطالب منتشر شده
+                            <template v-if="posts_count">
+                                ({{posts_count}})
+                            </template>
+                        </v-tab>
                     </v-tabs>
                     <v-divider></v-divider>
 
                     <v-tabs-items v-model="menu">
                         <v-tab-item value="drafts">
-                            <div class="my-5" v-for="item in [1,2,3,4,5,6,7]">
-                                <p class="title">بدون عنوان</p>
+                            <div class="my-5" v-for="draft in drafts">
+                                <router-link :to="{name:'update-draft',params:{link:draft.link}}" class="title">
+                                    {{draft.title || 'بدون عنوان'}}
+                                </router-link>
                                 <div class="d-flex flex-row">
-                                    <span class="body-2 grey--text">آخرین ویرایش: ۲ هفته پیش (۳ کلمه)</span>
+                                    <span class="body-2 grey--text">آخرین ویرایش: {{draft.updated_at}}</span>
                                     <v-spacer></v-spacer>
-                                    <v-icon class="info--text text--lighten-1 ml-5">mdi-file-document-edit</v-icon>
+                                    <router-link
+                                        :to="{name:'update-draft',params:{link:draft.link}}"
+                                    >
+                                        <v-icon class="info--text text--lighten-1 ml-5">mdi-file-document-edit</v-icon>
+                                    </router-link>
                                     <v-icon class="red--text text--lighten-1">mdi-delete</v-icon>
                                 </div>
                                 <v-divider class="mt-5"></v-divider>
@@ -35,7 +50,19 @@
 
                         </v-tab-item>
                         <v-tab-item value="posts">
-                            <p>post</p>
+                            <div class="my-5" v-for="post in posts">
+                                <router-link :to="{name:'post-show',params:{slug:post.slug}}" class="title">
+                                    {{post.title }}
+                                </router-link>
+                                <div class="d-flex flex-row">
+                                    <span class="body-2 grey--text">آخرین ویرایش: {{post.updated_at}}</span>
+                                    <v-spacer></v-spacer>
+                                    <v-icon class="info--text text--lighten-1 ml-5">mdi-file-document-edit</v-icon>
+                                    <v-icon class="red--text text--lighten-1">mdi-delete</v-icon>
+                                </div>
+                                <v-divider class="mt-5"></v-divider>
+                            </div>
+
                         </v-tab-item>
                     </v-tabs-items>
                 </v-col>
@@ -45,6 +72,8 @@
 </template>
 
 <script>
+    import {mapActions,mapState} from "vuex";
+
     export default {
         name: "MyPosts",
         metaInfo: {
@@ -53,21 +82,19 @@
 
         data() {
             return {
-                menu: null
+                menu: null,
             }
+        },
+        computed:{
+            ...mapState('draft',['drafts','drafts_count']),
+            ...mapState('post',['posts','posts_count']),
         },
         created() {
             this.fetchAllDrafts();
         },
-
         methods: {
-            fetchAllPosts() {
-                axios.get('/api/posts/all-posts');
-            },
-
-            fetchAllDrafts() {
-                axios.get('/api/posts/all-drafts');
-            }
+            ...mapActions('draft', ['fetchAllDrafts']),
+            ...mapActions('post',['fetchAllPosts']),
         }
 
     }
