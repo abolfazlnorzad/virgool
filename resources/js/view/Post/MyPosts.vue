@@ -10,8 +10,13 @@
                     </div>
 
                     <v-tabs class="mt-5" color="grey darken-3" v-model="menu">
-                        <v-tab href="#drafts">پیش نویس ها</v-tab>
-                        <v-tab href="#posts">مطالب منتشر شده</v-tab>
+                        <v-tab href="#drafts"
+                               @click="fetchAllDrafts"
+                        >پیش نویس ها
+                        </v-tab>
+                        <v-tab href="#posts"
+                        @click="fetchAllPosts"
+                        >مطالب منتشر شده</v-tab>
                     </v-tabs>
                     <v-divider></v-divider>
 
@@ -42,12 +47,29 @@
 <script>
     export default {
         name: "MyPosts",
+        metaInfo: {
+            title: 'نوشته های من'
+        },
 
         data() {
             return {
                 menu: null
             }
+        },
+        created() {
+            this.fetchAllDrafts();
+        },
+
+        methods: {
+            fetchAllPosts() {
+                axios.get('/api/posts/all-posts');
+            },
+
+            fetchAllDrafts() {
+                axios.get('/api/posts/all-drafts');
+            }
         }
+
     }
 </script>
 

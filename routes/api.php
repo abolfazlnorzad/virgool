@@ -28,3 +28,5 @@ Route::get('/drafts/{draft}', 'Draft\DraftController@show')
     ->middleware('auth:sanctum');
 
 Route::post('/post','Post\PostController@store')->middleware('auth:sanctum');
+Route::get('/posts/all-posts','Post\AllUserPostsController')->middleware('auth:sanctum');
+Route::get('/posts/all-drafts','Post\AllUserDraftsController')->middleware('auth:sanctum');

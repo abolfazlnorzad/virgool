@@ -45,15 +45,15 @@
             </v-col>
         </v-row>
         <v-snackbar
-        color="error"
-        :timeout="0"
-        v-model="error.show"
-        v-for="(error,index) in errors"
-        :key="index"
+            color="error"
+            :timeout="0"
+            v-model="error.show"
+            v-for="(error,index) in errors"
+            :key="index"
         >
             {{error.text}}
 
-            <v-btn @click="error.show=false" text >X</v-btn>
+            <v-btn @click="error.show=false" text>X</v-btn>
         </v-snackbar>
     </v-container>
 </template>
@@ -97,12 +97,16 @@
             );
             const errors = ref([]);
             const savePost = () => {
-                axios.post('/api/post', form)
+                root.$store.dispatch('post/setPost',form)
+                    .then(({data})=>{
+                        console.log(data)
+                        root.$router.push({name:'post-show',params: {slug:data.data.slug}});
+                    })
                     .catch(({response}) => {
                         Object.values(response.data.errors).forEach(e => {
                             errors.value.push({
-                                text:e[0],
-                                show:true
+                                text: e[0],
+                                show: true
                             })
                         })
                     })
