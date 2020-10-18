@@ -22,6 +22,15 @@ export default [
                     verified: true
                 }
             },
+            {
+                path: 'posts/:slug/edit',
+                component: require('@/view/Post/Edit').default,
+                name: 'edit-posts',
+                meta:{
+                    auth:true,
+                    verified: true
+                }
+            },
 
             {
                 path: 'drafts/:link',
@@ -43,6 +52,17 @@ export default [
                     verified: true
                 }
             },
+
+            {
+                path: 'posts/:slug/update',
+                component: require('@/view/Post/UpdatePost').default,
+                name: 'update-post',
+                meta:{
+                    auth:true,
+                    verified: true
+                }
+            },
+
 
             {
                 path: 'post/:slug',

@@ -30,3 +30,15 @@ Route::get('/drafts/{draft}', 'Draft\DraftController@show')
 Route::post('/post','Post\PostController@store')->middleware('auth:sanctum');
 Route::get('/posts/all-posts','Post\AllUserPostsController')->middleware('auth:sanctum');
 Route::get('/posts/all-drafts','Post\AllUserDraftsController')->middleware('auth:sanctum');
+Route::get('/posts/{post:slug}/edit', 'Post\PostController@show')
+    ->name('show.post')
+    ->middleware('auth:sanctum');
+
+Route::patch('/posts/{post:slug}/edit', 'Post\PostController@edit')
+    ->name('edit.post')
+    ->middleware('auth:sanctum');
+
+Route::patch('/posts/{post:slug}', 'Post\PostController@update')
+    ->name('update.post')
+    ->middleware('auth:sanctum');
+

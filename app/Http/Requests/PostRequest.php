@@ -26,30 +26,31 @@ class PostRequest extends FormRequest
      */
     public function rules()
     {
+         $imageNameRule = $this->getMethod()== 'post' || $this->getMethod() === 'POST' ? 'required' : 'nullable';
         return [
             'title' => ['required'],
             'content' => ['required'],
             'description' => ['nullable'],
             'image' => ['required'],
-            'image_name' => ['required'],
+            'image_name' => [$imageNameRule],
             'categories' => ['required', 'array'],
             'categories.*' => ['required'],
         ];
     }
 
-    public function passedValidation ()
+    public function passedValidation()
     {
         $imageService = app(ImageService::class);
         $data = $this->all();
         $description = $data['description'] ?? Str::words($data['content'], 50, '...');
 
-        $image = $imageService->uploadPostImage(
+        $image = isset($data['image_name']) ? $imageService->uploadPostImage(
             $this->image,
             $this->image_name,
             Post::getDir()
-        );
+        ) : '';
 
-        $min_read =ceil(str_word_count(strip_tags($data['content'])) /250);
+        $min_read = ceil(str_word_count(strip_tags($data['content'])) / 250);
 
         return $this->merge([
             'user_id' => $this->user()->id,

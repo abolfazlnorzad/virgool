@@ -12,6 +12,7 @@ class Post extends Model
     use HasFactory,Sluggable;
 
     protected $guarded=[];
+    protected $appends=['cate',];
 
     public static function  getDir()
     {
@@ -29,6 +30,17 @@ class Post extends Model
         ];
     }
 
+
+    public function getCateAttribute()
+    {
+        return $this->categories->pluck('title');
+    }
+
+
+    public function getImageAttribute()
+    {
+        return '/images/posts/'.$this->attributes['image'];
+    }
 
     public function categories()
     {

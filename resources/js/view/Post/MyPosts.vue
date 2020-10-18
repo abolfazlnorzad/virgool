@@ -57,7 +57,11 @@
                                 <div class="d-flex flex-row">
                                     <span class="body-2 grey--text">آخرین ویرایش: {{post.updated_at}}</span>
                                     <v-spacer></v-spacer>
-                                    <v-icon class="info--text text--lighten-1 ml-5">mdi-file-document-edit</v-icon>
+                                    <router-link
+                                        :to="{name:'edit-posts',params:{slug:post.slug}}"
+                                    >
+                                        <v-icon class="info--text text--lighten-1 ml-5">mdi-file-document-edit</v-icon>
+                                    </router-link>
                                     <v-icon class="red--text text--lighten-1">mdi-delete</v-icon>
                                 </div>
                                 <v-divider class="mt-5"></v-divider>
@@ -72,7 +76,7 @@
 </template>
 
 <script>
-    import {mapActions,mapState} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "MyPosts",
@@ -85,16 +89,16 @@
                 menu: null,
             }
         },
-        computed:{
-            ...mapState('draft',['drafts','drafts_count']),
-            ...mapState('post',['posts','posts_count']),
+        computed: {
+            ...mapState('draft', ['drafts', 'drafts_count']),
+            ...mapState('post', ['posts', 'posts_count']),
         },
         created() {
             this.fetchAllDrafts();
         },
         methods: {
             ...mapActions('draft', ['fetchAllDrafts']),
-            ...mapActions('post',['fetchAllPosts']),
+            ...mapActions('post', ['fetchAllPosts']),
         }
 
     }

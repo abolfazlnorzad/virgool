@@ -3,7 +3,7 @@ export const namespaced = true;
 export const state = {
     post: {},
     posts: null,
-    posts_count:null
+    posts_count: null
 };
 
 export const mutations = {
@@ -19,7 +19,8 @@ export const mutations = {
 
     countAllPosts(state, data) {
         state.posts_count = data;
-    }
+    },
+
 
 
 };
@@ -31,11 +32,22 @@ export const actions = {
         return res;
     },
 
-    async fetchAllPosts({commit,state}) {
-       if(! state.posts){
-           let {data} = await axios.get('/api/posts/all-posts');
-           commit('fetchAllPosts', data.data)
-       }
+    async fetchAllPosts({commit, state}) {
+        if (!state.posts) {
+            let {data} = await axios.get('/api/posts/all-posts');
+            commit('fetchAllPosts', data.data)
+        }
+    },
 
-    }
+    updatePost({commit}, {title, content,slug}) {
+        const data = {title, content};
+        commit('setPost', data);
+        return axios.patch(`/api/posts/${slug}/edit`,data);
+    },
+    async editPost({ commit }, form) {
+        let response = await axios.patch(`/api/posts/${form.slug}`, form);
+        commit('setPost', response.data.data);
+        return response;
+    },
+
 };
