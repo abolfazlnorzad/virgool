@@ -16,6 +16,10 @@ export const mutations = {
 
     countAllDrafts(state, data) {
         state.drafts_count = data;
+    },
+    deleteDraft(state, index) {
+        state.drafts.splice(index, 1);
+        state.drafts_count--;
     }
 
 };
@@ -42,13 +46,20 @@ export const actions = {
         return state.draft;
     },
 
-    async fetchAllDrafts({commit,state}) {
-     if (! state.drafts){
-         let {data} = await axios.get('/api/posts/all-drafts');
-         commit('fetchAllDrafts', data.data)
-         commit('countAllDrafts', data.drafts_count)
-         commit('post/countAllPosts', data.posts_count,{root:true})
-     }
+    async fetchAllDrafts({commit, state}) {
+        if (!state.drafts) {
+            let {data} = await axios.get('/api/posts/all-drafts');
+            commit('fetchAllDrafts', data.data)
+            commit('countAllDrafts', data.drafts_count)
+            commit('post/countAllPosts', data.posts_count, {root: true})
+        }
+    },
+
+    deleteDraft({commit}, {index, link}) {
+        axios.delete(`/api/drafts/${link}/delete`)
+            .then(() => {
+                commit('deleteDraft', index)
+            })
     }
 
 

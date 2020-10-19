@@ -85,5 +85,14 @@ class PostController extends Controller
         );
     }
 
+    public function destroy(Post $post)
+    {
+        $this->authorize('view', $post);
+        $post->delete();
+        return response([
+            'data' => 'ok'
+        ], 200);
+    }
+
 
 }

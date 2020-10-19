@@ -31,7 +31,7 @@
 
                     <v-tabs-items v-model="menu">
                         <v-tab-item value="drafts">
-                            <div class="my-5" v-for="draft in drafts">
+                            <div class="my-5" v-for="(draft,index) in drafts">
                                 <router-link :to="{name:'update-draft',params:{link:draft.link}}" class="title">
                                     {{draft.title || 'بدون عنوان'}}
                                 </router-link>
@@ -43,14 +43,44 @@
                                     >
                                         <v-icon class="info--text text--lighten-1 ml-5">mdi-file-document-edit</v-icon>
                                     </router-link>
-                                    <v-icon class="red--text text--lighten-1">mdi-delete</v-icon>
+                                    <v-icon
+                                        @click="openDialogDraft(index,draft.link)"
+                                        class="red--text text--lighten-1">mdi-delete
+                                    </v-icon>
                                 </div>
                                 <v-divider class="mt-5"></v-divider>
                             </div>
 
+                            <v-dialog
+                                v-model="dialogDeleteDraft"
+                                max-width="400"
+                            >
+                                <v-card>
+                                    <v-card-title>
+                                        آیا از حذف این نوشته مطمئن هستید ؟
+                                    </v-card-title>
+                                    <v-card-subtitle>
+                                        <v-btn
+                                            color="error"
+                                            @click="cancelDeleteDraft"
+                                        >بستن
+                                        </v-btn>
+
+                                        <v-btn
+                                            @click="deleteDraft"
+                                            color="success"
+                                        >تایید
+                                        </v-btn>
+                                    </v-card-subtitle>
+                                </v-card>
+
+
+                            </v-dialog>
+
+
                         </v-tab-item>
                         <v-tab-item value="posts">
-                            <div class="my-5" v-for="post in posts">
+                            <div class="my-5" v-for="(post,index) in posts">
                                 <router-link :to="{name:'post-show',params:{slug:post.slug}}" class="title">
                                     {{post.title }}
                                 </router-link>
@@ -62,10 +92,40 @@
                                     >
                                         <v-icon class="info--text text--lighten-1 ml-5">mdi-file-document-edit</v-icon>
                                     </router-link>
-                                    <v-icon class="red--text text--lighten-1">mdi-delete</v-icon>
+                                    <v-icon
+                                        @click="openDialogPost(index,post.slug)"
+                                        class="red--text text--lighten-1">mdi-delete
+                                    </v-icon>
                                 </div>
                                 <v-divider class="mt-5"></v-divider>
                             </div>
+
+                            <v-dialog
+                                v-model="dialogDeletePost"
+                                max-width="400"
+                            >
+                                <v-card>
+                                    <v-card-title>
+                                        آیا از حذف این نوشته مطمئن هستید ؟
+                                    </v-card-title>
+                                    <v-card-subtitle>
+                                        <v-btn
+                                            color="error"
+                                            @click="cancelDeletePost"
+                                        >بستن
+                                        </v-btn>
+
+                                        <v-btn
+                                            @click="deletePost"
+                                            color="success"
+                                        >تایید
+                                        </v-btn>
+                                    </v-card-subtitle>
+                                </v-card>
+
+
+                            </v-dialog>
+
 
                         </v-tab-item>
                     </v-tabs-items>
@@ -76,7 +136,10 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from "vuex";
+    import {reactive, toRefs} from "@vue/composition-api";
+    import postModule from "../../module/post/postModule";
+    import draftModule from "../../module/post/draftModule";
+
 
     export default {
         name: "MyPosts",
@@ -84,22 +147,23 @@
             title: 'نوشته های من'
         },
 
-        data() {
-            return {
+        setup() {
+            const data = reactive({
                 menu: null,
+            });
+            const {fetchAllDrafts} = draftModule();
+
+            fetchAllDrafts();
+
+            return {
+                ...toRefs(data),
+                ...postModule(),
+                ...draftModule()
             }
+
+
         },
-        computed: {
-            ...mapState('draft', ['drafts', 'drafts_count']),
-            ...mapState('post', ['posts', 'posts_count']),
-        },
-        created() {
-            this.fetchAllDrafts();
-        },
-        methods: {
-            ...mapActions('draft', ['fetchAllDrafts']),
-            ...mapActions('post', ['fetchAllPosts']),
-        }
+
 
     }
 </script>

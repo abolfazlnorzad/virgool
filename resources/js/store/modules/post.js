@@ -21,6 +21,10 @@ export const mutations = {
         state.posts_count = data;
     },
 
+    deletePost(state, index) {
+        state.posts.splice(index, 1);
+        state.posts_count--;
+    }
 
 
 };
@@ -39,15 +43,22 @@ export const actions = {
         }
     },
 
-    updatePost({commit}, {title, content,slug}) {
+    updatePost({commit}, {title, content, slug}) {
         const data = {title, content};
         commit('setPost', data);
-        return axios.patch(`/api/posts/${slug}/edit`,data);
+        return axios.patch(`/api/posts/${slug}/edit`, data);
     },
-    async editPost({ commit }, form) {
+    async editPost({commit}, form) {
         let response = await axios.patch(`/api/posts/${form.slug}`, form);
         commit('setPost', response.data.data);
         return response;
     },
+
+    async deletePost({commit}, {slug, index}) {
+        await axios.delete(`/api/posts/${slug}/delete`)
+                commit('deletePost', index);
+
+    }
+
 
 };

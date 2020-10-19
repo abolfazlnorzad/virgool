@@ -87,6 +87,15 @@
                                                 </v-list-item-content>
                                             </router-link>
                                         </v-list-item>
+
+                                        <v-list-item class="body-2"
+                                        >
+                                            <router-link :to="{name:'my-posts'}">
+                                         نوشته های من
+
+                                            </router-link>
+                                        </v-list-item>
+
                                         <v-list-item @click.prevent="logout"
                                                      class="body-2"
                                         >

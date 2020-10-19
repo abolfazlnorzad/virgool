@@ -25,7 +25,7 @@ class DraftController extends Controller
 
     public function show(Draft $draft)
     {
-        $this->authorize('show',$draft);
+        $this->authorize('show', $draft);
         return $draft;
     }
 
@@ -37,7 +37,16 @@ class DraftController extends Controller
         return response(['data' => 'ok'], 200);
     }
 
+    public function destroy(Draft $draft)
+    {
+        $this->authorize('show', $draft);
 
+        $draft->delete();
+
+        return response(['data' => 'ok'], 200);
+
+
+    }
 
 
 }

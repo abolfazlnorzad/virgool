@@ -1,55 +1,62 @@
 <template>
-    <v-content>
+    <v-content v-if="post.user">
         <v-container>
             <v-row class="d-flex justify-center">
                 <v-col cols="12" md="8">
                     <v-list-item>
                         <v-list-item-avatar size="80">
                             <v-avatar size="80">
-                                <v-img src="https://files.virgool.io/upload/users/71114/avatar/kXrdgQ.png?x-oss-process=image/resize,h_90,w_90,center"
+                                <v-img
+                                    :src="post.user.profile_src"
                                 ></v-img>
                             </v-avatar>
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title class="font-weight-bold">
-                                عباس آخوندی
+                                {{post.user.name}}
                                 <v-btn color="grey"
                                        rounded
                                        dark
                                        small
                                        class="darken-2 px-5 mr-3 mb-3"
-                                >دنبال کنید</v-btn>
+                                >دنبال کنید
+                                </v-btn>
                             </v-list-item-title>
                             <v-list-item-subtitle class="body-2 grey--text">
-                                ‌‌‌‌استاد دانشگاه تهران، ‌فعال سیاسی در حوزه تمدن ایران‌شهری،‌‌‌‌ توییتر » ‌@AbbasAkhoundi تلگرام » @AbbasAkhoundi اینستاگرام »
+                                {{post.user.bio}}
                             </v-list-item-subtitle>
                             <v-list-item-subtitle class="caption grey--text">
-                                ۲ ساعت پیش / خواندن ۹ دقیقه
+                                {{moment(post.created_at).fromNow()}} / خواندن {{post.min_read}} دقیقه
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
 
-                    <div class="mt-12">
-                        <p class="headline font-weight-bold">
-                            خلقِ سرمایه‌ی اجتماعی - فوری‌ترین هدفی که دولت باید پی‌بگیرد
-                        </p>
+                    <div class="my-10">
+                        <h1 class="title">{{post.title}} </h1>
+                    </div>
 
-                        <p class="subtitle mt-3 body-text">
-پاسخ به سؤال اندیشه‌ی پویا
+                    <div>
+                        <v-img
+                            :src="post.image"
+                        ></v-img>
+                    </div>
 
-بهمن ماه بود که دوستان عزیز اندیشه‌ی پویا این سؤال را با من در میان گذاشتند که تدبیر محوری رییس جمهوردر سال 1399 چه باید باشد؟ و من در پاسخ گفتم: خلق سرمایه‌ی اجتماعی و بازآفرینی اعتبار از دست رفته، هر مقدار که ممکن است. البته این پرسش و پاسخ پیش از شیوع بیماری کرونا بود. ولی، امروز که نگاه می‌کردم دیدم که برای مقابله با این بیماری نیز تنها راه‌کار، خلق سرمایه‌ی اجتماعی است.
+                    <div class="mt-12" v-html="post.content">
 
-و اما سؤال اندیشه‌ی پویا:
-
-با بحران‌های جاری و بحران‌های انباشته‌ای که سیاست‌گذاری در ایران را در حصار خود گرفته‌اند، دور از ذهن نیست که سال ۱۳۹۹، سالی که پیش روی ماست، سالی سخت برای دولتمردان و سیاست‌گذاران ما باشد؛ خاصه آنکه با اتفاقات سال گذشته و ناآرامی‌های متعاقبِ سیاستِ بنزینی، به نظر می‌رسد که هر نوع اصلاحات سخت به دلیل شرایط جاری به تعویق بیفتد و سیاستگذار را در ارائة راه‌حل‌های اصلاحی در موقعیت انفعال قرار دهد. این درحالی است که ما بیش از هر زمانی نیازمند اقدامات اصلاحی در جهت قوی‌کردنِ دولت، و تقویت حکمرانی خوب هستیم. با این مقدمه، از شما می‌خواهیم با شناختی که از حوزة بوروکراسی و سیاست‌گذاری در کشور دارید، و با افق نزدیک شدن به یک حکمرانیِ خوب، یک توصیة عاجل و البته ممکن و مطلوب به سیاست‌گذار در سال 1399 داشته باشید. به اعتقاد شما رئیس‌جمهور، چه اقدام مشخصی برای مواجهه با چه مشکل مشخصی را باید در سال پیش‌رو در اولویت تصمیم‌گیری و سیاست‌گذاری قرار دهد؟ (و چرا معتقدید که این پیشنهادتان اولویت بالایی دارد؟)
-                        </p>
                     </div>
 
                     <div class="my-10">
-                        <v-btn depressed>لاراول</v-btn>
-                        <v-btn depressed>پی اچ پی</v-btn>
-                        <v-btn depressed>ویو جی اس</v-btn>
-                        <v-btn depressed>جی اس</v-btn>
+                        <v-btn depressed
+                               v-for="cate in post.categories"
+                               :key="cate.slug"
+
+                               class="mr-5 "
+                        >
+
+                            {{cate.title}}
+
+                        </v-btn>
+
                     </div>
 
                     <div class="d-flex flex-row mb-5">
@@ -69,7 +76,8 @@
                         <v-btn outlined
                                rounded
                                class="mr-3"
-                        >aaaaaaaaafio</v-btn>
+                        >aaaaaaaaafio
+                        </v-btn>
                     </div>
 
                     <v-divider></v-divider>
@@ -78,25 +86,27 @@
                         <p class="body-2 font-weight-bold">شاید از این نوشته‌ها هم خوشتان بیاید</p>
                         <v-container fluid>
                             <v-row>
-                                <v-col cols="12" md="4" v-for="item in [1,2,3]">
+                                <v-col cols="12" md="4" v-for="post in related_post">
                                     <v-card>
-                                        <v-img src="https://files.virgool.io/upload/users/4424/posts/kzeezd1ymxpp/m4c8lglrblaw.jpeg?x-oss-process=image/resize,w_300/crop,h_140,center/quality,q_80"
+                                        <v-img
+                                            :src="post.image"
                                         ></v-img>
                                         <v-card-title>
-                                            مرثیه ای بر عاقبت آزادی خواهی
+                                            {{post.title}}
                                         </v-card-title>
 
                                         <v-card-actions>
                                             <v-list-item>
                                                 <v-list-item-avatar>
                                                     <v-avatar>
-                                                        <v-img src="https://files.virgool.io/upload/users/71114/avatar/kXrdgQ.png?x-oss-process=image/resize,h_90,w_90,center"
+                                                        <v-img
+                                                            :src="post.user.profile_src"
                                                         ></v-img>
                                                     </v-avatar>
                                                 </v-list-item-avatar>
                                                 <v-list-item-content>
                                                     <v-list-item-title class="body-2 font-weight-bold">
-                                                        عباس آخوندی
+                                                        {{post.user.name}}
                                                     </v-list-item-title>
                                                     <v-list-item-subtitle class="caption grey--text">
                                                         ‌‌‌‌خواندن
@@ -125,8 +135,43 @@
 </template>
 
 <script>
+    import {ref} from "@vue/composition-api";
+    import moment from "moment-jalaali";
+
+    moment.loadPersian({
+        usePersianDigits: true
+    });
+
     export default {
-        name: "PostShow"
+        name: "PostShow",
+        metaInfo() {
+            return {
+                title: this.post.title,
+                meta: [
+                    {name: 'description', content: this.post.description},
+                ]
+            }
+        },
+
+        setup(props, {root}) {
+            const post = ref({});
+            const related_post = ref({});
+
+            axios.get(`/api/posts/${root.$route.params.slug}`)
+                .then(({data}) => {
+                    post.value = data.post,
+                        related_post.value = data.related_post
+                });
+
+
+            return {
+                post,
+                related_post,
+                moment
+            }
+        }
+
+
     }
 </script>
 

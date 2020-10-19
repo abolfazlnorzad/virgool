@@ -1,7 +1,8 @@
-window.axios = require('axios');
+import axios from "@/plugin/axios";
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.withCredentials = true;
+window.axios =axios;
+
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

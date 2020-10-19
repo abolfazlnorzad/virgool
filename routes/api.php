@@ -42,3 +42,13 @@ Route::patch('/posts/{post:slug}', 'Post\PostController@update')
     ->name('update.post')
     ->middleware('auth:sanctum');
 
+Route::delete('/posts/{post:slug}/delete', 'Post\PostController@destroy')
+    ->name('destroy.post')
+    ->middleware('auth:sanctum');
+
+Route::delete('/drafts/{draft:link}/delete', 'Draft\DraftController@destroy')
+    ->name('destroy.draft')
+    ->middleware('auth:sanctum');
+
+
+Route::get('/posts/{post:slug}','Post\ShowPostController')->name('show-post');

@@ -9,12 +9,12 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use HasFactory,Sluggable;
+    use HasFactory, Sluggable;
 
-    protected $guarded=[];
-    protected $appends=['cate',];
+    protected $guarded = [];
+    protected $appends = ['cate',];
 
-    public static function  getDir()
+    public static function getDir()
     {
         return public_path('/images/posts/');
     }
@@ -23,8 +23,8 @@ class Post extends Model
     public function sluggable(): array
     {
         return [
-            'slug'=>[
-                'source'=>'title'
+            'slug' => [
+                'source' => 'title'
             ]
 
         ];
@@ -39,7 +39,7 @@ class Post extends Model
 
     public function getImageAttribute()
     {
-        return '/images/posts/'.$this->attributes['image'];
+        return '/images/posts/' . $this->attributes['image'];
     }
 
     public function categories()
@@ -47,5 +47,9 @@ class Post extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }
