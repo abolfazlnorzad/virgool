@@ -80,7 +80,7 @@ class PostController extends Controller
                 'title' => $category
             ]);
         }
-        $post->categories()->attach(
+        $post->categories()->sync(
             collect($categories)->pluck('id')->concat($select->pluck('id'))
         );
     }

@@ -52,3 +52,6 @@ Route::delete('/drafts/{draft:link}/delete', 'Draft\DraftController@destroy')
 
 
 Route::get('/posts/{post:slug}','Post\ShowPostController')->name('show-post');
+
+Route::post('/comments/{post:slug}','Comment\CommentController@store')
+->name('comment.store');

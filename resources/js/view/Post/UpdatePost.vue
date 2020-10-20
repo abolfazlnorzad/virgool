@@ -76,6 +76,7 @@
             });
             axios.get(`/api/posts/${root.$route.params.slug}/edit`)
                 .then(({data}) => {
+                    console.log(data)
                     form.value= data;
                     form.value.categories= data.cate;
 

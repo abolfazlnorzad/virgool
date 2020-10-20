@@ -20,6 +20,14 @@ class Post extends Model
     }
 
 
+    public static function booted()
+    {
+        static::saving(function ($post) {
+            $post->short_link = Str::random(7);
+        });
+
+    }
+
     public function sluggable(): array
     {
         return [
@@ -51,5 +59,16 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function parentComments()
+    {
+        return $this->comments()->whereNull('comment_id');
+    }
+
 
 }

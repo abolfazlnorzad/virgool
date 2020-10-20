@@ -76,7 +76,13 @@
                         <v-btn outlined
                                rounded
                                class="mr-3"
-                        >aaaaaaaaafio
+                               v-clipboard:copy="short_link"
+                               v-clipboard:success="onCopy"
+                               :disabled="short_link=='کپی شد !'"
+
+                        >
+                            {{short_link}}
+
                         </v-btn>
                     </div>
 
@@ -124,9 +130,29 @@
                         </v-container>
                     </div>
 
-                    <div>
+                    <div class="mt-12">
                         <p>پاسخ ها</p>
-                        <v-text-field label="نظر خود را بنویسید"></v-text-field>
+                        <template v-if="$store.state.user.isLoggedIn">
+                            <v-textarea
+                                v-model="comment.content"
+                                outlined
+                                filled
+                                label="نظر خود را بنویسید"></v-textarea>
+
+                            <div class="d-flex flex-row">
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="success"
+                                    large
+                                    rounded
+                                    @click="sendComment"
+                                >ارسال دیدگاه
+                                </v-btn>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <span>برای ارسال دیدگاه باید وارد حساب کاربری تان شوید</span>
+                        </template>
                     </div>
                 </v-col>
             </v-row>
@@ -156,18 +182,41 @@
         setup(props, {root}) {
             const post = ref({});
             const related_post = ref({});
+            const short_link = ref(null);
+            const comment = ref({
+                content: '',
+                post_id: null,
+            });
 
             axios.get(`/api/posts/${root.$route.params.slug}`)
                 .then(({data}) => {
-                    post.value = data.post,
-                        related_post.value = data.related_post
+                    post.value = data.post
+                    related_post.value = data.related_post
+                    short_link.value = `blog.test/link/${data.post.short_link}`
+                    comment.value.post_id = data.post.id
+
                 });
 
+            const onCopy = () => {
+                const link = short_link.value
+                short_link.value = 'کپی شد !'
+                setTimeout(() => {
+                    short_link.value = link
+                }, 1500)
+            }
+
+            const sendComment = () => {
+                axios.post(`/api/comments/${post.value.slug}`,comment.value);
+            }
 
             return {
                 post,
                 related_post,
-                moment
+                moment,
+                short_link,
+                onCopy,
+                comment,
+                sendComment
             }
         }
 

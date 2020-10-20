@@ -17,5 +17,6 @@ Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->na
 Route::get('/reset/password/{token}', function () {
     return view('home');
 })->name('password.reset');
+Route::get('/link/{post:short_link}','Post\ShortLinkPostController');
 
 

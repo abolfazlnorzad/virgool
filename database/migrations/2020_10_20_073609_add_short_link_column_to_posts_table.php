@@ -14,7 +14,7 @@ class AddShortLinkColumnToPostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            $table->string('short_link')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddShortLinkColumnToPostsTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            $table->dropColumn('short_link');
         });
     }
 }
