@@ -131,7 +131,7 @@
                     </div>
 
                     <div class="mt-12">
-                        <p>پاسخ ها</p>
+                        <p>دیدگاه ها</p>
                         <template v-if="$store.state.user.isLoggedIn">
                             <v-textarea
                                 v-model="comment.content"
@@ -154,15 +154,26 @@
                             <span>برای ارسال دیدگاه باید وارد حساب کاربری تان شوید</span>
                         </template>
                     </div>
+                    <post-comments
+                        v-for="comment in post.parent_comments"
+                        :key="comment.id"
+                        :data="comment"
+                    ></post-comments>
                 </v-col>
             </v-row>
         </v-container>
+        <v-snackbar v-model="errors.show"
+                    color="error"
+        >
+            {{errors.msg}}
+        </v-snackbar>
     </v-content>
 </template>
 
 <script>
     import {ref} from "@vue/composition-api";
     import moment from "moment-jalaali";
+    import PostComments from "@/components/posts/PostComments";
 
     moment.loadPersian({
         usePersianDigits: true
@@ -170,6 +181,7 @@
 
     export default {
         name: "PostShow",
+        components: {PostComments},
         metaInfo() {
             return {
                 title: this.post.title,
@@ -186,6 +198,11 @@
             const comment = ref({
                 content: '',
                 post_id: null,
+            });
+
+            const errors = ref({
+                show: false,
+                msg: '',
             });
 
             axios.get(`/api/posts/${root.$route.params.slug}`)
@@ -206,7 +223,14 @@
             }
 
             const sendComment = () => {
-                axios.post(`/api/comments/${post.value.slug}`,comment.value);
+                axios.post(`/api/comments/${post.value.slug}`, comment.value)
+                    .then(({data}) => {
+                        comment.value.content = null;
+                    })
+                    .catch(error => {
+                        errors.value.show = true;
+                        errors.value.msg = error.response.data.errors.content[0];
+                    })
             }
 
             return {
@@ -216,7 +240,8 @@
                 short_link,
                 onCopy,
                 comment,
-                sendComment
+                sendComment,
+                errors
             }
         }
 

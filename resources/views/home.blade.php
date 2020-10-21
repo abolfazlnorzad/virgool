@@ -15,6 +15,7 @@
         <script>
             window.user = {
                 name: '{{ auth('sanctum')->user()->name }}',
+                id: '{{ auth('sanctum')->user()->id }}',
                 isVerified: '{{auth('sanctum')->user()->email_verified_at==null ?1:2}}'
 
             }

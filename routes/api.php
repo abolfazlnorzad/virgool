@@ -55,3 +55,10 @@ Route::get('/posts/{post:slug}','Post\ShowPostController')->name('show-post');
 
 Route::post('/comments/{post:slug}','Comment\CommentController@store')
 ->name('comment.store');
+
+Route::post('/replies/{post:slug}','Comment\ReplyController@store')
+    ->name('reply.store');
+Route::delete('/comments/{comment}', 'Comment\CommentController@destroy')
+    ->name('destroy.comment');
+Route::patch('/comments/{comment}', 'Comment\CommentController@update')
+    ->name('update.comment');

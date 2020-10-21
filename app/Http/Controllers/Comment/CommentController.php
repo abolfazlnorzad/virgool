@@ -20,11 +20,42 @@ class CommentController extends Controller
         );
 
         event(new CommentCreatedEvent(
-           $comment->load(['user','post','replies','parent'])
+            $comment->load(['user', 'post', 'replies', 'parent'])
         ));
         return response([
             'data' => $comment
         ], 200);
 
     }
+
+
+    public function destroy(Comment $comment)
+    {
+        $this->authorize('destroy', $comment);
+
+        $comment->delete();
+
+        return response([
+            'data' => 'ok'
+        ],200);
+
+
+    }
+
+
+    public function update(Request $request, Comment $comment)
+    {
+        $this->authorize('destroy', $comment);
+
+        $request->validate(['content' => 'required']);
+
+        $comment->update($request->only('content'));
+
+        return response([
+            'data' => $comment->load(['user', 'post', 'replies', 'parent'])
+        ],200);
+
+
+    }
+
 }

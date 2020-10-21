@@ -11,7 +11,7 @@ class Comment extends Model
 
     protected $guarded = [];
 
-    protected $with = ['replies'];
+    protected $with = ['replies','user'];
 
     public static function booted()
     {
