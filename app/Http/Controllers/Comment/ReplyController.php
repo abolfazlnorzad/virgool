@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Comment;
 
+use App\Events\ReplyCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
@@ -19,6 +20,9 @@ class ReplyController extends Controller
         $post->comments()->save(
             $reply = new Comment($request->only(['content', 'comment_id']))
         );
+        event(new ReplyCreatedEvent(
+            $reply->load(['user', 'post', 'replies', 'parent'])
+        ));
 
         return response([
             'data' => $reply

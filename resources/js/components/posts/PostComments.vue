@@ -160,6 +160,15 @@
                 showUpdate.value = true
             }
 
+            Echo.channel(`virgool_reply_${cm.value.id}`)
+                .listen('.reply.created', ({reply}) => {
+                    cm.value.replies.push(reply)
+                });
+
+            Echo.channel(`virgool_reply_${props.data.id}`)
+                .listen('CommentDeletedEvent', ({comment}) => {
+                    cm.value.replies = cm.value.replies.filter(c => c.id !== comment.id);
+                })
 
             return {
                 deleteComment,

@@ -212,6 +212,16 @@
                     short_link.value = `blog.test/link/${data.post.short_link}`
                     comment.value.post_id = data.post.id
 
+                    Echo.channel(`virgool_comment_${post.value.id}`)
+                        .listen('.comment.created', ({comment}) => {
+                            post.value.parent_comments.push(comment);
+                        });
+
+                    Echo.channel(`virgool_comment_${post.value.id}`)
+                        .listen('CommentDeletedEvent', ({comment}) => {
+                            post.value.parent_comments = post.value.parent_comments.filter(c => c.id !== comment.id);
+                        })
+
                 });
 
             const onCopy = () => {
@@ -232,10 +242,7 @@
                         errors.value.msg = error.response.data.errors.content[0];
                     })
             }
-            Echo.channel('virgool_comment')
-                .listen('.comment.created', ({comment}) => {
-                    post.value.parent_comments.push(comment);
-                });
+
 
             return {
                 post,

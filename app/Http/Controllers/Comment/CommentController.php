@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Comment;
 
 use App\Events\CommentCreatedEvent;
+use App\Events\CommentDeletedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
@@ -33,11 +34,13 @@ class CommentController extends Controller
     {
         $this->authorize('destroy', $comment);
 
+        Event::dispatch(new CommentDeletedEvent($comment));
         $comment->delete();
+
 
         return response([
             'data' => 'ok'
-        ],200);
+        ], 200);
 
 
     }
@@ -53,7 +56,7 @@ class CommentController extends Controller
 
         return response([
             'data' => $comment->load(['user', 'post', 'replies', 'parent'])
-        ],200);
+        ], 200);
 
 
     }

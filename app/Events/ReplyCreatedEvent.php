@@ -11,21 +11,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentCreatedEvent implements ShouldBroadcast
+class ReplyCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $comment;
+    public $reply;
 
     /**
      * Create a new event instance.
      *
-     * @param $comment
+     * @param Comment $reply
      */
-    public function __construct(Comment $comment)
+    public function __construct(Comment $reply)
     {
 
-        $this->comment = $comment;
+        $this->reply = $reply;
     }
 
     /**
@@ -35,12 +35,12 @@ class CommentCreatedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('comment_' .$this->comment->post_id);
+        return new Channel('reply_'.$this->reply->comment_id);
     }
 
     public function broadcastAs()
     {
-        return "comment.created";
+        return "reply.created";
     }
 
 }

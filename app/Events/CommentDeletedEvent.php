@@ -7,20 +7,23 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentCreatedEvent implements ShouldBroadcast
+class CommentDeletedEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * @var Comment
+     */
     public $comment;
 
     /**
      * Create a new event instance.
      *
-     * @param $comment
+     * @param Comment $comment
      */
     public function __construct(Comment $comment)
     {
@@ -35,12 +38,11 @@ class CommentCreatedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('comment_' .$this->comment->post_id);
-    }
+        $channelName = $this->comment->comment_id
+            ? 'reply_' . $this->comment->comment_id
+            : 'comment_' . $this->comment->post_id;
 
-    public function broadcastAs()
-    {
-        return "comment.created";
-    }
 
+        return new Channel($channelName);
+    }
 }
