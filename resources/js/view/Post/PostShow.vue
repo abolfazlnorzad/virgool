@@ -232,6 +232,10 @@
                         errors.value.msg = error.response.data.errors.content[0];
                     })
             }
+            Echo.channel('virgool_comment')
+                .listen('.comment.created', ({comment}) => {
+                    post.value.parent_comments.push(comment);
+                });
 
             return {
                 post,
