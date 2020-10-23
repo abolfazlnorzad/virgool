@@ -60,16 +60,18 @@
                     </div>
 
                     <div class="d-flex flex-row mb-5">
-                        <span class="ml-5" @click="bookmark(post)" v-if="$store.state.user.isLoggedIn">
+                        <span class="ml-5" @click="bookmark(post)"
+                              v-if="$store.state.user.isLoggedIn">
                             <v-icon>
                                 {{post.is_bookmarked ? 'mdi-bookmark' : ' mdi-bookmark-outline'}}
                             </v-icon>
                         </span>
-                        <span class="ml-5">
-                            <v-icon>
-                                mdi-heart-outline
+                        <span class="ml-5" v-if="$store.state.user.isLoggedIn" @click="like">
+                            <v-icon :class="{'red--text':post.is_liked}">
+                                {{post.is_liked ? 'mdi-heart' : 'mdi-heart-outline' }}
+
                             </v-icon>
-                            0
+ {{post.likes_count}}
                         </span>
                         <span class="ml-5">
                             <v-icon>mdi-comment-outline</v-icon>
@@ -274,6 +276,7 @@
                     })
                     .catch(error => {
                         errors.value.show = true;
+
                         errors.value.msg = error.response.data.errors.content[0];
                     })
             };
@@ -284,8 +287,20 @@
                 axios[reqType](`/api/bookmarks/${postModel.slug}`);
             };
 
+            const like = () => {
+                post.value.is_liked = !post.value.is_liked;
+                let reqType = post.value.is_liked ? 'post' : 'delete';
+
+                axios[reqType](`/api/likes/${post.value.slug}`)
+                    .then(() => {
+                        post.value.is_liked ? post.value.likes_count++ : post.value.likes_count--
+                    })
+
+            }
+
 
             return {
+                like,
                 bookmark,
                 post,
                 related_post,

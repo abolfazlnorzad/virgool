@@ -11,7 +11,8 @@ class BookmarkController extends Controller
     public function store(Request $request, Post $post)
     {
         $post->bookmarks()->sync(
-            $request->user()->id
+            $request->user()->id,
+            false
         );
 
         return response([

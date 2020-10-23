@@ -12,7 +12,7 @@ class Post extends Model
     use HasFactory, Sluggable;
 
     protected $guarded = [];
-    protected $appends = ['cate','is_bookmarked'];
+    protected $appends = ['cate','is_bookmarked','is_liked'];
 
     public static function getDir()
     {
@@ -75,9 +75,19 @@ class Post extends Model
         return $this->belongsToMany(User::class, 'bookmarks');
     }
 
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'likes');
+    }
+
     public function getIsBookmarkedAttribute()
     {
         return $this->bookmarks()->where('user_id', optional(request()->user())->id)->exists();
+    }
+
+    public function getIsLikedAttribute()
+    {
+        return $this->likes()->where('user_id', optional(request()->user())->id)->exists();
     }
 
 

@@ -56,6 +56,17 @@ Route::post('/bookmarks/{post:slug}', 'Post\BookmarkController@store')
 Route::delete('/bookmarks/{post:slug}', 'Post\BookmarkController@destroy')
     ->name('bookmark.destroy')->middleware('auth:sanctum');
 
+
+
+Route::post('/likes/{post:slug}', 'Post\LikeController@store')
+    ->name('like.store')->middleware('auth:sanctum');
+
+Route::delete('/likes/{post:slug}', 'Post\LikeController@destroy')
+    ->name('like.destroy')->middleware('auth:sanctum');
+
+
+
+
 Route::get('/posts/{post:slug}', 'Post\ShowPostController')->name('show-post');
 
 Route::post('/comments/{post:slug}', 'Comment\CommentController@store')
