@@ -11,7 +11,7 @@ class ShowPostController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Post $post
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Post $post)
@@ -28,7 +28,7 @@ class ShowPostController extends Controller
 
             'post' => $post->load(['user', 'categories','parentComments'])
             ->loadCount('comments','likes'),
-
+             $post->user->append('is_follows'),
             'related_post' => $related_post
 
         ], 200);

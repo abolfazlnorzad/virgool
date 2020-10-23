@@ -14,12 +14,16 @@
                         <v-list-item-content>
                             <v-list-item-title class="font-weight-bold">
                                 {{post.user.name}}
-                                <v-btn color="grey"
-                                       rounded
-                                       dark
-                                       small
-                                       class="darken-2 px-5 mr-3 mb-3"
-                                >دنبال کنید
+                                <v-btn
+                                    v-if="post.user.id!=$store.state.user.user.id"
+                                    :color="post.user.is_follows ? 'info':'grey'"
+                                    rounded
+                                    dark
+                                    small
+                                    class="darken-2 px-5 mr-3 mb-3"
+                                    @click="follow"
+                                >
+                                    {{post.user.is_follows ? ' دنبال میکنید' : ' دنبال کنید'}}
                                 </v-btn>
                             </v-list-item-title>
                             <v-list-item-subtitle class="body-2 grey--text">
@@ -296,10 +300,18 @@
                         post.value.is_liked ? post.value.likes_count++ : post.value.likes_count--
                     })
 
-            }
+            };
+
+            const follow = () => {
+                axios.post(`/api/follows/${post.value.user.username}`)
+                    .then(() => {
+                        post.value.user.is_follows = !post.value.user.is_follows
+                    })
+            };
 
 
             return {
+                follow,
                 like,
                 bookmark,
                 post,

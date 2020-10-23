@@ -65,6 +65,9 @@ Route::delete('/likes/{post:slug}', 'Post\LikeController@destroy')
     ->name('like.destroy')->middleware('auth:sanctum');
 
 
+Route::post('/follows/{user:username}', 'User\FollowController')
+    ->name('follow')->middleware('auth:sanctum');
+
 
 
 Route::get('/posts/{post:slug}', 'Post\ShowPostController')->name('show-post');
