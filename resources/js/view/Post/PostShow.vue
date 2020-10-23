@@ -1,4 +1,4 @@
-<template>
+<template >
     <v-content v-if="post.user">
         <v-container>
             <v-row class="d-flex justify-center">
@@ -15,16 +15,15 @@
                             <v-list-item-title class="font-weight-bold">
                                 {{post.user.name}}
                                 <v-btn
-                                    v-if="post.user.id!=$store.state.user.user.id"
-                                    :color="post.user.is_follows ? 'info':'grey'"
+                                    :color="post.user.is_follows ? 'info' : 'grey'"
                                     rounded
                                     dark
                                     small
                                     class="darken-2 px-5 mr-3 mb-3"
+                                    v-if="$store.state.user.isLoggedIn && post.user.id !== $store.state.user.user.id"
                                     @click="follow"
                                 >
-                                    {{post.user.is_follows ? ' دنبال میکنید' : ' دنبال کنید'}}
-                                </v-btn>
+                                    {{ post.user.is_follows ? 'دنبال میکنید' : 'دنبال کنید' }}                                </v-btn>
                             </v-list-item-title>
                             <v-list-item-subtitle class="body-2 grey--text">
                                 {{post.user.bio}}
@@ -305,7 +304,7 @@
             const follow = () => {
                 axios.post(`/api/follows/${post.value.user.username}`)
                     .then(() => {
-                        post.value.user.is_follows = !post.value.user.is_follows
+                        post.value.user.is_follows = ! post.value.user.is_follows
                     })
             };
 

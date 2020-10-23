@@ -6,6 +6,7 @@ use App\Events\ReplyCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Notifications\CmReplyNotification;
 use Illuminate\Http\Request;
 
 class ReplyController extends Controller
@@ -24,9 +25,15 @@ class ReplyController extends Controller
             $reply->load(['user', 'post', 'replies', 'parent'])
         ));
 
+        $post->user->notify(new CmReplyNotification($post));
+
+        Comment::find($request->comment_id)->user->notify(
+            new CmReplyNotification($post)
+        );
+
         return response([
             'data' => $reply
-        ],200);
+        ], 200);
 
     }
 }

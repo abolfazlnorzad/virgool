@@ -21,16 +21,15 @@ class ShowPostController extends Controller
             ->where('id', '!=', $post->id)
             ->whereHas('categories', function ($query) use ($post) {
                 $query->whereIn('categories.id', $post->categories->pluck('id'));
-
             })->inRandomOrder()->take(3)->get();
 
+        $post->load(['user', 'categories', 'parentComments'])
+            ->loadCount(['comments', 'likes'])
+            ->append('is_liked');
+        $post->user->append('is_follows');
         return response([
-
-            'post' => $post->load(['user', 'categories','parentComments'])
-            ->loadCount('comments','likes'),
-             $post->user->append('is_follows'),
+            'post' => $post,
             'related_post' => $related_post
-
         ], 200);
     }
 }

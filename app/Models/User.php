@@ -11,16 +11,14 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
+    protected $guarded = [];
+
     protected $appends = [
-        'profile_src'
+        'profile_src',
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
+
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -69,7 +67,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getIsFollowsAttribute()
     {
-        return $this->followers()->where('following_id',optional(request()->user())->id)->exists();
+        return $this->followers()->where('user_id',optional(request()->user())->id)->exists();
     }
 
 }
