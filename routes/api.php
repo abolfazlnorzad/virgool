@@ -27,9 +27,9 @@ Route::get('/drafts/{draft}', 'Draft\DraftController@show')
     ->name('draft.show')
     ->middleware('auth:sanctum');
 
-Route::post('/post','Post\PostController@store')->middleware('auth:sanctum');
-Route::get('/posts/all-posts','Post\AllUserPostsController')->middleware('auth:sanctum');
-Route::get('/posts/all-drafts','Post\AllUserDraftsController')->middleware('auth:sanctum');
+Route::post('/post', 'Post\PostController@store')->middleware('auth:sanctum');
+Route::get('/posts/all-posts', 'Post\AllUserPostsController')->middleware('auth:sanctum');
+Route::get('/posts/all-drafts', 'Post\AllUserDraftsController')->middleware('auth:sanctum');
 Route::get('/posts/{post:slug}/edit', 'Post\PostController@show')
     ->name('show.post')
     ->middleware('auth:sanctum');
@@ -50,13 +50,18 @@ Route::delete('/drafts/{draft:link}/delete', 'Draft\DraftController@destroy')
     ->name('destroy.draft')
     ->middleware('auth:sanctum');
 
+Route::post('/bookmarks/{post:slug}', 'Post\BookmarkController@store')
+    ->name('bookmark.store')->middleware('auth:sanctum');
 
-Route::get('/posts/{post:slug}','Post\ShowPostController')->name('show-post');
+Route::delete('/bookmarks/{post:slug}', 'Post\BookmarkController@destroy')
+    ->name('bookmark.destroy')->middleware('auth:sanctum');
 
-Route::post('/comments/{post:slug}','Comment\CommentController@store')
-->name('comment.store');
+Route::get('/posts/{post:slug}', 'Post\ShowPostController')->name('show-post');
 
-Route::post('/replies/{post:slug}','Comment\ReplyController@store')
+Route::post('/comments/{post:slug}', 'Comment\CommentController@store')
+    ->name('comment.store');
+
+Route::post('/replies/{post:slug}', 'Comment\ReplyController@store')
     ->name('reply.store');
 Route::delete('/comments/{comment}', 'Comment\CommentController@destroy')
     ->name('destroy.comment');

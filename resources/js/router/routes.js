@@ -81,6 +81,11 @@ export default [
                    verified: true
                 }
             },
+            {
+                path: '@:username',
+                component: require('@/view/User/UserPosts').default,
+                name: 'user-posts',
+            },
         ]
     },
     {

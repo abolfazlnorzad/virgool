@@ -26,7 +26,8 @@ class ShowPostController extends Controller
 
         return response([
 
-            'post' => $post->load(['user', 'categories','parentComments']),
+            'post' => $post->load(['user', 'categories','parentComments'])
+            ->loadCount('comments'),
 
             'related_post' => $related_post
 

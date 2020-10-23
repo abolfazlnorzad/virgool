@@ -60,16 +60,20 @@
                     </div>
 
                     <div class="d-flex flex-row mb-5">
-                        <span class="ml-5">
-                            <v-icon>mdi-bookmark-outline</v-icon>
+                        <span class="ml-5" @click="bookmark(post)" v-if="$store.state.user.isLoggedIn">
+                            <v-icon>
+                                {{post.is_bookmarked ? 'mdi-bookmark' : ' mdi-bookmark-outline'}}
+                            </v-icon>
                         </span>
                         <span class="ml-5">
-                            <v-icon>mdi-heart-outline</v-icon>
+                            <v-icon>
+                                mdi-heart-outline
+                            </v-icon>
                             0
                         </span>
                         <span class="ml-5">
                             <v-icon>mdi-comment-outline</v-icon>
-                            2
+                           {{post.comments_count}}
                         </span>
                         <v-spacer></v-spacer>
                         <v-icon>mdi-telegram</v-icon>
@@ -92,37 +96,57 @@
                         <p class="body-2 font-weight-bold">شاید از این نوشته‌ها هم خوشتان بیاید</p>
                         <v-container fluid>
                             <v-row>
-                                <v-col cols="12" md="4" v-for="post in related_post">
+                                <v-col cols="12" md="4" v-for="related in related_post">
                                     <v-card>
-                                        <v-img
-                                            :src="post.image"
-                                        ></v-img>
+                                        <router-link
+                                            :to="{name:'post-show',params:{slug:related.slug}}"
+                                        >
+                                            <v-img
+                                                :src="related.image"
+                                            ></v-img>
+                                        </router-link>
                                         <v-card-title>
-                                            {{post.title}}
+                                            <router-link
+                                                :to="{name:'post-show',params:{slug:related.slug}}"
+                                            >
+                                                {{related.title}}
+                                            </router-link>
                                         </v-card-title>
 
                                         <v-card-actions>
                                             <v-list-item>
                                                 <v-list-item-avatar>
                                                     <v-avatar>
-                                                        <v-img
-                                                            :src="post.user.profile_src"
-                                                        ></v-img>
+                                                        <router-link
+                                                            :to="{name:'user-posts',params:{username:related.user.username}}"
+                                                        >
+                                                            <v-img
+                                                                :src="related.user.profile_src"
+                                                            ></v-img>
+                                                        </router-link>
                                                     </v-avatar>
                                                 </v-list-item-avatar>
                                                 <v-list-item-content>
                                                     <v-list-item-title class="body-2 font-weight-bold">
-                                                        {{post.user.name}}
+                                                        <router-link
+                                                            :to="{name:'user-posts',params:{username:related.user.username}}"
+                                                        >
+                                                            {{related.user.name}}
+                                                        </router-link>
                                                     </v-list-item-title>
                                                     <v-list-item-subtitle class="caption grey--text">
-                                                        ‌‌‌‌خواندن
+                                                        {{related.min_read}}
                                                     </v-list-item-subtitle>
                                                 </v-list-item-content>
                                             </v-list-item>
 
                                             <v-spacer></v-spacer>
-
-                                            <v-icon>mdi-bookmark-outline</v-icon>
+                                            <span class="ml-5" @click="bookmark(related)"
+                                                  v-if="$store.state.user.isLoggedIn">
+                            <v-icon>
+                                {{related.is_bookmarked ? 'mdi-bookmark' : ' mdi-bookmark-outline'}}
+                            </v-icon>
+                        </span>
                                         </v-card-actions>
                                     </v-card>
                                 </v-col>
@@ -174,6 +198,7 @@
     import {ref} from "@vue/composition-api";
     import moment from "moment-jalaali";
     import PostComments from "@/components/posts/PostComments";
+    import EventBus from '@/Service/EventBus';
 
     moment.loadPersian({
         usePersianDigits: true
@@ -215,14 +240,24 @@
                     Echo.channel(`virgool_comment_${post.value.id}`)
                         .listen('.comment.created', ({comment}) => {
                             post.value.parent_comments.push(comment);
+                            EventBus.$emit('comment_created');
                         });
 
                     Echo.channel(`virgool_comment_${post.value.id}`)
                         .listen('CommentDeletedEvent', ({comment}) => {
                             post.value.parent_comments = post.value.parent_comments.filter(c => c.id !== comment.id);
+                            EventBus.$emit('comment_deleted');
                         })
 
                 });
+
+            EventBus.$on('comment_created', () => {
+                post.value.comments_count++;
+            });
+
+            EventBus.$on('comment_deleted', () => {
+                post.value.comments_count--;
+            });
 
             const onCopy = () => {
                 const link = short_link.value
@@ -241,10 +276,17 @@
                         errors.value.show = true;
                         errors.value.msg = error.response.data.errors.content[0];
                     })
-            }
+            };
+
+            const bookmark = (postModel) => {
+                postModel.is_bookmarked = !postModel.is_bookmarked
+                let reqType = postModel.is_bookmarked ? 'post' : 'delete';
+                axios[reqType](`/api/bookmarks/${postModel.slug}`);
+            };
 
 
             return {
+                bookmark,
                 post,
                 related_post,
                 moment,

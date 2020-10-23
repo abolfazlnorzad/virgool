@@ -90,6 +90,8 @@
 <script>
     import moment from 'moment-jalaali';
     import {ref, computed} from "@vue/composition-api";
+    import EventBus from '@/Service/EventBus';
+
 
     export default {
         name: "PostComments",
@@ -163,11 +165,15 @@
             Echo.channel(`virgool_reply_${cm.value.id}`)
                 .listen('.reply.created', ({reply}) => {
                     cm.value.replies.push(reply)
+                    EventBus.$emit('comment_created')
+
                 });
 
             Echo.channel(`virgool_reply_${props.data.id}`)
                 .listen('CommentDeletedEvent', ({comment}) => {
                     cm.value.replies = cm.value.replies.filter(c => c.id !== comment.id);
+                    EventBus.$emit('comment_deleted');
+
                 })
 
             return {

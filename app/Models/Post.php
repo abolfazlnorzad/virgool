@@ -12,7 +12,7 @@ class Post extends Model
     use HasFactory, Sluggable;
 
     protected $guarded = [];
-    protected $appends = ['cate',];
+    protected $appends = ['cate','is_bookmarked'];
 
     public static function getDir()
     {
@@ -68,6 +68,16 @@ class Post extends Model
     public function parentComments()
     {
         return $this->comments()->whereNull('comment_id');
+    }
+
+    public function bookmarks()
+    {
+        return $this->belongsToMany(User::class, 'bookmarks');
+    }
+
+    public function getIsBookmarkedAttribute()
+    {
+        return $this->bookmarks()->where('user_id', optional(request()->user())->id)->exists();
     }
 
 
