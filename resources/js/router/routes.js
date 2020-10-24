@@ -66,6 +66,12 @@ export default [
                 }
             },
 
+            {
+              path:'posts/category/:slug',
+              component:require('@/view/Post/PostCategory').default,
+                name:'post-category',
+            },
+
 
             {
                 path: 'post/:slug',

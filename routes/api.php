@@ -85,3 +85,8 @@ Route::get('/notifications', 'User\NotificationController@index')->middleware('a
 
 Route::patch('/notifications/{notification}', 'User\NotificationController@read')->middleware('auth:sanctum')
     ->name('notifications.read');
+
+
+Route::get('/posts/category/{category:slug}','Post\PostCategoryController@index');
+
+
