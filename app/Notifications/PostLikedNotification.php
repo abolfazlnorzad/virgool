@@ -36,7 +36,7 @@ class PostLikedNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return !!$notifiable->email_on_like ? ['mail'] : [];
+        return !!$notifiable->email_on_like ? ['mail','database'] : ['database'];
     }
 
     /**
@@ -62,7 +62,8 @@ class PostLikedNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'text' =>"پست {$this->post->title} لایک شد",
+            'link' => "/post/{$this->post->slug}",
         ];
     }
 }

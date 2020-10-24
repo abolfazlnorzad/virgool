@@ -36,7 +36,7 @@ class CmReplyNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return !!$notifiable->email_on_reply ? ['mail'] : [];
+        return !!$notifiable->email_on_reply ? ['mail','database'] : ['database'];
     }
 
     /**
@@ -63,7 +63,8 @@ class CmReplyNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'text'=> "یک پاسخ جدید در پست زیر برایتان ارسال شد",
+            'link'=>"/post/{$this->post->slug}",
         ];
     }
 }

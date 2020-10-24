@@ -57,7 +57,6 @@ Route::delete('/bookmarks/{post:slug}', 'Post\BookmarkController@destroy')
     ->name('bookmark.destroy')->middleware('auth:sanctum');
 
 
-
 Route::post('/likes/{post:slug}', 'Post\LikeController@store')
     ->name('like.store')->middleware('auth:sanctum');
 
@@ -67,7 +66,6 @@ Route::delete('/likes/{post:slug}', 'Post\LikeController@destroy')
 
 Route::post('/follows/{user:username}', 'User\FollowController')
     ->name('follow')->middleware('auth:sanctum');
-
 
 
 Route::get('/posts/{post:slug}', 'Post\ShowPostController')->name('show-post');
@@ -81,3 +79,9 @@ Route::delete('/comments/{comment}', 'Comment\CommentController@destroy')
     ->name('destroy.comment');
 Route::patch('/comments/{comment}', 'Comment\CommentController@update')
     ->name('update.comment');
+
+Route::get('/notifications', 'User\NotificationController@index')->middleware('auth:sanctum')
+    ->name('notifications');
+
+Route::patch('/notifications/{notification}', 'User\NotificationController@read')->middleware('auth:sanctum')
+    ->name('notifications.read');

@@ -36,7 +36,7 @@ class UserFollowNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return !!$notifiable->email_on_follow ? ['mail'] : [];
+        return !!$notifiable->email_on_follow ? ['mail','database'] : ['database'];
     }
 
     /**
@@ -62,7 +62,8 @@ class UserFollowNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'text' =>"کاربر {$this->user->name} شما را به تازگی دنبال کرده است",
+            'link' => "/@{$this->user->username}",
         ];
     }
 }
