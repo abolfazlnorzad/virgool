@@ -11,7 +11,7 @@ class PostCategoryController extends Controller
 
     public function index(Category $category)
     {
-        $posts =$category->posts()->with(['user','categories'])->withCount('likes')->simplePaginate();
+        $posts =$category->posts()->with(['user','categories'])->withCount('likes')->simplePaginate(7);
         return response([
             'posts'=> $posts,
             'category'=>$category->loadCount('posts')

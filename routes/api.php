@@ -87,6 +87,9 @@ Route::patch('/notifications/{notification}', 'User\NotificationController@read'
     ->name('notifications.read');
 
 
-Route::get('/posts/category/{category:slug}','Post\PostCategoryController@index');
+Route::get('/posts/category/{category:slug}', 'Post\PostCategoryController@index');
 
 
+Route::get('category-navbar', 'Category\NavbarCategoryController@index');
+
+Route::get('user-posts/{user:username}','User\UserPostController@index');

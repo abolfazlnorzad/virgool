@@ -52,11 +52,14 @@
                         <v-btn depressed
                                v-for="cate in post.categories"
                                :key="cate.slug"
-
                                class="mr-5 "
                         >
 
-                            {{cate.title}}
+                           <router-link
+                           :to="{name:'post-category',params:{slug:cate.slug}}"
+                           >
+                               {{cate.title}}
+                           </router-link>
 
                         </v-btn>
 

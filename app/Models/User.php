@@ -15,6 +15,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = [
         'profile_src',
+        'is_follows'
     ];
 
 

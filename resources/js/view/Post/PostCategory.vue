@@ -21,6 +21,12 @@
                               :key="post.id"
                               class="mt-10"
                     ></new-post>
+                    <v-btn class="mt-12 mx-auto"
+                           v-if="!!posts.next_page_url"
+                           @click="fetchNextPost"
+                    >
+                        بارگذاری مطالب بیشتر
+                    </v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -28,7 +34,8 @@
 </template>
 
 <script>
-  import NewPost from "../../components/posts/NewPost";
+    import NewPost from "../../components/posts/NewPost";
+    import {ref} from "@vue/composition-api";
 
 
     export default {
@@ -37,26 +44,39 @@
             NewPost
         },
 
-        metaInfo(){
-          return{
-              title:this.category.title
-          }
-        },
-
-        data() {
+        metaInfo() {
             return {
-                posts: {},
-                category: {},
+                title: this.category.title
             }
         },
 
-        created() {
-            axios.get(`/api/posts/category/${this.$route.params.slug}`)
-                .then(({ data }) => {
-                    this.posts = data.posts;
-                    this.category = data.category;
-                })
-        }
+        setup(props, {root}) {
+            const posts = ref({});
+            const category = ref({});
+            axios.get(`/api/posts/category/${root.$route.params.slug}`)
+                .then(({data}) => {
+                    posts.value = data.posts;
+                    category.value = data.category;
+                });
+
+            const fetchNextPost=()=>{
+                axios.get(posts.value.next_page_url)
+                    .then(({data}) => {
+                        posts.value.data.push(...data.posts.data);
+                        posts.value.next_page_url = data.posts.next_page_url;
+                    })
+            }
+
+            return {
+                posts,
+                category,
+                fetchNextPost
+            }
+        },
+
+
+
+
     }
 </script>
 

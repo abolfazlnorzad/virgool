@@ -78,7 +78,7 @@
                                         </v-btn>
                                         <v-btn
                                             @click="$emit('notif')"
-                                        text
+                                            text
                                         >
                                             <v-icon>
                                                 mdi-bell
@@ -100,7 +100,7 @@
                                         <v-list-item class="body-2"
                                         >
                                             <router-link :to="{name:'my-posts'}">
-                                         نوشته های من
+                                                نوشته های من
 
                                             </router-link>
                                         </v-list-item>
@@ -128,16 +128,21 @@
                     <v-container class="py-0">
                         <v-row>
                             <v-col cols="12" class="py-1">
-                                <v-hover v-for="item in items"
-                                         :key="item.text"
+                                <v-hover v-for="category in categories"
+                                         :key="category.id"
                                          v-slot:default="{ hover }"
                                 >
-                                    <span class="body-2 pl-3"
+                                    <router-link class="body-2 pl-3"
+                                                 :to="{name:'post-category',params:{slug:category.slug}}"
 
-                                          :class="item.class + ' ' + (hover || item.class === 'white--text' ? 'white--text' : 'blue--text')"
-                                    >
-                                        {{ item.text }}
-                                    </span>
+                                                 :class="hover ? 'white--text' : 'blue--text text--lighten-4'"
+
+>
+
+
+                                            {{ category.title }}
+
+                                    </router-link>
                                 </v-hover>
                             </v-col>
                         </v-row>
@@ -158,50 +163,7 @@
         data() {
             return {
                 search: false,
-                items: [
-
-
-                    {
-                        text: 'جدیدترین پست‌ها',
-                        class: 'white--text'
-                    },
-                    {
-                        text: 'پست‌های دوستان',
-                        class: 'white--text'
-                    },
-                    {
-                        text: 'استارتاپ',
-                        class: 'text--lighten-4'
-                    },
-                    {
-                        text: 'دلنوشته',
-                        class: 'text--lighten-4'
-                    },
-                    {
-                        text: 'زندگی',
-                        class: 'text--lighten-4'
-                    },
-                    {
-                        text: 'کتاب',
-                        class: 'text--lighten-4'
-                    },
-                    {
-                        text: 'برنامه نویسی',
-                        class: 'text--lighten-4'
-                    },
-                    {
-                        text: 'روانشناسی',
-                        class: 'text--lighten-4'
-                    },
-                    {
-                        text: 'حال خوبتو',
-                        class: 'text--lighten-4'
-                    },
-                    {
-                        text: 'با من تقسیم کن',
-                        class: 'text--lighten-4'
-                    },
-                ]
+                categories: []
             }
         },
 
@@ -214,6 +176,14 @@
             isDark() {
                 return this.$vuetify.theme.dark;
             }
+        },
+
+
+        created() {
+            axios.get('/api/category-navbar')
+                .then(({data}) => {
+                    this.categories = data.data;
+                });
         },
 
         methods: {

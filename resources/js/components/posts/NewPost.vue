@@ -14,7 +14,8 @@
                             {{ post.title }}
                         </router-link>
                     </v-list-item-title>
-                    <v-list-item-subtitle>{{ moment(post.created_at).fromNow() }} - خواندن {{ post.min_read }} دقیقه</v-list-item-subtitle>
+                    <v-list-item-subtitle>{{ moment(post.created_at).fromNow() }} - خواندن {{ post.min_read }} دقیقه
+                    </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
             <v-spacer></v-spacer>
@@ -47,13 +48,15 @@
             <v-spacer></v-spacer>
             <v-icon @click="bookmarkPost"
                     v-if="$store.state.user.isLoggedIn"
-            >{{ post.is_bookmarked ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}</v-icon>
+            >{{ post.is_bookmarked ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
+            </v-icon>
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
     import moment from 'moment-jalaali';
+    import {ref} from "@vue/composition-api";
 
     moment.loadPersian({
         usePersianDigits: true
@@ -69,28 +72,33 @@
             }
         },
 
-        data() {
+        setup(props, {root}) {
+
+            const post = ref(props.data);
+
+            const likePost=()=>{
+                post.value.is_liked = !post.value.is_liked;
+                let reqType = post.value.is_liked ? 'post' : 'delete';
+                axios[reqType](`/api/likes/${post.value.slug}`)
+                    .then(() => {
+                        post.value.is_liked ? post.value.likes_count++ : post.value.likes_count--;
+                    })
+            }
+            const bookmarkPost=()=>{
+                post.value.is_bookmarked = !post.value.is_bookmarked;
+                let reqType = post.value.is_bookmarked ? 'post' : 'delete';
+                axios[reqType](`/api/bookmarks/${post.value.slug}`);
+            }
+
             return {
                 moment,
-                post: this.data
+                post,
+                likePost,
+                bookmarkPost
+
             }
         },
 
-        methods: {
-            likePost() {
-                this.post.is_liked = !this.post.is_liked;
-                let reqType = this.post.is_liked ? 'post' : 'delete';
-                axios[reqType](`/api/likes/${this.post.slug}`)
-                    .then(() => {
-                        this.post.is_liked ? this.post.likes_count++ : this.post.likes_count--;
-                    })
-            },
-            bookmarkPost() {
-                this.post.is_bookmarked = !this.post.is_bookmarked;
-                let reqType = this.post.is_bookmarked ? 'post' : 'delete';
-                axios[reqType](`/api/bookmarks/${this.post.slug}`);
-            }
-        }
     }
 </script>
 
