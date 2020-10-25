@@ -95,3 +95,5 @@ Route::get('category-navbar', 'Category\NavbarCategoryController@index');
 Route::get('user-posts/{user:username}','User\UserPostController@index');
 Route::get('liked-posts','User\LikedPostController@index');
 Route::get('bookmarked-posts','User\BookmarkedPostController@index');
+Route::get('home','HomePostController@index');
+Route::get('following-posts','Post\FollowingPostController@index')->middleware('auth:sanctum');

@@ -1,6 +1,5 @@
 <template>
-    <v-banner sticky
-    >
+
         <v-list>
             <v-subheader class="subtitle font-weight-bold">محبوب‌ترین‌های وب اموز </v-subheader>
             <v-list-item-group>
@@ -22,7 +21,6 @@
                 </v-list-item>
             </v-list-item-group>
         </v-list>
-    </v-banner>
 </template>
 
 <script>

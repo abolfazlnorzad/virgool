@@ -72,10 +72,6 @@
                             <template v-else>
                                 <v-menu offset-y>
                                     <template v-slot:activator="{ on }">
-
-                                        <v-btn v-on="on">
-                                            <v-icon>mdi-account</v-icon>
-                                        </v-btn>
                                         <v-btn
                                             @click="$emit('notif')"
                                             text
@@ -84,6 +80,15 @@
                                                 mdi-bell
                                             </v-icon>
                                         </v-btn>
+                                        <v-btn v-on="on"
+                                               fab
+                                        >
+                                            <v-avatar size="55px">
+                                                <v-img :src="$store.state.user.user.profile_src"></v-img>
+
+                                            </v-avatar>
+                                        </v-btn>
+
                                     </template>
                                     <v-list width="250px">
                                         <v-list-item class="body-2"
