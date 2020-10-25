@@ -6,7 +6,7 @@
         @input="change"
     >
         <v-list>
-            <v-list-item v-for="item in items" :key="item.id">
+            <v-list-item v-for="item in $store.state.notification.notifications" :key="item.id">
                 <v-list-item-content>
                     <a
                         :href="item.data.link"
@@ -40,17 +40,9 @@
             }
         },
 
-        data() {
-            return {
-                items: []
-            }
-        },
 
         created() {
-            axios.get('/api/notifications')
-                .then(({data}) => {
-                    this.items = data.data;
-                })
+            this.$store.dispatch('notification/getnotifications');
         }
 
 

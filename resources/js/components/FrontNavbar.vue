@@ -105,6 +105,24 @@
                                             </router-link>
                                         </v-list-item>
 
+                                        <v-list-item class="body-2"
+                                        >
+                                            <router-link :to="{name:'liked-posts'}">
+                                                نوشته های مورد علاقه من
+
+                                            </router-link>
+                                        </v-list-item>
+
+
+                                        <v-list-item class="body-2"
+                                        >
+                                            <router-link :to="{name:'bookmarked-posts'}">
+                                                نوشته های ذخیره شده ی من
+
+                                            </router-link>
+                                        </v-list-item>
+
+
                                         <v-list-item @click.prevent="logout"
                                                      class="body-2"
                                         >
@@ -128,7 +146,7 @@
                     <v-container class="py-0">
                         <v-row>
                             <v-col cols="12" class="py-1">
-                                <v-hover v-for="category in categories"
+                                <v-hover v-for="category in $store.state.category.categories"
                                          :key="category.id"
                                          v-slot:default="{ hover }"
                                 >
@@ -137,10 +155,10 @@
 
                                                  :class="hover ? 'white--text' : 'blue--text text--lighten-4'"
 
->
+                                    >
 
 
-                                            {{ category.title }}
+                                        {{ category.title }}
 
                                     </router-link>
                                 </v-hover>
@@ -163,7 +181,6 @@
         data() {
             return {
                 search: false,
-                categories: []
             }
         },
 
@@ -180,10 +197,9 @@
 
 
         created() {
-            axios.get('/api/category-navbar')
-                .then(({data}) => {
-                    this.categories = data.data;
-                });
+
+            this.$store.dispatch('category/getNavCate');
+
         },
 
         methods: {

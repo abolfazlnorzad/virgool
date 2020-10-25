@@ -19,8 +19,6 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -68,7 +66,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getIsFollowsAttribute()
     {
-        return $this->followers()->where('user_id',optional(request()->user())->id)->exists();
+        return $this->followers()->where('user_id', optional(request()->user())->id)->exists();
     }
+
+    public function bookmarks()
+    {
+        return $this->belongsToMany(Post::class,'bookmarks');
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(Post::class, 'likes');
+    }
+
 
 }

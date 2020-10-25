@@ -12,16 +12,16 @@ export default [
                 path: 'posts/draft',
                 component: require('@/view/Post/MyPosts').default,
                 name: 'my-posts',
-                meta:{
-                    auth:true
+                meta: {
+                    auth: true
                 }
             },
             {
                 path: 'posts/create',
                 component: require('@/view/Post/Create').default,
                 name: 'create-posts',
-                meta:{
-                    auth:true,
+                meta: {
+                    auth: true,
                     verified: true
                 }
             },
@@ -29,8 +29,8 @@ export default [
                 path: 'posts/:slug/edit',
                 component: require('@/view/Post/Edit').default,
                 name: 'edit-posts',
-                meta:{
-                    auth:true,
+                meta: {
+                    auth: true,
                     verified: true
                 }
             },
@@ -39,8 +39,8 @@ export default [
                 path: 'drafts/:link',
                 component: require('@/view/Post/Create').default,
                 name: 'update-draft',
-                meta:{
-                    auth:true,
+                meta: {
+                    auth: true,
                     verified: true
                 }
             },
@@ -50,8 +50,8 @@ export default [
                 path: 'drafts/:link/save',
                 component: require('@/view/Post/SavePost').default,
                 name: 'save-post',
-                meta:{
-                    auth:true,
+                meta: {
+                    auth: true,
                     verified: true
                 }
             },
@@ -60,16 +60,16 @@ export default [
                 path: 'posts/:slug/update',
                 component: require('@/view/Post/UpdatePost').default,
                 name: 'update-post',
-                meta:{
-                    auth:true,
+                meta: {
+                    auth: true,
                     verified: true
                 }
             },
 
             {
-              path:'posts/category/:slug',
-              component:require('@/view/Post/PostCategory').default,
-                name:'post-category',
+                path: 'posts/category/:slug',
+                component: require('@/view/Post/PostCategory').default,
+                name: 'post-category',
             },
 
 
@@ -84,13 +84,31 @@ export default [
                 name: 'profile',
                 meta: {
                     auth: true,
-                   verified: true
+                    verified: true
                 }
             },
             {
                 path: '@:username',
                 component: require('@/view/User/UserPosts').default,
                 name: 'user-posts',
+            },
+            {
+                path: 'liked-posts',
+                component: require('@/view/User/UserLikedPost').default,
+                name: 'liked-posts',
+                meta: {
+                    auth: true,
+                    verified: true,
+                }
+            },
+            {
+                path: 'bookmarked-posts',
+                component: require('@/view/User/UserBookmarkedPost').default,
+                name: 'bookmarked-posts',
+                meta: {
+                    auth: true,
+                    verified: true,
+                }
             },
         ]
     },

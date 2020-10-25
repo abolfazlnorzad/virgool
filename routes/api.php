@@ -93,3 +93,5 @@ Route::get('/posts/category/{category:slug}', 'Post\PostCategoryController@index
 Route::get('category-navbar', 'Category\NavbarCategoryController@index');
 
 Route::get('user-posts/{user:username}','User\UserPostController@index');
+Route::get('liked-posts','User\LikedPostController@index');
+Route::get('bookmarked-posts','User\BookmarkedPostController@index');
