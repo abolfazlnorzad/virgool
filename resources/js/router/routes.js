@@ -101,6 +101,14 @@ export default [
                     verified: true,
                 }
             },
+
+            {
+                path: 'search/:type',
+                component: require('@/view/Search/Index').default,
+                name:'search'
+            },
+
+
             {
                 path: 'bookmarked-posts',
                 component: require('@/view/User/UserBookmarkedPost').default,

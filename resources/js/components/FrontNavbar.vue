@@ -44,7 +44,9 @@
                                 </template>
                                 <v-list class="d-flex flex-row align-center">
                                     <v-text-field class="mr-10"
+                                                  v-model="form"
                                                   placeholder="در بین مقالات، نویسندگان و… جستجو کنید"
+                                                  @keyup.enter="pushToSearch"
                                     ></v-text-field>
                                     <v-btn class="ml-10 title"
                                            text
@@ -186,6 +188,8 @@
         data() {
             return {
                 search: false,
+                form:null,
+
             }
         },
 
@@ -208,6 +212,14 @@
         },
 
         methods: {
+            pushToSearch(){
+                this.$router.push({
+                    name: 'search',
+                    params: {type: 'posts'},
+                    query:{q:this.form}
+                })
+            },
+
             logout() {
                 this.$store.dispatch('user/logout')
                     .then(() => {

@@ -98,3 +98,6 @@ Route::get('bookmarked-posts','User\BookmarkedPostController@index');
 Route::get('home','HomePostController@index');
 Route::get('following-posts','Post\FollowingPostController@index')->middleware('auth:sanctum');
 Route::get('trending-posts','Post\TrendingPostController@index');
+Route::get('/search/posts', 'Search\SearchPostController@index');
+Route::get('/search/users', 'Search\SearchUserController@index');
+Route::get('/search/categories', 'Search\SearchCategoryController@index');
