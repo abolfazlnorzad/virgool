@@ -97,3 +97,4 @@ Route::get('liked-posts','User\LikedPostController@index');
 Route::get('bookmarked-posts','User\BookmarkedPostController@index');
 Route::get('home','HomePostController@index');
 Route::get('following-posts','Post\FollowingPostController@index')->middleware('auth:sanctum');
+Route::get('trending-posts','Post\TrendingPostController@index');

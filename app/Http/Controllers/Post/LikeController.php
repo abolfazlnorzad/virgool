@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Notifications\PostLikedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class LikeController extends Controller
 {
@@ -20,6 +21,13 @@ class LikeController extends Controller
             new PostLikedNotification($post)
         );
 
+        Redis::zincrby('trending-posts', 5, json_encode([
+            'title' => $post->title,
+            'slug' => $post->slug,
+            'user_name' => $post->user->name,
+            'profile_src' => $post->user->profile_src,
+        ]));
+
         return response(['data' => 'ok'], 200);
     }
 
@@ -28,6 +36,12 @@ class LikeController extends Controller
         $post->likes()->detach(
             $request->user()->id
         );
+        Redis::zincrby('trending-posts', -5, json_encode([
+            'title' => $post->title,
+            'slug' => $post->slug,
+            'user_name' => $post->user->name,
+            'profile_src' => $post->user->profile_src,
+        ]));
 
         return response(['data' => 'ok'], 200);
     }
