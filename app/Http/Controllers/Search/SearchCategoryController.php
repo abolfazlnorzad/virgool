@@ -11,7 +11,7 @@ class SearchCategoryController extends Controller
     public function index(Request $request)
     {
         return response([
-            'categories' => Category::where('title', 'LIKE', "%{$request->q}%")->simplePaginate(10)
+            'categories' => Category::where('title', 'LIKE', "%{$request->q}%")->get()
         ], 200);
     }
 }
