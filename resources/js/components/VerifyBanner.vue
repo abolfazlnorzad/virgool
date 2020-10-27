@@ -1,48 +1,41 @@
 <template>
-    <v-system-bar
-        height="50px"
-        class="d-flex justify-center"
-    >
-        برای فعال سازی حساب کاربری خود،ایمل خود را تایید کنید
-        <template v-if="send"
-
+    <v-system-bar height="50px"
+                  class="d-flex justify-center">
+        <span>شما هنوز ایمیل خود را تایید نکرده اید</span>
+        <span class="mr-5 success--text"
+              v-if="sended"
+        >ایمیل ارسال شد!</span>
+        <v-btn class="mr-5"
+               text
+               outlined
+               rounded
+               small
+               @click="resendVerify"
+               v-else
         >
-            <h4 class="success--text font-wieght-bold mx-3">ایمیل ارسال شد</h4>
-        </template>
-        <template v-else>
-            <v-btn
-                class="mx-3"
-                rounded
-                text
-                small
-                outlined
-                @click="sendEmail"
-            >
-                ارسال ایمیل
-            </v-btn>
-        </template>
+            ارسال مجدد ایمیل
+        </v-btn>
     </v-system-bar>
 </template>
 
 <script>
-    import {ref} from '@vue/composition-api';
+    import { ref } from '@vue/composition-api'
+
     export default {
         name: "VerifyBanner",
         setup() {
-            const send = ref(false);
+            const sended = ref(false);
 
-            function sendEmail() {
-                axios.post('/email/resend')
-                    .then(() => {
-                        send.value = true;
-                    })
+            const resendVerify=() =>{
+                axios.post('/api/email/resend')
+                    .then(() => sended.value = true)
             }
 
             return {
-                send,
-                sendEmail
+                sended,
+                resendVerify
             }
-        }
+        },
     }
 </script>
 

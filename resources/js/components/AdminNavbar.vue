@@ -19,7 +19,7 @@
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col cols="auto">
-                            <a href="#">خروج</a>
+                            <a @click.prevent="logout">خروج</a>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -79,7 +79,16 @@
                     },
                 ]
             }
+        },
+        methods: {
+            logout() {
+                this.$store.dispatch('user/logout')
+                .then(res=>{
+                    this.$router.push({name:'home'})
+                })
+            }
         }
+
     }
 </script>
 
@@ -87,9 +96,11 @@
     .v-input__control .v-input__slot::before {
         border-color: white !important;
     }
+
     .v-menu__content {
         box-shadow: unset;
     }
+
     .v-menu__content, .v-list {
         border-radius: 0;
     }

@@ -123,12 +123,24 @@ export default [
     {
         path: '/admin',
         component: require('@/view/Layout/AdminLayout').default,
+        meta: {
+          auth: true,
+          verified:true
+        },
         children: [
             {
                 path: 'dashboard',
                 component: require('@/view/Admin/Dashboard').default,
-                name: 'admin-dashboard'
+                name: 'admin-dashboard',
+
+            },
+
+            {
+                path: 'users',
+                component: require('@/view/Admin/User/UserIndex').default,
+                name: 'admin-user-index',
             }
+
         ]
     },
     {

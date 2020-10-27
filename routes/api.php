@@ -27,6 +27,10 @@ Route::get('/drafts/{draft}', 'Draft\DraftController@show')
     ->name('draft.show')
     ->middleware('auth:sanctum');
 
+
+Route::post('/email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
+
 Route::post('/post', 'Post\PostController@store')->middleware('auth:sanctum');
 Route::get('/posts/all-posts', 'Post\AllUserPostsController')->middleware('auth:sanctum');
 Route::get('/posts/all-drafts', 'Post\AllUserDraftsController')->middleware('auth:sanctum');
@@ -101,3 +105,10 @@ Route::get('trending-posts','Post\TrendingPostController@index');
 Route::get('/search/posts', 'Search\SearchPostController@index');
 Route::get('/search/users', 'Search\SearchUserController@index');
 Route::get('/search/categories', 'Search\SearchCategoryController@index');
+
+
+//admin
+
+Route::prefix('admin')->namespace('Admin')->group(function (){
+   Route::apiResource('users','UserController');
+});

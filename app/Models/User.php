@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use phpDocumentor\Reflection\Types\Static_;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -15,8 +16,30 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = [
         'profile_src',
-        'is_follows'
+//        'is_follows'
     ];
+
+
+    public static $FIELDS = [
+        'name' => 'نام',
+        'email' => 'ایمیل',
+        'username' => 'نام کاربری',
+        'created_at' => 'تاریخ ساخت'
+    ];
+    public static $search = [
+        'name',
+        'email',
+        'username'
+
+    ];
+
+    public function scopeSearch($query, $search)
+    {
+        foreach (static::$search as $filter)
+            $query->orWhere($filter , 'LIKE',"%{$search}%");
+
+        return $query;
+    }
 
 
     /**
@@ -71,7 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function bookmarks()
     {
-        return $this->belongsToMany(Post::class,'bookmarks');
+        return $this->belongsToMany(Post::class, 'bookmarks');
     }
 
     public function likes()
