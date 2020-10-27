@@ -17,7 +17,7 @@
                     </v-tabs>
 
                     <v-tabs-items v-model="activeTab">
-                        <v-tab-item value="posts" v-if="activeTab ==='posts'">
+                        <v-tab-item value="posts" v-if="activeTab ==='posts' &&items.data">
                             <div class="my-12"
 
                                  v-for="post in items.data"
@@ -51,10 +51,10 @@
                             <p class="my-12" v-if="! items.length">هیچ نتیجه ای یافت نشد</p>
 
                         </v-tab-item>
-                        <v-tab-item value="users" v-if="activeTab ==='users'">
+                        <v-tab-item value="users" v-if="activeTab ==='users' &&items.data">
                             <template
 
-                                v-for="user in items.data"
+                                v-for="(user,index) in items.data"
                             >
                                 <div
                                     class="d-flex flex-row my-12"
@@ -79,8 +79,14 @@
                                     <div>
                                         <v-btn
                                             color="info"
-                                            outlined
-                                        >دنبال کردن
+                                            :outlined="user.is_follows"
+                                            @click="follow(index,user.username)"
+                                            v-if="$store.state.user.isLoggedIn&&$store.state.user.user.id !=user.id"
+                                        >
+
+                                            {{user.is_follows ? 'دنبال میکنید':'دنبال کردن'}}
+
+
                                         </v-btn>
                                     </div>
 
@@ -161,8 +167,16 @@
                 fetch()
             }, 500);
 
+            const follow = (index, username) => {
+                axios.post(`/api/follows/${username}`)
+                    .then(res => {
+                        items.value.data[index].is_follows = !items.value.data[index].is_follows
+                    })
+            }
+
             fetch();
             return {
+                follow,
                 fetch,
                 searchItems,
                 fetchNextItems,
