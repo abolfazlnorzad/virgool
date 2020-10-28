@@ -4,7 +4,16 @@
             <v-row>
                 <v-col cols="12" class="mt-10">
                     <p class="headline font-weight-bold">مدیریت کاربران</p>
-                    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+                    <div class="d-flex flex-row">
+                        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                            outlined
+                            label="جستجو کاربران"
+                            v-model="search"
+                            @keyup="searchItems"
+                        ></v-text-field>
+                    </div>
 
                     <v-data-table
                         v-model="selected"
@@ -35,6 +44,8 @@
 
 <script>
     import moment from "moment-jalaali";
+    import {debounce} from "lodash";
+
     export default {
         name: "UserIndex",
 
@@ -45,11 +56,12 @@
         data() {
             return {
                 moment,
+                search: this.$route.query.search,
                 breadcrumbs: [
                     {
                         text: 'داشبورد',
                         disable: false,
-                        to: { name: 'admin-dashboard' }
+                        to: {name: 'admin-dashboard'}
                     },
                     {
                         text: 'مدیریت کاربران',
@@ -85,20 +97,26 @@
                     per_page: options.itemsPerPage,
                     sort_by: options.sortBy[0],
                     sort_type: options.sortDesc[0] === true ? 'desc' : 'asc',
+                    search:this.search
                 };
 
-                this.$router.push({ name: 'admin-user-index', query: params }, () => {});
+                this.$router.push({name: 'admin-user-index', query: params}, () => {
+                });
 
                 this.loading = true;
-                axios.get('/api/admin/users', { params })
-                    .then(({ data }) => {
+                axios.get('/api/admin/users', {params})
+                    .then(({data}) => {
                         this.headers = data.headers;
                         this.users = data.users;
                         this.total = data.users.total;
                         this.options.page = data.users.current_page;
                         this.options.itemsPerPage = Number(data.users.per_page);
                     }).finally(() => this.loading = false);
-            }
+            },
+            searchItems:debounce(function (){
+                this.fetchUsers(this.options);
+            },500) ,
+
         }
     }
 </script>
