@@ -4,15 +4,21 @@
             <v-row>
                 <v-col cols="12" class="mt-10">
                     <p class="headline font-weight-bold">مدیریت کاربران</p>
-                    <div class="d-flex flex-row">
+                    <div class="d-flex   flex-row">
                         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
                         <v-spacer></v-spacer>
                         <v-text-field
-                            outlined
                             label="جستجو کاربران"
                             v-model="search"
                             @keyup="searchItems"
                         ></v-text-field>
+                        <v-btn
+                            @click="deleteUser"
+                            :disabled="! selected.length"
+
+                        >
+                            <v-icon color="error">mdi-delete</v-icon>
+                        </v-btn>
                     </div>
 
                     <v-data-table
@@ -81,29 +87,37 @@
                     page: this.$route.query.page ?? 1,
                     itemsPerPage: this.$route.query.per_page ?? 10,
                     sortBy: this.$route.query.sort_by ? [this.$route.query.sort_by] : ['id'],
-                    sortDesc: this.$route.query.sort_type === 'desc' ? [true] : [false]
+                    sortDesc: this.$route.query.sort_type === 'desc' ? [true] : [false],
+                    groupBy: [],
+                    groupDesc: [],
+                    multiSort: false,
+                    mustSort: false,
                 }
             }
         },
 
         created() {
-            this.fetchUsers(this.options);
+            this.fetchSearch();
+        },
+        computed:{
+            selectedIds(){
+                return this.selected.map((item)=>{
+                    return item.id
+                })
+            }
         },
 
         methods: {
             fetchUsers(options) {
-                const params = {
-                    page: options.page,
-                    per_page: options.itemsPerPage,
-                    sort_by: options.sortBy[0],
-                    sort_type: options.sortDesc[0] === true ? 'desc' : 'asc',
-                    search:this.search
-                };
-
+                const params = this.paramsMethod(options);
                 this.$router.push({name: 'admin-user-index', query: params}, () => {
                 });
 
+
+            },
+            fetchSearch() {
                 this.loading = true;
+                const params = this.paramsMethod(this.options);
                 axios.get('/api/admin/users', {params})
                     .then(({data}) => {
                         this.headers = data.headers;
@@ -113,9 +127,31 @@
                         this.options.itemsPerPage = Number(data.users.per_page);
                     }).finally(() => this.loading = false);
             },
-            searchItems:debounce(function (){
+            searchItems: debounce(function () {
+                this.options.page = 1;
                 this.fetchUsers(this.options);
-            },500) ,
+            }, 500),
+
+            paramsMethod(options) {
+                return {
+                    page: options.page,
+                    per_page: options.itemsPerPage,
+                    sort_by: options.sortBy[0],
+                    sort_type: options.sortDesc[0] === true ? 'desc' : 'asc',
+                    search: this.search
+                };
+            },
+            deleteUser() {
+                axios.post(`/api/admin/users/destroy`,{users:this.selectedIds})
+                .then(()=>{
+                    this.users.data = this.users.data.filter((user) => {
+                        return !this.selected.includes(user)
+                    });
+                    this.selected = [];
+                })
+
+            }
+
 
         }
     }

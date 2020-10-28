@@ -33,10 +33,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     ];
 
+
+    public static function booted()
+    {
+        static::deleting(function ($user) {
+            $user->drafts()->delete();
+        });
+    }
+
+
     public function scopeSearch($query, $search)
     {
         foreach (static::$search as $filter)
-            $query->orWhere($filter , 'LIKE',"%{$search}%");
+            $query->orWhere($filter, 'LIKE', "%{$search}%");
 
         return $query;
     }

@@ -79,11 +79,15 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return Response
+     * @param Request $request
+     * @return void
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $request->validate(['users'=>'required','users.*'=>'required']);
+        User::destroy($request->users);
+        return response(['data'=>'ok'],200);
+
+
     }
 }

@@ -111,4 +111,7 @@ Route::get('/search/categories', 'Search\SearchCategoryController@index');
 
 Route::prefix('admin')->namespace('Admin')->group(function (){
    Route::apiResource('users','UserController');
+   Route::post('users/destroy','UserController@destroy');
 });
+
+

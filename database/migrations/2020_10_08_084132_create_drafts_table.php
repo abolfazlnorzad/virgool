@@ -18,7 +18,7 @@ class CreateDraftsTable extends Migration
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
             $table->string('link');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();
         });
     }
