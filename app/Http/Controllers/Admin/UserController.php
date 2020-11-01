@@ -51,6 +51,7 @@ class UserController extends Controller
      * @param UserAdminRequest $request
      * @return Response
      */
+    
     public function store(UserAdminRequest $request)
     {
         $data = $request->validated();
