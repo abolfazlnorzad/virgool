@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\FieldHeaderTrait;
+use App\Traits\OrderableTraits;
+use App\Traits\SearchableTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +13,7 @@ use phpDocumentor\Reflection\Types\Static_;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,OrderableTraits,FieldHeaderTrait,SearchableTrait;
 
     protected $guarded = [];
 
@@ -25,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email' => 'ایمیل',
         'username' => 'نام کاربری',
         'created_at' => 'تاریخ ساخت',
-        'actions'=>'عملیات'
+        'actions' => 'عملیات'
     ];
     public static $search = [
         'name',
@@ -33,6 +36,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'username'
 
     ];
+
+
 
 
     public static function booted()
@@ -43,27 +48,21 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    public function scopeSearch($query, $search)
-    {
-        foreach (static::$search as $filter)
-            $query->orWhere($filter, 'LIKE', "%{$search}%");
-
-        return $query;
-    }
-
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
+    protected
+        $hidden = [
         'password',
         'remember_token',
     ];
 
 
-    public function getProfileSrcAttribute()
+    public
+    function getProfileSrcAttribute()
     {
         return '/profiles/' . $this->profile;
     }
@@ -73,41 +72,49 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $casts = [
+    protected
+        $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function drafts()
+    public
+    function drafts()
     {
         return $this->hasMany(Draft::class);
     }
 
-    public function posts()
+    public
+    function posts()
     {
         return $this->hasMany(Post::class);
     }
 
-    public function follows()
+    public
+    function follows()
     {
         return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_id');
     }
 
-    public function followers()
+    public
+    function followers()
     {
         return $this->belongsToMany(User::class, 'follows', 'following_id', 'user_id');
     }
 
-    public function getIsFollowsAttribute()
+    public
+    function getIsFollowsAttribute()
     {
         return $this->followers()->where('user_id', optional(request()->user())->id)->exists();
     }
 
-    public function bookmarks()
+    public
+    function bookmarks()
     {
         return $this->belongsToMany(Post::class, 'bookmarks');
     }
 
-    public function likes()
+    public
+    function likes()
     {
         return $this->belongsToMany(Post::class, 'likes');
     }

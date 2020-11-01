@@ -41,7 +41,7 @@
                         :footer-props="footerProps"
                         :options.sync="options"
                         :single-select="singleSelect"
-                        item-key="name"
+                        item-key="username"
                         show-select
                         class="elevation-1"
                     >

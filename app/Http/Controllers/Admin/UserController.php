@@ -20,27 +20,18 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users_feilds = collect(User::$FIELDS);
-        $sort_by = $users_feilds->keys()->contains($request->sort_by) ? $request->sort_by : 'id';
-        $sort_type = $request->sort_type == 'asc' ? 'asc' : 'desc';
+
         $per_page = (int)$request->per_page ?? 10;
 
 
-        $users = User::orderBy($sort_by, $sort_type)
-            ->search($request->search)
-            ->orWhere('name', 'LIKE', "%{$request->search}%")
+        $users = User::sortFromRequest()
+            ->search()
             ->paginate($per_page);
-        $headers = $users_feilds->transform(function ($item, $key) {
-            return
-                [
-                    'text' => $item,
-                    'value' => $key,
-                ];
-        });
+        $headers = User::getHeaderFildes();
         return response([
             'users' => $users,
 
-            'headers' => $headers->values()->all(),
+            'headers' => $headers,
         ], 200);
     }
 
