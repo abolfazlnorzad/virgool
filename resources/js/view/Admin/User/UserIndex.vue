@@ -48,6 +48,18 @@
 
                         <template v-slot:item.created_at="{item}">
                             {{moment(item.created_at).format('jYY-jM-jD')}}
+                        </template >
+
+                        <template
+                            v-slot:item.actions="{item}"
+                        >
+                            <v-btn
+                                small
+                            color="info"
+                            :to="{name:'admin-user-edit',params:{id:item.id}}"
+                            >
+                                <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
                         </template>
 
                     </v-data-table>

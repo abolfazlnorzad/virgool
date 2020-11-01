@@ -142,10 +142,15 @@ export default [
             },
             {
                 path: 'users/create',
-                component: require('@/view/Admin/User/UserCreate').default,
+                component: require('@/view/Admin/User/UserCreateOrUpdate').default,
                 name: 'admin-user-create',
             },
 
+            {
+                path: 'users/:id',
+                component: require('@/view/Admin/User/UserCreateOrUpdate').default,
+                name: 'admin-user-edit',
+            },
         ]
     },
     {

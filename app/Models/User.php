@@ -24,7 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name' => 'نام',
         'email' => 'ایمیل',
         'username' => 'نام کاربری',
-        'created_at' => 'تاریخ ساخت'
+        'created_at' => 'تاریخ ساخت',
+        'actions'=>'عملیات'
     ];
     public static $search = [
         'name',

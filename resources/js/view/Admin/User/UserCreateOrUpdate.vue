@@ -3,7 +3,7 @@
         <v-container>
             <v-row>
                 <v-col cols="12" class="mt-10">
-                    <p class="headline">ساخت کاربر</p>
+                    <p class="headline">{{ isEditing ? 'ویرایش کاربر' : 'ساخت کاربر' }}</p>
                     <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
 
                     <v-form ref="createUser" class="mt-10">
@@ -38,13 +38,11 @@
                                       label="رمزعبور"
                                       outlined
                                       v-model="form.password"
-                                      :rules="[
-                                          required('این فیلد الزامیست')
-                                      ]"
+                                      :rules="passwordRule"
                         ></v-text-field>
                         <v-btn color="info"
                                @click="save"
-                        >ذخیره</v-btn>
+                        >{{ isEditing ? 'ویرایش' : 'ذخیره' }}</v-btn>
                     </v-form>
                 </v-col>
             </v-row>
@@ -56,10 +54,12 @@
     import { required, verifyEmail } from "@/rules";
 
     export default {
-        name: "UserCreate",
+        name: "UserCreateOrUpdate",
 
-        metaInfo: {
-            title: 'ساخت کاربر'
+        metaInfo() {
+            return {
+                title: this.isEditing ? 'ویرایش کاربر' : 'ساخت کاربر'
+            }
         },
 
         data() {
@@ -95,7 +95,35 @@
                     email: null,
                 },
                 required,
-                verifyEmail
+                verifyEmail,
+                isEditing: false,
+                passwordRule: []
+            }
+        },
+
+        computed: {
+            requestType() {
+                return this.isEditing ? 'patch' : 'post';
+            },
+            requestUrl() {
+                return this.isEditing ? `/api/admin/users/${this.$route.params.id}` : '/api/admin/users';
+            },
+        },
+
+        created() {
+            if (this.$route.params.id) {
+                this.isEditing = true;
+                this.breadcrumbs[2].text = 'ویرایش کاربر';
+
+                axios.get(`/api/admin/users/${this.$route.params.id}`)
+                    .then(({ data }) => {
+                        this.form.id = data.id;
+                        this.form.name = data.name;
+                        this.form.username = data.username;
+                        this.form.email = data.email;
+                    })
+            } else {
+                this.passwordRule = [required('این فیلد الزامیست')];
             }
         },
 
@@ -104,9 +132,9 @@
                 this.errors = {
                     username: null,
                     email: null,
-                }
+                };
                 if (this.$refs.createUser.validate()) {
-                    axios.post('/api/admin/users', this.form)
+                    axios[this.requestType](this.requestUrl, this.form)
                         .then(() => {
                             this.$router.push({ name: 'admin-user-index' });
                         }).catch(({ response }) => {

@@ -51,12 +51,12 @@ class UserController extends Controller
      * @param UserAdminRequest $request
      * @return Response
      */
-    
+
     public function store(UserAdminRequest $request)
     {
         $data = $request->validated();
-        $data['password'] =Hash::make( $data['password']);
-            event(new Registered(User::create($data)));
+        $data['password'] = Hash::make($data['password']);
+        event(new Registered(User::create($data)));
 
         return response(['data' => 'ok'], 200);
     }
@@ -64,24 +64,32 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param User $user
+     * @return User
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return $user;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
+     * @param UserAdminRequest $request
+     * @param User $user
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UserAdminRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+        if (filled($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+        $user->update($data);
+
+        return response(['data' => 'ok'], 200);
     }
 
     /**

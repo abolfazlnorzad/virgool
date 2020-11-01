@@ -23,11 +23,21 @@ class UserAdminRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => ['required', 'max:255'],
-            'email' => ['required', 'max:255', 'email', 'unique:users'],
-            'username' => ['required', 'max:255', 'unique:users'],
-            'password' => ['required'],
-        ];
+        if ($this->getMethod() == 'patch' || $this->getMethod() == 'PATCH') {
+            return [
+                'name' => ['required', 'max:255'],
+                'email' => ['required', 'max:255', 'email', 'unique:users,email,' . $this->id],
+                'username' => ['required', 'max:255', 'unique:users,username,' . $this->id],
+                'password' => ['nullable'],
+            ];
+        } else {
+            return [
+                'name' => ['required', 'max:255'],
+                'email' => ['required', 'max:255', 'email', 'unique:users'],
+                'username' => ['required', 'max:255', 'unique:users'],
+                'password' => ['required'],
+            ];
+        }
+
     }
 }
