@@ -29,7 +29,7 @@ class UserController extends Controller
             ->paginate($per_page);
         $headers = User::getHeaderFildes();
         return response([
-            'users' => $users,
+            'items' => $users,
 
             'headers' => $headers,
         ], 200);
@@ -91,8 +91,8 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        $request->validate(['users' => 'required', 'users.*' => 'required']);
-        User::destroy($request->users);
+        $request->validate(['items' => 'required', 'items.*' => 'required']);
+        User::destroy($request->items);
         return response(['data' => 'ok'], 200);
 
 
