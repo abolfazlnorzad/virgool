@@ -117,6 +117,12 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
    //posts
     Route::apiResource('posts','PostController');
     Route::post('posts/destroy','PostController@destroy');
+
+    //drafts
+
+    Route::apiResource('drafts','DraftController');
+    Route::post('drafts/destroy','DraftController@destroy');
+
 });
 
 

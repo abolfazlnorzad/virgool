@@ -26,6 +26,7 @@ class DraftController extends Controller
     public function show(Draft $draft)
     {
         $this->authorize('show', $draft);
+
         return $draft;
     }
 

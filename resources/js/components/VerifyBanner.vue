@@ -26,7 +26,7 @@
         setup() {
             const sended = ref(false);
 
-            const resendVerify=() =>{
+            function resendVerify() {
                 axios.post('/api/email/resend')
                     .then(() => sended.value = true)
             }

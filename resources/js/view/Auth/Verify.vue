@@ -1,8 +1,8 @@
 <template>
     <v-container fluid class="pa-0 ma-0" :class="$vuetify.breakpoint.mdAndUp ? 'h-100' : 'h-40'">
         <v-row :class="$vuetify.breakpoint.mdAndUp ? 'h-100' : 'h-40'">
-           <verify-banner md="4"></verify-banner>
-            <v-col cols="12" md="8" class="d-flex flex-column align-center justify-center text-center">
+            <auth-banner :md="5"></auth-banner>
+            <v-col cols="12" md="7" class="d-flex flex-column align-center justify-center text-center">
                 <p class="blue--text headline font-weight-bold">به وب آموز خوش آمدید، اینجا شروع دوران جدید نوشتن شما است.</p>
                 <p class="subtitle font-weight-bold">برای اتمام مراحل ثبت نام با مراجعه به ایمیل خود بر روی لینک فعال سازی کلیک کنید.</p>
                 <v-btn :to="{ name: 'home' }"
@@ -17,15 +17,14 @@
 </template>
 
 <script>
-    import VerifyBanner from "../../components/VerifyBanner";
+    import AuthBanner from '@/components/auth/AuthBanner'
     export default {
         name: "Verify",
-        metaInfo:{
-            title:'تایید حساب کابری'
+        metaInfo: {
+            title: 'صفحه تایید حساب کاربری - وبلاگ وب آموز'
         },
         components: {
-            VerifyBanner,
-
+            AuthBanner
         }
     }
 </script>

@@ -4,6 +4,7 @@
         <v-subheader class="subtitle font-weight-bold">محبوب‌ترین‌های وب اموز</v-subheader>
         <v-list-item-group>
             <v-list-item v-for="post in posts"
+
                          :key="post.slug"
                          :to="{name:'post-show',params:{slug:post.slug}}"
             >

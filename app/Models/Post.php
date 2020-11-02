@@ -8,11 +8,14 @@ use App\Traits\SearchableTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
 class Post extends Model
 {
     use HasFactory, Sluggable, FieldHeaderTrait, OrderableTraits, SearchableTrait;
+
+
 
 
     protected $guarded = [];
@@ -28,9 +31,12 @@ class Post extends Model
         'image' => 'تصویر شاخص پست',
         'title' => 'عنوان',
         'user.username' => 'اسم کاربر',
-        'link'=>''
+        'link' => ''
 
     ];
+
+
+
 
     public static $search = [
         'title',

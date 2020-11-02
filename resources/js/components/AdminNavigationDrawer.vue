@@ -58,6 +58,11 @@
                         class: 'white--text',
                         to:'admin-post-index'
                     },
+                    {
+                        text: 'مدیریت پیش نویس ها',
+                        class: 'white--text',
+                        to:'admin-draft-index'
+                    },
                 ]
             }
         },

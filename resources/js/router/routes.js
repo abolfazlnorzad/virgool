@@ -158,6 +158,12 @@ export default [
                 name: 'admin-post-index',
             },
 
+            {
+                path: 'drafts',
+                component: require('@/view/Admin/Draft/DraftIndex').default,
+                name: 'admin-draft-index',
+            },
+
 
 
 
