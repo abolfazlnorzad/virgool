@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\FieldHeaderTrait;
+use App\Traits\OrderableTraits;
+use App\Traits\SearchableTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,15 +12,30 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, FieldHeaderTrait, OrderableTraits, SearchableTrait;
+
 
     protected $guarded = [];
-    protected $appends = ['cate','is_bookmarked','is_liked'];
+    protected $appends = ['cate', 'is_bookmarked', 'is_liked'];
 
     public static function getDir()
     {
         return public_path('/images/posts/');
     }
+
+
+    public static $FIELDS = [
+        'title' => 'عنوان',
+        'user.username' => 'اسم کاربر',
+
+    ];
+
+    public static $search = [
+        'title',
+
+
+
+    ];
 
 
     public static function booted()

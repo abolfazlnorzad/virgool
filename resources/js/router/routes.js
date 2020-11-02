@@ -151,6 +151,16 @@ export default [
                 component: require('@/view/Admin/User/UserCreateOrUpdate').default,
                 name: 'admin-user-edit',
             },
+
+            {
+                path: 'posts',
+                component: require('@/view/Admin/Post/PostIndex').default,
+                name: 'admin-post-index',
+            },
+
+
+
+
         ]
     },
     {

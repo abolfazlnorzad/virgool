@@ -53,6 +53,11 @@
                         class: 'white--text',
                         to:'admin-user-index'
                     },
+                    {
+                        text: 'مدیریت پست ها',
+                        class: 'white--text',
+                        to:'admin-post-index'
+                    },
                 ]
             }
         },
