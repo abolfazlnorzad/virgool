@@ -32,11 +32,17 @@ class Post extends Model
 
     public static $search = [
         'title',
-
-
-
+        'user.username'
     ];
 
+    public function scopeOrderUserByUsername($query, $orderType ='asc')
+    {
+        return $query->orderBy(User::select('username')
+            ->whereColumn(
+                'users.id', 'posts.user_id'),
+            $orderType
+        );
+    }
 
     public static function booted()
     {

@@ -55,7 +55,8 @@
             <v-btn
                 small
                 color="info"
-                :to="{name:'admin-user-edit',params:{id:item.id}}"
+                v-if="editRoute"
+                :to="{name:editRoute,params:{id:item.id}}"
             >
                 <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -72,6 +73,10 @@
         name: "BaseDataTable",
 
         props: {
+            editRoute: {
+                type: String,
+                required: false,
+            },
             createItemRoute: {
                 type: String,
                 required: false,

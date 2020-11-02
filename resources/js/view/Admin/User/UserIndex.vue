@@ -5,11 +5,12 @@
                 <v-col cols="12" class="mt-10">
                     <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
                     <base-data-table
-                    fetchUrl="/api/admin/users"
-                    deleteUrl="/api/admin/users/destroy"
-                    routeName="admin-user-index"
-                    titleText="مدیریت کاربران"
-                    createItemRoute="admin-user-create"
+                        fetchUrl="/api/admin/users"
+                        deleteUrl="/api/admin/users/destroy"
+                        routeName="admin-user-index"
+                        titleText="مدیریت کاربران"
+                        createItemRoute="admin-user-create"
+                        editRoute="admin-user-edit"
                     ></base-data-table>
 
                 </v-col>
