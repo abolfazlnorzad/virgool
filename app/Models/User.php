@@ -13,22 +13,24 @@ use phpDocumentor\Reflection\Types\Static_;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable,OrderableTraits,FieldHeaderTrait,SearchableTrait;
+    use HasFactory, Notifiable, OrderableTraits, FieldHeaderTrait, SearchableTrait;
 
     protected $guarded = [];
 
     protected $appends = [
         'profile_src',
-//        'is_follows'
+        'image'
     ];
 
 
     public static $FIELDS = [
+        'image' => 'پروفایل',
         'name' => 'نام',
         'email' => 'ایمیل',
         'username' => 'نام کاربری',
         'created_at' => 'تاریخ ساخت',
-        'actions' => 'عملیات'
+        'actions' => 'عملیات',
+        'link' => '',
     ];
     public static $search = [
         'name',
@@ -38,7 +40,10 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-
+    public function getImageAttribute()
+    {
+        return $this->profile_src;
+    }
 
     public static function booted()
     {
@@ -46,7 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail
             $user->drafts()->delete();
         });
     }
-
 
 
     /**

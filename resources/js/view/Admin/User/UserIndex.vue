@@ -11,6 +11,9 @@
                         titleText="مدیریت کاربران"
                         createItemRoute="admin-user-create"
                         editRoute="admin-user-edit"
+                        showRoute="user-posts"
+                        itemKey="username"
+
                     ></base-data-table>
 
                 </v-col>

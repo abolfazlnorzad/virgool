@@ -25,8 +25,10 @@ class Post extends Model
 
 
     public static $FIELDS = [
+        'image' => 'تصویر شاخص پست',
         'title' => 'عنوان',
         'user.username' => 'اسم کاربر',
+        'link'=>''
 
     ];
 
@@ -35,7 +37,7 @@ class Post extends Model
         'user.username'
     ];
 
-    public function scopeOrderUserByUsername($query, $orderType ='asc')
+    public function scopeOrderUserByUsername($query, $orderType = 'asc')
     {
         return $query->orderBy(User::select('username')
             ->whereColumn(

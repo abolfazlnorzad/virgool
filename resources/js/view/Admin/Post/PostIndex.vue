@@ -11,6 +11,7 @@
                         title-text="مدیریت پست ها"
                         route-name="admin-post-index"
                         item-key="slug"
+                        showRoute="post-show"
                     />
                 </v-col>
             </v-row>

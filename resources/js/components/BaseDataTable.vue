@@ -49,6 +49,16 @@
             {{moment(item.created_at).format('jYY-jM-jD')}}
         </template>
 
+
+        <template v-slot:item.image="{item}">
+            <v-img :src="item.image"
+                   max-width="70px"
+                   max-height="70px"
+                   class="ma-3"
+            ></v-img>
+        </template>
+
+
         <template
             v-slot:item.actions="{item}"
         >
@@ -59,6 +69,18 @@
                 :to="{name:editRoute,params:{id:item.id}}"
             >
                 <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+        </template>
+
+
+        <template v-slot:item.link="{ item }">
+
+            <v-btn
+                samll
+                :to="{ name: showRoute, params: { [itemKey]: item[itemKey] }  }"
+                   v-if="showRoute"
+            >
+                <v-icon>mdi-eye</v-icon>
             </v-btn>
         </template>
 
@@ -73,6 +95,12 @@
         name: "BaseDataTable",
 
         props: {
+
+            showRoute:{
+                type: String,
+                required: false,
+            },
+
             editRoute: {
                 type: String,
                 required: false,
