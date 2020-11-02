@@ -1,21 +1,20 @@
+
 <template>
     <v-content>
         <v-container>
             <v-row>
                 <v-col cols="12" class="mt-10">
                     <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-                    <base-data-table
-                        fetchUrl="/api/admin/users"
-                        deleteUrl="/api/admin/users/destroy"
-                        routeName="admin-user-index"
-                        titleText="مدیریت کاربران"
-                        createItemRoute="admin-user-create"
-                        editRoute="admin-user-edit"
-                        showRoute="user-posts"
-                        itemKey="username"
 
-                    ></base-data-table>
-
+                    <BaseDataTable fetch-url="/api/admin/users"
+                                   delete-url="/api/admin/users/destroy"
+                                   route-name="admin-user-index"
+                                   edit-route="admin-user-edit"
+                                   show-route="user-posts"
+                                   title-text="مدیریت کاربران"
+                                   item-key="username"
+                                   create-item-route="admin-user-create"
+                    />
                 </v-col>
             </v-row>
         </v-container>
@@ -23,33 +22,36 @@
 </template>
 
 <script>
-
-    import BaseDataTable from "@/components/BaseDataTable";
+    import BaseDataTable from '@/components/BaseDataTable';
 
     export default {
         name: "UserIndex",
+
         components: {
             BaseDataTable
         },
+
         metaInfo: {
-            title: 'مدیریت کابران'
+            title: 'مدیریت کاربران'
         },
+
         data() {
             return {
                 breadcrumbs: [
                     {
                         text: 'داشبورد',
-                        disable: false,
-                        to: {name: 'admin-dashboard'}
+                        disabled: false,
+                        to: { name: 'admin-dashboard' },
+                        exact: true
                     },
                     {
                         text: 'مدیریت کاربران',
-                        disable: true,
+                        disabled: true,
+                        exact: true
                     },
                 ],
             }
-        }
-
+        },
     }
 </script>
 

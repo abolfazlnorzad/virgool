@@ -1,3 +1,4 @@
+
 <template>
     <v-content>
         <v-container>
@@ -8,10 +9,10 @@
                     <BaseDataTable
                         fetch-url="/api/admin/posts"
                         delete-url="/api/admin/posts/destroy"
+                        show-route="post-show"
                         title-text="مدیریت پست ها"
                         route-name="admin-post-index"
                         item-key="slug"
-                        showRoute="post-show"
                     />
                 </v-col>
             </v-row>
@@ -27,6 +28,10 @@
 
         components: {
             BaseDataTable
+        },
+
+        metaInfo: {
+            title: 'مدیریت پست ها'
         },
 
         data() {
