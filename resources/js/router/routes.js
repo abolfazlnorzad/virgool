@@ -163,9 +163,21 @@ export default [
                 component: require('@/view/Admin/Draft/DraftIndex').default,
                 name: 'admin-draft-index',
             },
-
-
-
+            {
+                path: 'categories',
+                component: require('@/view/Admin/Category/CategoryIndex').default,
+                name: 'admin-category-index',
+            },
+            {
+                path: 'categories/create',
+                component: require('@/view/Admin/Category/CategoryCreateOrUpdate').default,
+                name: 'admin-category-create',
+            },
+            {
+                path: 'categories/:id',
+                component: require('@/view/Admin/Category/CategoryCreateOrUpdate').default,
+                name: 'admin-category-edit',
+            },
 
         ]
     },

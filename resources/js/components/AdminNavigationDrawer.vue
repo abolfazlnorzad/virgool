@@ -63,6 +63,11 @@
                         class: 'white--text',
                         to:'admin-draft-index'
                     },
+                    {
+                        text: 'مدیریت دسته بندی ها',
+                        class: 'white--text',
+                        to:'admin-category-index'
+                    },
                 ]
             }
         },

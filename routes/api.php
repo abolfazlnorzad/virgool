@@ -119,9 +119,12 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
     Route::post('posts/destroy','PostController@destroy');
 
     //drafts
-
     Route::apiResource('drafts','DraftController');
     Route::post('drafts/destroy','DraftController@destroy');
+
+    //categoris
+    Route::apiResource('categories','CategoryController');
+    Route::post('categories/destroy','CategoryController@destroy');
 
 });
 
