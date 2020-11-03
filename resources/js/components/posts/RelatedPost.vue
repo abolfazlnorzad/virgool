@@ -4,20 +4,39 @@
            max-height="300px"
            class="d-flex align-end white--text"
     >
-        <v-card-title>{{ data.title }}</v-card-title>
+        <v-card-title>
+
+            <router-link
+                :to="{name:'post-show',params:{slug:data.slug}}"
+            >
+                {{ data.title }}
+            </router-link>
+        </v-card-title>
         <v-card-actions class="mr-3 mb-3">
             <v-avatar>
-                <v-img :src="data.user.profile"></v-img>
+                <router-link
+                    :to="{name:'user-posts',params:{username:data.user.username}}"
+                >
+                    <v-img :src="data.user.profile_src"></v-img>
+                </router-link>
             </v-avatar>
             <div class="d-flex flex-column mr-3">
-                <span class="body-1">{{ data.user.name }}</span>
-                <span class="body-2">3 روز پیش</span>
+                <span class="body-1">
+                                   <router-link
+                                       :to="{name:'user-posts',params:{username:data.user.username}}"
+                                   >
+                    {{ data.user.name }}
+                                   </router-link>
+                </span>
+                <span class="body-2">{{moment(data.created_at).fromNow()}}</span>
             </div>
         </v-card-actions>
     </v-img>
 </template>
 
 <script>
+    import moment from 'moment-jalaali';
+
     export default {
         name: "RelatedPost",
 
@@ -25,6 +44,11 @@
             data: {
                 type: Object,
                 required: true
+            }
+        },
+        data() {
+            return {
+                moment
             }
         }
     }

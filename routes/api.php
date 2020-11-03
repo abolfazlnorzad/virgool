@@ -137,6 +137,10 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::delete('/feature-post/{post:slug}', 'FeaturePostController@destroy');
 
 
+
+
+
+
 });
 
-
+Route::get('/feature-posts','FeaturePostController@index');
