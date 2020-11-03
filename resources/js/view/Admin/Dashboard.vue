@@ -6,18 +6,52 @@
                     <p class="headline font-weight-bold">داشبورد</p>
                     <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
 
-                    <template>
-                        <v-data-table
-                            v-model="selected"
-                            :headers="headers"
-                            :items="desserts"
-                            :single-select="singleSelect"
-                            item-key="name"
-                            show-select
-                            class="elevation-1"
-                        >
-                        </v-data-table>
-                    </template>
+                    <p class="headline mb-10">پست های ویژه صفحه اصلی</p>
+                    <v-autocomplete
+                        v-model="model"
+                        :items="items"
+                        :loading="isLoading"
+                        :search-input.sync="search"
+                        @change="sendPost"
+                        color="white"
+                        hide-no-data
+                        hide-selected
+                        item-text="title"
+                        item-value="slug"
+                        label="اضافه کردن به پست های ویژه"
+                        placeholder="جستجو در همه عنوان و محتوای پست ها"
+                        return-object
+                        outlined
+                    ></v-autocomplete>
+
+                    <v-simple-table>
+                        <template v-slot:default>
+                            <thead>
+                            <tr>
+                                <th class="text-right">عکس نوشته</th>
+                                <th class="text-right">عنوان نوشته</th>
+                                <th class="text-right">نویسنده</th>
+                                <th class="text-right"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="featurePost in posts" :key="featurePost.post.slug">
+                                <td><v-img :src="featurePost.post.image"
+                                           max-width="80px"
+                                           max-height="80px"
+                                           class="my-3"
+                                ></v-img></td>
+                                <td>{{ featurePost.post.title }}</td>
+                                <td>{{ featurePost.post.user.name }}</td>
+                                <td>
+                                    <v-btn @click="deleteFeaturePost(featurePost.post.slug)">
+                                        <v-icon class="red--text">mdi-delete</v-icon>
+                                    </v-btn>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </template>
+                    </v-simple-table>
                 </v-col>
             </v-row>
         </v-container>
@@ -27,116 +61,69 @@
 <script>
     export default {
         name: "Dashboard",
+
+        metaInfo: {
+            title: 'داشبورد ادمین'
+        },
+
         data() {
             return {
+                search: null,
+                model: null,
+                isLoading: false,
+                items: [],
                 breadcrumbs: [
                     {
                         text: 'داشبورد',
-                        disable: false,
-                        href: '/admin/dashboard'
-                    },
-                    {
-                        text: 'صفحه اصلی',
-                        disable: true,
+                        disabled: true,
+                        to: { name: 'admin-dashboard' },
+                        exact: true
                     },
                 ],
-                singleSelect: false,
-                selected: [],
-                headers: [
-                    {
-                        text: 'Dessert (100g serving)',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Calories', value: 'calories' },
-                    { text: 'Fat (g)', value: 'fat' },
-                    { text: 'Carbs (g)', value: 'carbs' },
-                    { text: 'Protein (g)', value: 'protein' },
-                    { text: 'Iron (%)', value: 'iron' },
-                ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: '7%',
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: '8%',
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: '16%',
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: '0%',
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: '2%',
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: '45%',
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: '22%',
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: '6%',
-                    },
-                ],
+                posts: []
+            }
+        },
+
+        watch: {
+            search(value) {
+                if (value.length <= 0) return;
+
+                if (this.isLoading) return;
+
+                this.isLoading = true;
+
+                axios.get(`/api/admin/feature-posts-search?q=${value}`)
+                    .then(({ data }) => {
+                        this.items = data.data;
+                    })
+                    .finally(() => this.isLoading = false);
+            }
+        },
+
+        created() {
+            this.fetchFeaturePosts();
+        },
+
+        methods: {
+            sendPost(event) {
+                axios.post(`/api/admin/feature-post/${event.slug}`)
+                    .then(() => {
+                        this.fetchFeaturePosts();
+                        this.model = null;
+                        this.search = null;
+                    });
+            },
+            fetchFeaturePosts() {
+                axios.get('/api/admin/feature-posts')
+                    .then(({ data }) => {
+                        this.posts = data.posts;
+                    });
+            },
+            deleteFeaturePost(slug) {
+                axios.delete(`/api/admin/feature-post/${slug}`)
+                    .then(() => {
+                        this.fetchFeaturePosts();
+                    });
             }
         }
     }

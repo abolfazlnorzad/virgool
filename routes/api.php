@@ -96,12 +96,12 @@ Route::get('/posts/category/{category:slug}', 'Post\PostCategoryController@index
 
 Route::get('category-navbar', 'Category\NavbarCategoryController@index');
 
-Route::get('user-posts/{user:username}','User\UserPostController@index');
-Route::get('liked-posts','User\LikedPostController@index');
-Route::get('bookmarked-posts','User\BookmarkedPostController@index');
-Route::get('home','HomePostController@index');
-Route::get('following-posts','Post\FollowingPostController@index')->middleware('auth:sanctum');
-Route::get('trending-posts','Post\TrendingPostController@index');
+Route::get('user-posts/{user:username}', 'User\UserPostController@index');
+Route::get('liked-posts', 'User\LikedPostController@index');
+Route::get('bookmarked-posts', 'User\BookmarkedPostController@index');
+Route::get('home', 'HomePostController@index');
+Route::get('following-posts', 'Post\FollowingPostController@index')->middleware('auth:sanctum');
+Route::get('trending-posts', 'Post\TrendingPostController@index');
 Route::get('/search/posts', 'Search\SearchPostController@index');
 Route::get('/search/users', 'Search\SearchUserController@index');
 Route::get('/search/categories', 'Search\SearchCategoryController@index');
@@ -109,26 +109,32 @@ Route::get('/search/categories', 'Search\SearchCategoryController@index');
 
 //admin
 
-Route::prefix('admin')->namespace('Admin')->group(function (){
+Route::prefix('admin')->namespace('Admin')->group(function () {
     //users
-   Route::apiResource('users','UserController');
-   Route::post('users/destroy','UserController@destroy');
+    Route::apiResource('users', 'UserController');
+    Route::post('users/destroy', 'UserController@destroy');
 
-   //posts
-    Route::apiResource('posts','PostController');
-    Route::post('posts/destroy','PostController@destroy');
+    //posts
+    Route::apiResource('posts', 'PostController');
+    Route::post('posts/destroy', 'PostController@destroy');
 
     //drafts
-    Route::apiResource('drafts','DraftController');
-    Route::post('drafts/destroy','DraftController@destroy');
+    Route::apiResource('drafts', 'DraftController');
+    Route::post('drafts/destroy', 'DraftController@destroy');
 
     //categoris
-    Route::apiResource('categories','CategoryController');
-    Route::post('categories/destroy','CategoryController@destroy');
+    Route::apiResource('categories', 'CategoryController');
+    Route::post('categories/destroy', 'CategoryController@destroy');
 
     //comments
-    Route::apiResource('comments','CommentController');
-    Route::post('comments/destroy','CommentController@destroy');
+    Route::apiResource('comments', 'CommentController');
+    Route::post('comments/destroy', 'CommentController@destroy');
+
+
+    Route::get('/feature-posts-search', 'FeaturePostSearchController@index');
+    Route::get('/feature-posts', 'FeaturePostController@index');
+    Route::post('/feature-post/{post:slug}', 'FeaturePostController@store');
+    Route::delete('/feature-post/{post:slug}', 'FeaturePostController@destroy');
 
 
 });

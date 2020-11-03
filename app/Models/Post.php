@@ -120,5 +120,9 @@ class Post extends Model
         return $this->likes()->where('user_id', optional(request()->user())->id)->exists();
     }
 
+    public function featurePost()
+    {
+        return $this->hasOne(FeaturePost::class);
+    }
 
 }
