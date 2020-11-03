@@ -68,6 +68,11 @@
                         class: 'white--text',
                         to:'admin-category-index'
                     },
+                    {
+                        text: 'مدیریت دیدگاه ها',
+                        class: 'white--text',
+                        to:'admin-comment-index'
+                    },
                 ]
             }
         },

@@ -19,7 +19,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         return response([
-            'items' => Post::with('user')->sortFromRequest()->search()->paginate($request->per_page ?? 10),
+            'items' => Post::with('user')->withCount(['comments','likes'])->sortFromRequest()->search()->paginate($request->per_page ?? 10),
             'headers' => Post::getHeaderFildes(),
         ], 200);
     }

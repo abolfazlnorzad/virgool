@@ -126,6 +126,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
     Route::apiResource('categories','CategoryController');
     Route::post('categories/destroy','CategoryController@destroy');
 
+    //comments
+    Route::apiResource('comments','CommentController');
+    Route::post('comments/destroy','CommentController@destroy');
+
+
 });
 
 

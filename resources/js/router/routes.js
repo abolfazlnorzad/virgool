@@ -179,6 +179,13 @@ export default [
                 name: 'admin-category-edit',
             },
 
+            {
+                path: 'comments',
+                component: require('@/view/Admin/Comment/CommentIndex').default,
+                name: 'admin-comment-index',
+            },
+
+
         ]
     },
     {

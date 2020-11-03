@@ -22,12 +22,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'image'
     ];
 
-
     public static $FIELDS = [
         'image' => 'پروفایل',
         'name' => 'نام',
         'email' => 'ایمیل',
         'username' => 'نام کاربری',
+        'posts_count' => 'تعداد پست ها',
         'created_at' => 'تاریخ ساخت',
         'actions' => 'عملیات',
         'link' => '',

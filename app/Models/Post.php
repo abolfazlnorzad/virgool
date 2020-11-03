@@ -16,8 +16,6 @@ class Post extends Model
     use HasFactory, Sluggable, FieldHeaderTrait, OrderableTraits, SearchableTrait;
 
 
-
-
     protected $guarded = [];
     protected $appends = ['cate', 'is_bookmarked', 'is_liked'];
 
@@ -31,11 +29,11 @@ class Post extends Model
         'image' => 'تصویر شاخص پست',
         'title' => 'عنوان',
         'user.username' => 'اسم کاربر',
+        'likes_count' => 'تعداد لایک ها',
+        'comments_count' => 'تعداد دیدگاه ها',
         'link' => ''
 
     ];
-
-
 
 
     public static $search = [

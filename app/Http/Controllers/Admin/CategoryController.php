@@ -17,7 +17,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         return response([
-            'items' => Category::sortFromRequest()->search()->paginate($request->per_page ?? 10),
+            'items' => Category::withCount('posts')->sortFromRequest()->search()->paginate($request->per_page ?? 10),
             'headers' => Category::getHeaderFildes(),
         ], 200);
     }

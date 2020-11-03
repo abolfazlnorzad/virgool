@@ -24,7 +24,8 @@ class UserController extends Controller
         $per_page = (int)$request->per_page ?? 10;
 
 
-        $users = User::sortFromRequest()
+        $users = User::withCount('posts')
+            ->sortFromRequest()
             ->search()
             ->paginate($per_page);
         $headers = User::getHeaderFildes();

@@ -17,6 +17,7 @@ class Category extends Model
 
     public static $FIELDS = [
         'title' => 'عنوان',
+        'posts_count' => 'تعداد پست',
         'created_at' => 'تاریخ ساخت',
         'link'=>'',
         'actions'=>'',
