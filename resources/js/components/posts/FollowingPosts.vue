@@ -1,8 +1,11 @@
 <template>
-    <v-list>
+    <v-list
+    v-if="posts.length"
+    >
         <v-subheader class="subtitle font-weight-bold">جدیدترین نوشته های دوستانتان </v-subheader>
         <v-list-item-group>
-            <v-list-item v-for="post in posts"
+            <v-list-item
+                v-for="post in posts"
                          :key="post.slug"
                          :to="{name:'post-show',params:{slug:post.slug}}"
             >

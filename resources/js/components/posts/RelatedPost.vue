@@ -3,10 +3,12 @@
            min-height="300px"
            max-height="300px"
            class="d-flex align-end white--text"
+           gradient="to bottom,rgba(0,0,0,0.1),rgba(0,0,0,0.8)"
     >
         <v-card-title>
 
             <router-link
+                class="white--text"
                 :to="{name:'post-show',params:{slug:data.slug}}"
             >
                 {{ data.title }}
@@ -23,6 +25,7 @@
             <div class="d-flex flex-column mr-3">
                 <span class="body-1">
                                    <router-link
+                                       class="white--text"
                                        :to="{name:'user-posts',params:{username:data.user.username}}"
                                    >
                     {{ data.user.name }}

@@ -2,7 +2,8 @@
     <v-content>
         <v-container>
             <v-row>
-                <v-col :cols="index ==0 || index==3 ? 8 :4 " v-for="(featurePost,index) in featurePosts"
+                <v-col cols="12" :md="index ==0 || index==3 ? 8 :4 "
+                       v-for="(featurePost,index) in featurePosts"
                        :key="featurePost.post.slug">
                     <related-post :data="featurePost.post"></related-post>
                 </v-col>

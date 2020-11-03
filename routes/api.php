@@ -109,7 +109,7 @@ Route::get('/search/categories', 'Search\SearchCategoryController@index');
 
 //admin
 
-Route::prefix('admin')->namespace('Admin')->group(function () {
+Route::prefix('admin')->namespace('Admin')->middleware(['auth:sanctum','has_role:admin|author'])->group(function () {
     //users
     Route::apiResource('users', 'UserController');
     Route::post('users/destroy', 'UserController@destroy');
@@ -136,7 +136,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::post('/feature-post/{post:slug}', 'FeaturePostController@store');
     Route::delete('/feature-post/{post:slug}', 'FeaturePostController@destroy');
 
-
+Route::get('dashboard','DashboardController@index');
 
 
 

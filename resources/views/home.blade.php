@@ -18,7 +18,8 @@
                 name: '{{ auth('sanctum')->user()->name }}',
                 id: '{{ auth('sanctum')->user()->id }}',
                 profile_src: '{{ auth('sanctum')->user()->profile_src }}',
-                isVerified: '{{auth('sanctum')->user()->email_verified_at==null ?1:2}}'
+                isVerified: '{{auth('sanctum')->user()->email_verified_at==null ?1:2}}',
+                roles:@json(auth('sanctum')->user()->roles->pluck('name'))
 
             }
         </script>

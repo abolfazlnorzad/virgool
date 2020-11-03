@@ -1,10 +1,34 @@
 <template>
-    <v-content>
+    <v-main>
         <v-container>
             <v-row>
                 <v-col cols="12" class="mt-10">
-                    <p class="headline font-weight-bold">داشبورد</p>
-                    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+                    <p class="headline font-weight-bold mb-8">داشبورد</p>
+
+                    <div class="d-flex flex-row justify-space-between">
+                        <div class="d-flex flex-row users-count py-5 px-3">
+                            <span class="white--text">تعداد کاربران</span>
+                            <v-spacer></v-spacer>
+                            <span class="white--text">{{ counts.users_count }}</span>
+                        </div>
+                        <div class="d-flex flex-row posts-count py-5 px-3">
+                            <span class="white--text">تعداد پست ها</span>
+                            <v-spacer></v-spacer>
+                            <span class="white--text">{{ counts.posts_count }}</span>
+                        </div>
+                        <div class="d-flex flex-row categories-count py-5 px-3">
+                            <span class="white--text">تعداد دسته بندی ها</span>
+                            <v-spacer></v-spacer>
+                            <span class="white--text">{{ counts.categories_count }}</span>
+                        </div>
+                        <div class="d-flex flex-row comments-count py-5 px-3">
+                            <span class="white--text">تعداد نظرات</span>
+                            <v-spacer></v-spacer>
+                            <span class="white--text">{{ counts.comments_count }}</span>
+                        </div>
+                    </div>
+
+                    <v-breadcrumbs :items="breadcrumbs" class="mb-10"></v-breadcrumbs>
 
                     <p class="headline mb-10">پست های ویژه صفحه اصلی</p>
                     <v-autocomplete
@@ -55,7 +79,7 @@
                 </v-col>
             </v-row>
         </v-container>
-    </v-content>
+    </v-main>
 </template>
 
 <script>
@@ -71,6 +95,7 @@
                 search: null,
                 model: null,
                 isLoading: false,
+                counts: {},
                 items: [],
                 breadcrumbs: [
                     {
@@ -102,6 +127,11 @@
 
         created() {
             this.fetchFeaturePosts();
+
+            axios.get('/api/admin/dashboard')
+                .then(({ data }) => {
+                    this.counts = data.data;
+                });
         },
 
         methods: {
@@ -130,5 +160,32 @@
 </script>
 
 <style scoped>
-
+    .users-count {
+        border-radius: .6rem;
+        width: 20%;
+        background: #b92b27;
+        background: -webkit-linear-gradient(to right, #1565C0, #b92b27);
+        background: linear-gradient(to right, #1565C0, #b92b27);
+    }
+    .posts-count {
+        border-radius: .6rem;
+        width: 20%;
+        background: #11998e;
+        background: -webkit-linear-gradient(to right, #38ef7d, #11998e);
+        background: linear-gradient(to right, #38ef7d, #11998e);
+    }
+    .categories-count {
+        border-radius: .6rem;
+        width: 20%;
+        background: #fc4a1a;
+        background: -webkit-linear-gradient(to right, #f7b733, #fc4a1a);
+        background: linear-gradient(to right, #f7b733, #fc4a1a);
+    }
+    .comments-count {
+        border-radius: .6rem;
+        width: 20%;
+        background: #43C6AC;
+        background: -webkit-linear-gradient(to right, #191654, #43C6AC);
+        background: linear-gradient(to right, #191654, #43C6AC);
+    }
 </style>

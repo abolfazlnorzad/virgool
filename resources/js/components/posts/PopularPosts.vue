@@ -1,6 +1,8 @@
 <template>
 
-    <v-list>
+    <v-list
+        v-if="posts.length"
+    >
         <v-subheader class="subtitle font-weight-bold">محبوب‌ترین‌های وب اموز</v-subheader>
         <v-list-item-group>
             <v-list-item v-for="post in posts"
