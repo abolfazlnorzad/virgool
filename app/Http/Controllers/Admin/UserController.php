@@ -48,7 +48,10 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
-        event(new Registered(User::create($data)));
+        event(new Registered(
+            $user = User::create($data)
+        ));
+        $user->roles()->sync($request->roles);
 
         return response(['data' => 'ok'], 200);
     }
@@ -61,7 +64,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $user;
+        return $user->append('all_role_id');
     }
 
     /**
@@ -80,6 +83,8 @@ class UserController extends Controller
             unset($data['password']);
         }
         $user->update($data);
+
+        $user->roles()->sync($request->roles);
 
         return response(['data' => 'ok'], 200);
     }

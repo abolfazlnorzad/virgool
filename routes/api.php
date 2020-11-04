@@ -109,7 +109,7 @@ Route::get('/search/categories', 'Search\SearchCategoryController@index');
 
 //admin
 
-Route::prefix('admin')->namespace('Admin')->middleware(['auth:sanctum','has_role:admin|author'])->group(function () {
+Route::prefix('admin')->namespace('Admin')->middleware(['auth:sanctum', 'has_role:admin|author'])->group(function () {
     //users
     Route::apiResource('users', 'UserController');
     Route::post('users/destroy', 'UserController@destroy');
@@ -131,16 +131,23 @@ Route::prefix('admin')->namespace('Admin')->middleware(['auth:sanctum','has_role
     Route::post('comments/destroy', 'CommentController@destroy');
 
 
+    //role
+    Route::apiResource('roles', 'RoleController');
+    Route::get('all-roles', 'AllRoleController@index');
+
+
+        //
+
     Route::get('/feature-posts-search', 'FeaturePostSearchController@index');
     Route::get('/feature-posts', 'FeaturePostController@index');
     Route::post('/feature-post/{post:slug}', 'FeaturePostController@store');
     Route::delete('/feature-post/{post:slug}', 'FeaturePostController@destroy');
 
-Route::get('dashboard','DashboardController@index');
+Route::get('dashboard', 'DashboardController@index');
 
 
 
 
 });
 
-Route::get('/feature-posts','FeaturePostController@index');
+Route::get('/feature-posts', 'FeaturePostController@index');

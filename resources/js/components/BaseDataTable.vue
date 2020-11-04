@@ -34,6 +34,7 @@
                 </v-btn>
                 <v-btn @click="deleteItems"
                        :disabled="! selected.length"
+                       v-if="deleteUrl"
                 >
                     <v-icon class="red--text">mdi-delete</v-icon>
                 </v-btn>
@@ -81,7 +82,7 @@
             },
             deleteUrl: {
                 type: String,
-                required: true
+                required: false
             },
             routeName: {
                 type: String,

@@ -69,7 +69,7 @@
                     {
                         text: 'مدیریت نقش ها',
                         class: 'white--text',
-                        to: '',
+                        to: 'admin-role-index',
                         roles: ['admin']
                     },
 

@@ -1,5 +1,5 @@
 <template>
-    <v-content>
+    <v-main>
         <v-container>
             <v-row>
                 <v-col cols="12" class="mt-10">
@@ -40,6 +40,18 @@
                                       v-model="form.password"
                                       :rules="passwordRule"
                         ></v-text-field>
+
+                        <p>نقش های کاربر</p>
+                        <div class="d-flex flex-row">
+                            <v-checkbox v-model="form.roles"
+                                        v-for="role in roles"
+                                        :key="role.name"
+                                        :value="role.id"
+                                        :label="role.name"
+                                        class="ml-9"
+                            ></v-checkbox>
+                        </div>
+
                         <v-btn color="info"
                                @click="save"
                         >{{ isEditing ? 'ویرایش' : 'ذخیره' }}</v-btn>
@@ -47,7 +59,7 @@
                 </v-col>
             </v-row>
         </v-container>
-    </v-content>
+    </v-main>
 </template>
 
 <script>
@@ -89,6 +101,7 @@
                     username: '',
                     email: '',
                     password: '',
+                    roles: [],
                 },
                 errors: {
                     username: null,
@@ -97,7 +110,8 @@
                 required,
                 verifyEmail,
                 isEditing: false,
-                passwordRule: []
+                passwordRule: [],
+                roles: []
             }
         },
 
@@ -111,6 +125,11 @@
         },
 
         created() {
+            axios.get('/api/admin/all-roles')
+                .then(({ data }) => {
+                    this.roles = data;
+                });
+
             if (this.$route.params.id) {
                 this.isEditing = true;
                 this.breadcrumbs[2].text = 'ویرایش کاربر';
@@ -121,6 +140,7 @@
                         this.form.name = data.name;
                         this.form.username = data.username;
                         this.form.email = data.email;
+                        this.form.roles = data.all_role_id;
                     })
             } else {
                 this.passwordRule = [required('این فیلد الزامیست')];

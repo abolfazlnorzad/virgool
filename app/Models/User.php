@@ -40,6 +40,11 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
+    public function getAllRoleIdAttribute()
+    {
+        return $this->roles->pluck('id');
+    }
+
     public function getImageAttribute()
     {
         return $this->profile_src;

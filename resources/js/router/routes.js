@@ -185,6 +185,23 @@ export default [
                 name: 'admin-comment-index',
             },
 
+            {
+                path: 'roles',
+                component: require('@/view/Admin/Role/RoleIndex').default,
+                name: 'admin-role-index',
+            },
+
+            {
+                path: 'roles/create',
+                component: require('@/view/Admin/Role/RoleCreateOrEdit').default,
+                name: 'admin-role-create',
+            },
+            {
+                path: 'roles/:id',
+                component: require('@/view/Admin/Role/RoleCreateOrEdit').default,
+                name: 'admin-role-edit',
+            },
+
 
         ]
     },
