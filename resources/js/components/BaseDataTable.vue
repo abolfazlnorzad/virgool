@@ -69,7 +69,7 @@
 </template>
 
 <script>
-    import moment from "moment-jalaali";
+
     import { debounce } from "lodash";
 
     export default {

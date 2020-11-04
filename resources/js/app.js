@@ -1,17 +1,20 @@
 require('./bootstrap');
 
-window.Vue = require('vue');
+window.Vue = require('vue/dist/vue.common.js');
 import vuetify from './plugin/vuetify';
 import router from './router/router';
 import store from './store';
 import VueCompositionApi from '@vue/composition-api';
 import VueMeta from 'vue-meta';
 import VueClipboard from 'vue-clipboard2';
+import moment from "moment-jalaali";
+
+window.moment = moment;
+import "./blank.scss";
 
 Vue.use(VueCompositionApi);
 Vue.use(VueMeta);
 Vue.use(VueClipboard);
-
 
 
 // const files = require.context('./', true, /\.vue$/i)

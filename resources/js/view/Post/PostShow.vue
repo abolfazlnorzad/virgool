@@ -207,7 +207,7 @@
 
 <script>
     import {ref} from "@vue/composition-api";
-    import moment from "moment-jalaali";
+
     import PostComments from "@/components/posts/PostComments";
     import EventBus from '@/Service/EventBus';
 

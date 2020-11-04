@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue/dist/vue.common.js';
 import Vuex from 'vuex';
 import * as user from '@/store/modules/user';
 import * as draft from '@/store/modules/draft';
