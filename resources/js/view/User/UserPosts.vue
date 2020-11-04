@@ -29,6 +29,7 @@
             <v-row class="d-flex justify-center">
                 <v-col cols="8">
                     <new-post v-for="post in posts.data"
+                              :key="post.slug"
                               :data="post"
                               class="mt-10"
                     ></new-post>

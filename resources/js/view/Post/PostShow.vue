@@ -104,7 +104,10 @@
                         <p class="body-2 font-weight-bold">شاید از این نوشته‌ها هم خوشتان بیاید</p>
                         <v-container fluid>
                             <v-row>
-                                <v-col cols="12" md="4" v-for="related in related_post">
+                                <v-col cols="12" md="4" v-for="related in related_post"
+
+                                :key="related.slug"
+                                >
                                     <v-card>
                                         <router-link
                                             :to="{name:'post-show',params:{slug:related.slug}}"

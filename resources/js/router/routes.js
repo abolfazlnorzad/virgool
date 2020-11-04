@@ -1,16 +1,49 @@
+const FrontLayout = () => import(/* webpackChunkName:'js/chunk/FrontLayout' */'@/view/layout/FrontLayout');
+const Home = () => import(/* webpackChunkName:'js/chunk/Home' */'@/view/Home');
+const MyPosts = () => import(/* webpackChunkName:'js/chunk/MyPosts' */'@/view/Post/MyPosts');
+const Create = () => import(/* webpackChunkName:'js/chunk/Create' */'@/view/Post/Create');
+const Edit = () => import(/* webpackChunkName:'js/chunk/Edit' */'@/view/Post/Edit');
+const SavePost = () => import(/* webpackChunkName:'js/chunk/SavePost' */'@/view/Post/SavePost');
+const UpdatePost = () => import(/* webpackChunkName:'js/chunk/UpdatePost' */'@/view/Post/UpdatePost');
+const PostCategory = () => import(/* webpackChunkName:'js/chunk/PostCategory' */'@/view/Post/PostCategory');
+const PostShow = () => import(/* webpackChunkName:'js/chunk/PostShow' */'@/view/Post/PostShow');
+const Profile = () => import(/* webpackChunkName:'js/chunk/Profile' */'@/view/User/Profile');
+const UserPosts = () => import(/* webpackChunkName:'js/chunk/UserPosts' */'@/view/User/UserPosts');
+const UserLikedPost = () => import(/* webpackChunkName:'js/chunk/UserLikedPost' */'@/view/User/UserLikedPost');
+const Index = () => import(/* webpackChunkName:'js/chunk/Index' */'@/view/Search/Index');
+const UserBookmarkedPost = () => import(/* webpackChunkName:'js/chunk/UserBookmarkedPost' */'@/view/User/UserBookmarkedPost');
+const AdminLayout = () => import(/* webpackChunkName:'js/chunk/AdminLayout' */'@/view/Layout/AdminLayout');
+const Dashboard = () => import(/* webpackChunkName:'js/chunk/Dashboard' */'@/view/Admin/Dashboard');
+const UserIndex = () => import(/* webpackChunkName:'js/chunk/UserIndex' */'@/view/Admin/User/UserIndex');
+const UserCreateOrUpdate = () => import(/* webpackChunkName:'js/chunk/UserCreateOrUpdate' */'@/view/Admin/User/UserCreateOrUpdate');
+const PostIndex = () => import(/* webpackChunkName:'js/chunk/PostIndex' */'@/view/Admin/Post/PostIndex');
+const DraftIndex = () => import(/* webpackChunkName:'js/chunk/DraftIndex' */'@/view/Admin/Draft/DraftIndex');
+const CategoryIndex = () => import(/* webpackChunkName:'js/chunk/CategoryIndex' */'@/view/Admin/Category/CategoryIndex');
+const CategoryCreateOrUpdate = () => import(/* webpackChunkName:'js/chunk/CategoryCreateOrUpdate' */'@/view/Admin/Category/CategoryCreateOrUpdate');
+const CommentIndex = () => import(/* webpackChunkName:'js/chunk/CommentIndex' */'@/view/Admin/Comment/CommentIndex');
+const RoleIndex = () => import(/* webpackChunkName:'js/chunk/RoleIndex' */'@/view/Admin/Role/RoleIndex');
+const RoleCreateOrEdit = () => import(/* webpackChunkName:'js/chunk/RoleCreateOrEdit' */'@/view/Admin/Role/RoleCreateOrEdit');
+const Login = () => import(/* webpackChunkName:'js/chunk/Login' */'@/view/Auth/Login');
+const Register = () => import(/* webpackChunkName:'js/chunk/Register' */'@/view/Auth/Register');
+const Verify = () => import(/* webpackChunkName:'js/chunk/Verify' */'@/view/Auth/Verify');
+const ResetEmailPassword = () => import(/* webpackChunkName:'js/chunk/ResetEmailPassword' */'@/view/Auth/ResetEmailPassword');
+const ResetPassword = () => import(/* webpackChunkName:'js/chunk/ResetPassword' */'@/view/Auth/ResetPassword');
+const NotFound = () => import(/* webpackChunkName:'js/chunk/NotFound' */'@/view/Error/NotFound');
+const AccessDenied = () => import(/* webpackChunkName:'js/chunk/NotFound' */'@/view/Error/AccessDenied');
+
 export default [
     {
         path: '/',
-        component: require('@/view/layout/FrontLayout').default,
+        component: FrontLayout,
         children: [
             {
                 path: '',
-                component: require('@/view/Home').default,
+                component: Home,
                 name: 'home'
             },
             {
                 path: 'posts/draft',
-                component: require('@/view/Post/MyPosts').default,
+                component: MyPosts,
                 name: 'my-posts',
                 meta: {
                     auth: true
@@ -18,7 +51,7 @@ export default [
             },
             {
                 path: 'posts/create',
-                component: require('@/view/Post/Create').default,
+                component: Create,
                 name: 'create-posts',
                 meta: {
                     auth: true,
@@ -27,60 +60,53 @@ export default [
             },
             {
                 path: 'posts/:slug/edit',
-                component: require('@/view/Post/Edit').default,
+                component: Edit,
                 name: 'edit-posts',
                 meta: {
                     auth: true,
                     verified: true
                 }
             },
-
             {
                 path: 'drafts/:link',
-                component: require('@/view/Post/Create').default,
+                component: Create,
                 name: 'update-draft',
                 meta: {
                     auth: true,
                     verified: true
                 }
             },
-
-
             {
                 path: 'drafts/:link/save',
-                component: require('@/view/Post/SavePost').default,
+                component: SavePost,
                 name: 'save-post',
                 meta: {
                     auth: true,
                     verified: true
                 }
             },
-
             {
                 path: 'posts/:slug/update',
-                component: require('@/view/Post/UpdatePost').default,
+                component: UpdatePost,
                 name: 'update-post',
                 meta: {
                     auth: true,
                     verified: true
                 }
             },
-
             {
                 path: 'posts/category/:slug',
-                component: require('@/view/Post/PostCategory').default,
+                component: PostCategory,
                 name: 'post-category',
             },
-
-
             {
                 path: 'post/:slug',
-                component: require('@/view/Post/PostShow').default,
+                component: PostShow,
                 name: 'post-show'
             },
             {
                 path: 'profile',
-                component: require('@/view/User/Profile').default,
+                component: Profile,
                 name: 'profile',
                 meta: {
                     auth: true,
@@ -89,29 +115,26 @@ export default [
             },
             {
                 path: '@:username',
-                component: require('@/view/User/UserPosts').default,
+                component:UserPosts,
                 name: 'user-posts',
             },
             {
                 path: 'liked-posts',
-                component: require('@/view/User/UserLikedPost').default,
+                component: UserLikedPost,
                 name: 'liked-posts',
                 meta: {
                     auth: true,
                     verified: true,
                 }
             },
-
             {
                 path: 'search/:type',
-                component: require('@/view/Search/Index').default,
-                name:'search'
+                component: Index,
+                name: 'search'
             },
-
-
             {
                 path: 'bookmarked-posts',
-                component: require('@/view/User/UserBookmarkedPost').default,
+                component: UserBookmarkedPost,
                 name: 'bookmarked-posts',
                 meta: {
                     auth: true,
@@ -122,83 +145,76 @@ export default [
     },
     {
         path: '/admin',
-        component: require('@/view/Layout/AdminLayout').default,
+        component: AdminLayout,
         meta: {
-          auth: true,
-          verified:true
+            auth: true,
+            verified: true
         },
         children: [
             {
                 path: 'dashboard',
-                component: require('@/view/Admin/Dashboard').default,
+                component: Dashboard,
                 name: 'admin-dashboard',
 
             },
-
             {
                 path: 'users',
-                component: require('@/view/Admin/User/UserIndex').default,
+                component:UserIndex,
                 name: 'admin-user-index',
             },
             {
                 path: 'users/create',
-                component: require('@/view/Admin/User/UserCreateOrUpdate').default,
+                component: UserCreateOrUpdate,
                 name: 'admin-user-create',
             },
-
             {
                 path: 'users/:id',
-                component: require('@/view/Admin/User/UserCreateOrUpdate').default,
+                component: UserCreateOrUpdate,
                 name: 'admin-user-edit',
             },
-
             {
                 path: 'posts',
-                component: require('@/view/Admin/Post/PostIndex').default,
+                component:PostIndex,
                 name: 'admin-post-index',
             },
-
             {
                 path: 'drafts',
-                component: require('@/view/Admin/Draft/DraftIndex').default,
+                component: DraftIndex,
                 name: 'admin-draft-index',
             },
             {
                 path: 'categories',
-                component: require('@/view/Admin/Category/CategoryIndex').default,
+                component: CategoryIndex,
                 name: 'admin-category-index',
             },
             {
                 path: 'categories/create',
-                component: require('@/view/Admin/Category/CategoryCreateOrUpdate').default,
+                component: CategoryCreateOrUpdate,
                 name: 'admin-category-create',
             },
             {
                 path: 'categories/:id',
-                component: require('@/view/Admin/Category/CategoryCreateOrUpdate').default,
+                component: CategoryCreateOrUpdate,
                 name: 'admin-category-edit',
             },
-
             {
                 path: 'comments',
-                component: require('@/view/Admin/Comment/CommentIndex').default,
+                component: CommentIndex,
                 name: 'admin-comment-index',
             },
-
             {
                 path: 'roles',
-                component: require('@/view/Admin/Role/RoleIndex').default,
+                component: RoleIndex,
                 name: 'admin-role-index',
             },
-
             {
                 path: 'roles/create',
-                component: require('@/view/Admin/Role/RoleCreateOrEdit').default,
+                component: RoleCreateOrEdit,
                 name: 'admin-role-create',
             },
             {
                 path: 'roles/:id',
-                component: require('@/view/Admin/Role/RoleCreateOrEdit').default,
+                component: RoleCreateOrEdit,
                 name: 'admin-role-edit',
             },
 
@@ -207,7 +223,7 @@ export default [
     },
     {
         path: '/login',
-        component: require('@/view/Auth/Login').default,
+        component: Login,
         name: 'login',
         meta: {
             guest: true
@@ -215,7 +231,7 @@ export default [
     },
     {
         path: '/register',
-        component: require('@/view/Auth/Register').default,
+        component: Register,
         name: 'register',
         meta: {
             guest: true
@@ -223,7 +239,7 @@ export default [
     },
     {
         path: '/email/verify',
-        component: require('@/view/Auth/Verify').default,
+        component: Verify,
         name: 'email-verify',
         meta: {
             auth: true
@@ -231,7 +247,7 @@ export default [
     },
     {
         path: '/reset/password',
-        component: require('@/view/Auth/ResetEmailPassword').default,
+        component:ResetEmailPassword,
         name: 'reset-email-password',
         meta: {
             guest: true
@@ -239,7 +255,7 @@ export default [
     },
     {
         path: '/reset/password/:token',
-        component: require('@/view/Auth/ResetPassword').default,
+        component: ResetPassword,
         name: 'reset-password',
         meta: {
             guest: true
@@ -247,17 +263,17 @@ export default [
     },
     {
         path: '/404',
-        component: require('@/view/Error/NotFound').default,
+        component: NotFound,
         name: 'not-found'
     },
     {
         path: '/403',
-        component: require('@/view/Error/AccessDenied').default,
+        component: AccessDenied,
         name: 'access-denied'
     },
     {
         path: '*',
-        component: require('@/view/Error/NotFound').default,
+        component:NotFound,
         redirect: '/404'
     },
 ]

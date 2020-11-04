@@ -17,6 +17,7 @@
                 <v-col cols="8">
                     <new-post v-for="post in posts.data"
                               :data="post"
+                              :key="post.slug"
                               class="mt-10"
                     ></new-post>
                     <span v-if="! posts.data.length">شما هیچ نوشته ذخیره شده ای ندارید!</span>
