@@ -13,7 +13,7 @@ class ProfileUpdateController extends Controller
     public function update(ProfileRequest $request)
     {
 
-        $data = $request->except(['profile_name','profile_src']);
+        $data = $request->except(['profile_name','profile_src','image']);
         $extention = Str::afterLast($request->profile_name, '.');
         $file_name = $request->user()->username . '.' . $extention;
 

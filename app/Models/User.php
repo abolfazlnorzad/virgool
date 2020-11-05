@@ -70,8 +70,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-    public
-    function getProfileSrcAttribute()
+    public function getProfileSrcAttribute()
     {
         return '/profiles/' . $this->profile;
     }

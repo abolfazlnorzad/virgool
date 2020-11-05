@@ -25,13 +25,13 @@ class CreateRoleUserTable extends Migration
                 ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
         });
-
-        $user = \App\Models\User::first();
-        $user = $user->exists() ? $user : factory(\App\Models\User::class)->create(['username' => 'admin']);
-
-        $role = \App\Models\Role::create(['name' => 'admin']);
-
-        $user->roles()->save($role);
+//
+//        $user = \App\Models\User::first();
+//        $user = $user->exists() ? $user : factory(\App\Models\User::class)->create(['username' => 'admin']);
+//
+//        $role = \App\Models\Role::create(['name' => 'admin']);
+//
+//        $user->roles()->save($role);
     }
 
     /**

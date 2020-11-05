@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('profile')->nullable();
+            $table->string('profile')->default('avatar.jpg');
             $table->string('bio')->nullable();
             $table->boolean('email_on_follow')->default(false);
             $table->boolean('email_on_like')->default(false);
