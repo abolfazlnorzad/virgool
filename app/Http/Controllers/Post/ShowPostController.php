@@ -29,12 +29,7 @@ class ShowPostController extends Controller
             ->append('is_liked');
         $post->user->append('is_follows');
 
-       Redis::zincrby('trending-posts',1, json_encode([
-           'title'=>$post->title,
-           'slug'=>$post->slug,
-           'user_name'=>$post->user->name,
-           'profile_src'=>$post->user->profile_src,
-       ]) );
+       Redis::zincrby('trending-posts',1, $post->id );
 
         return response([
             'post' => $post,

@@ -56,6 +56,11 @@ class Post extends Model
             $post->short_link = Str::random(7);
         });
 
+        static::deleting(function ($post) {
+            Redis::zrem('trending-posts', $post->id);
+        });
+
+
     }
 
     public function sluggable(): array

@@ -762,7 +762,7 @@ var render = function() {
               return _c(
                 "v-list-item",
                 {
-                  key: post.slug,
+                  key: post.id,
                   attrs: {
                     to: { name: "post-show", params: { slug: post.slug } }
                   }
@@ -774,7 +774,9 @@ var render = function() {
                       _c(
                         "v-avatar",
                         { attrs: { size: "35" } },
-                        [_c("v-img", { attrs: { src: post.profile_src } })],
+                        [
+                          _c("v-img", { attrs: { src: post.user.profile_src } })
+                        ],
                         1
                       )
                     ],
@@ -798,7 +800,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("span", { staticClass: "grey--text overline" }, [
-                      _vm._v(_vm._s(post.user_name))
+                      _vm._v(_vm._s(post.user.name))
                     ])
                   ])
                 ],

@@ -128,8 +128,7 @@
                 changeDraft.cancel();
                 saveDraftUpdate()
                     .then(({data}) => {
-                        const link = data.link ? data.link : `/drafts/${root.$route.params.link}`;
-                        root.$router.push(`${link}/save`);
+                        root.$router.push(`${data.link}/save`);
                     })
             }
 

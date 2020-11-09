@@ -35,7 +35,7 @@ class DraftController extends Controller
 
         $data = $request->validated();
         $draft->update($data);
-        return response(['data' => 'ok'], 200);
+        return response(['link' => '/drafts/' . $draft->link], 200);
     }
 
     public function destroy(Draft $draft)

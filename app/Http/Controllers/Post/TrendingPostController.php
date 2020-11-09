@@ -11,12 +11,20 @@ class TrendingPostController extends Controller
 {
     public function index()
     {
-        $posts = collect(Redis::zrevrange('trending-posts', 0, 4))->map(function ($post) {
-                return json_decode($post);
+        $posts = collect(Redis::zrevrange('trending-posts', 0, 4));
+
+        $posts->transform(function ($post) {
+            return (Post::where('id', $post)->with('user')->first());
         });
 
-        return response([
-            'posts' => $posts
-        ], 200);
+//        $posts = $posts->filter(function ($value, $key) {
+//
+//            return $value != null;
+//
+//        });
+
+
+
+        return response(['posts' => $posts,], 200);
     }
 }

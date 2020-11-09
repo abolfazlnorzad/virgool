@@ -148,8 +148,7 @@ __webpack_require__.r(__webpack_exports__);
       changeDraft.cancel();
       saveDraftUpdate().then(function (_ref5) {
         var data = _ref5.data;
-        var link = data.link ? data.link : "/drafts/".concat(root.$route.params.link);
-        root.$router.push("".concat(link, "/save"));
+        root.$router.push("".concat(data.link, "/save"));
       });
     };
 
